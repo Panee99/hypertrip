@@ -5,9 +5,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/components/location_list_tile.dart';
+import 'package:room_finder_flutter/components/map_dialog_component.dart';
 import 'package:room_finder_flutter/components/nearby_places_component.dart';
-import 'package:room_finder_flutter/models/autocomplete_prediction.dart';
-import 'package:room_finder_flutter/models/place_auto_complete_response.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:room_finder_flutter/utils/network.dart';
@@ -23,12 +22,7 @@ class MapFragment extends StatefulWidget {
 }
 
 class _MapFragmentState extends State<MapFragment> {
-  List<AutocompletePrediction> placePredictions = [];
-
   late GoogleMapController mapController;
-
-  final LatLng _center = const LatLng(10.8411276, 106.8098830);
-  double lat = 0.0, lon = 0.0;
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -37,6 +31,10 @@ class _MapFragmentState extends State<MapFragment> {
   TextEditingController place = TextEditingController();
 
   FocusNode placeFocusNode = FocusNode();
+
+  String dropdownValue = 'All';
+
+  late LatLng latLngPosition = LatLng(0, 0);
 
   @override
   void initState() {
@@ -56,37 +54,41 @@ class _MapFragmentState extends State<MapFragment> {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     setState(() {
-      lat = position.latitude;
-      lon = position.longitude;
+      latLngPosition = LatLng(position.latitude, position.longitude);
     });
-    LatLng latLngPosition = LatLng(position.latitude, position.longitude);
 
     // Move camera to the current location
-    mapController.animateCamera(CameraUpdate.newLatLngZoom(latLngPosition, 16));
-    print('Toa do: ${lat}');
-  }
-
-  void placeAutoComplate(String query) async {
-    Uri uri = Uri.https(
-        "maps.googleapis.com",
-        "/maps/api/place/autocomplete/json",
-        {"input": query, "key": "AIzaSyCqLJDrUf7Nk3PG5EJ22LqiZMY01EN4tDs"});
-    String? response = await NetworkUtility.fetchUrl(uri);
-    if (response != null) {
-      PlaceAutoCompleteResponse result =
-          PlaceAutoCompleteResponse.parseAutocompleteResult(response);
-      if (result.predictions != null) {
-        setState(() {
-          placePredictions = result.predictions!;
-        });
-      }
-    }
+    mapController
+        .animateCamera(CameraUpdate.newLatLngZoom(latLngPosition, 2.0));
   }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+
+    // Dialog mapDialog = Dialog(
+    //   shape: RoundedRectangleBorder(
+    //       borderRadius: BorderRadius.circular(12.0)), //this right here
+    //   child: Container(
+    //     height: screenHeight * 0.6,
+    //     width: screenWidth * 0.8,
+    //     child: ClipRRect(
+    //       borderRadius: BorderRadius.circular(10),
+    //       child: GoogleMap(
+    //         onMapCreated: _onMapCreated,
+    //         initialCameraPosition: CameraPosition(
+    //           target: latLngPosition,
+    //           zoom: 10.0,
+    //         ),
+    //         myLocationEnabled: true,
+    //         myLocationButtonEnabled: true,
+    //         zoomControlsEnabled: true,
+    //         zoomGesturesEnabled: true,
+    //       ),
+    //     ),
+    //   ),
+    // );
     return Scaffold(
       body: RFCommonAppComponent(
         scroll: true,
@@ -110,7 +112,6 @@ class _MapFragmentState extends State<MapFragment> {
                 prefixIcon:
                     Icon(Icons.search, color: rf_primaryColor, size: 16),
               ),
-              onChanged: (value) => {placeAutoComplate(value)},
             ),
             16.height,
             AppButton(
@@ -122,43 +123,72 @@ class _MapFragmentState extends State<MapFragment> {
                 // RFSearchDetailScreen().launch(context);
               },
             ),
-            // Container(
-            //   height: 200,
-            //   child: ListView.builder(
-            //       itemCount: placePredictions.length,
-            //       itemBuilder: (context, index) => LocationListTile(
-            //           location: placePredictions[index].description!,
-            //           press: () {})),
-            // )
           ],
         ),
         subWidget: Column(
           children: [
             Container(
               width: context.width(),
-              height: screenHeight * 0.5,
-              margin: EdgeInsets.symmetric(horizontal: 24),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: GoogleMap(
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(0, 0),
-                    zoom: 10.0,
-                  ),
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: true,
-                  zoomControlsEnabled: true,
-                  zoomGesturesEnabled: true,
-                ),
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                children: [
+                  Expanded(child: Text('Nearby', style: boldTextStyle())),
+                  DropdownButton<String>(
+                    value: dropdownValue,
+                    style: primaryTextStyle(),
+                    underline: Container(),
+                    elevation: 10,
+                    icon: Icon(Icons.filter_alt),
+                    items: <String>[
+                      'All',
+                      'Restaurant',
+                      'Store',
+                      'Coffee',
+                      'Market',
+                      'Hospital',
+                      'Residential',
+                      'Office',
+                      'Lookout'
+                    ].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          textAlign: TextAlign.end,
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String? value) {
+                      setState(() {
+                        dropdownValue = value!;
+                      });
+                      print(dropdownValue);
+                    },
+                  )
+                ],
               ),
             ),
-            Text('Discovery'),
             NearbyPlacesComponent(
-              latitude: lat,
-              longitude: lon,
+              key: ValueKey(dropdownValue),
+              category: dropdownValue,
             ),
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: rf_primaryColor,
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => MapDialog(
+                  lat: latLngPosition.latitude,
+                  lng: latLngPosition.longitude,
+                  currentLatLng: latLngPosition));
+          setState(() {});
+        },
+        child: Icon(
+          Icons.map,
+          color: Colors.white,
         ),
       ),
     );
