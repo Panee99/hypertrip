@@ -28,16 +28,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => MaterialApp(
-        scrollBehavior: SBehavior(),
-        navigatorKey: navigatorKey,
-        title: 'Room Finder',
-        debugShowCheckedModeBanner: false,
-        theme: AppThemeData.lightTheme,
-        darkTheme: AppThemeData.darkTheme,
-        themeMode: appStore.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
-        // home: RFSplashScreen(),
-        home: RFHomeScreen(),
-      ),
+          scrollBehavior: SBehavior(),
+          navigatorKey: navigatorKey,
+          title: 'Room Finder',
+          debugShowCheckedModeBanner: false,
+          theme: AppThemeData.lightTheme,
+          darkTheme: AppThemeData.darkTheme,
+          themeMode: appStore.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
+          // home: RFSplashScreen(),
+          home: RFHomeScreen()),
     );
   }
 }

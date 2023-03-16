@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/components/map_dialog_component.dart';
 import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/models/RoomFinderModel.dart';
 import 'package:room_finder_flutter/models/map/nearby_response.dart';
@@ -127,7 +129,15 @@ class _PlaceDetailComponentState extends State<PlaceDetailComponent> {
                     //       decoration: TextDecoration.underline),
                     // ).paddingOnly(left: 2),
                     AppButton(
-                      onTap: () {},
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => (MapDialog(
+                                  lat: widget.place.geocodes!.main!.latitude,
+                                  lng: widget.place.geocodes!.main!.longitude,
+                                )));
+                        setState(() {});
+                      },
                       color: rf_primaryColor,
                       width: 5,
                       height: 5,
@@ -170,72 +180,72 @@ class _PlaceDetailComponentState extends State<PlaceDetailComponent> {
             ],
           ),
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Description', style: boldTextStyle()),
-            8.height,
-            Text(
-              '1 big hall room for rent at lalitpur, ktm with the facilities of bike parking and tap water . it offers 1 bedroom,and a 1 common bathroom for whole flat. It is suitable for student only. Price is negotiable for student only. ',
-              style: secondaryTextStyle(),
-            ),
-            24.height,
-            Text('Facilities', style: boldTextStyle()),
-            16.height,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Material.Icon(Icons.done,
-                            size: 16, color: rf_primaryColor),
-                        8.width,
-                        Text('1 Big Hall', style: secondaryTextStyle()),
-                      ],
-                    ),
-                    4.height,
-                    Row(
-                      children: [
-                        Material.Icon(Icons.done,
-                            size: 16, color: rf_primaryColor),
-                        8.width,
-                        Text('Bikes and Car Parking ',
-                            style: secondaryTextStyle()),
-                      ],
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Material.Icon(Icons.done,
-                            size: 16, color: rf_primaryColor),
-                        8.width,
-                        Text('Shared Toilet', style: secondaryTextStyle()),
-                      ],
-                    ),
-                    4.height,
-                    Row(
-                      children: [
-                        Material.Icon(Icons.done,
-                            size: 16, color: rf_primaryColor),
-                        8.width,
-                        Text('24/7 Water facility',
-                            style: secondaryTextStyle()),
-                      ],
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ],
-        ).paddingOnly(left: 24, right: 24, top: 24, bottom: 8),
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: [
+        //     Text('Description', style: boldTextStyle()),
+        //     8.height,
+        //     Text(
+        //       '1 big hall room for rent at lalitpur, ktm with the facilities of bike parking and tap water . it offers 1 bedroom,and a 1 common bathroom for whole flat. It is suitable for student only. Price is negotiable for student only. ',
+        //       style: secondaryTextStyle(),
+        //     ),
+        //     24.height,
+        //     Text('Facilities', style: boldTextStyle()),
+        //     16.height,
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       mainAxisSize: MainAxisSize.max,
+        //       children: [
+        //         Column(
+        //           crossAxisAlignment: CrossAxisAlignment.start,
+        //           children: [
+        //             Row(
+        //               children: [
+        //                 Material.Icon(Icons.done,
+        //                     size: 16, color: rf_primaryColor),
+        //                 8.width,
+        //                 Text('1 Big Hall', style: secondaryTextStyle()),
+        //               ],
+        //             ),
+        //             4.height,
+        //             Row(
+        //               children: [
+        //                 Material.Icon(Icons.done,
+        //                     size: 16, color: rf_primaryColor),
+        //                 8.width,
+        //                 Text('Bikes and Car Parking ',
+        //                     style: secondaryTextStyle()),
+        //               ],
+        //             ),
+        //           ],
+        //         ),
+        //         Column(
+        //           crossAxisAlignment: CrossAxisAlignment.start,
+        //           children: [
+        //             Row(
+        //               children: [
+        //                 Material.Icon(Icons.done,
+        //                     size: 16, color: rf_primaryColor),
+        //                 8.width,
+        //                 Text('Shared Toilet', style: secondaryTextStyle()),
+        //               ],
+        //             ),
+        //             4.height,
+        //             Row(
+        //               children: [
+        //                 Material.Icon(Icons.done,
+        //                     size: 16, color: rf_primaryColor),
+        //                 8.width,
+        //                 Text('24/7 Water facility',
+        //                     style: secondaryTextStyle()),
+        //               ],
+        //             ),
+        //           ],
+        //         )
+        //       ],
+        //     ),
+        //   ],
+        // ).paddingOnly(left: 24, right: 24, top: 24, bottom: 8),
       ],
     );
   }
