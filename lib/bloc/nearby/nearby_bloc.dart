@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:room_finder_flutter/models/map/nearby_response.dart';
+import 'package:room_finder_flutter/models/discovery/nearby_response.dart';
 import 'package:room_finder_flutter/repos/repositories.dart';
 
 import 'nearby_event.dart';

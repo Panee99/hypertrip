@@ -7,17 +7,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/components/location_list_tile.dart';
-import 'package:room_finder_flutter/components/map_dialog_component.dart';
-import 'package:room_finder_flutter/components/nearby_places_component.dart';
+import 'package:room_finder_flutter/components/discovery/map_dialog_component.dart';
+import 'package:room_finder_flutter/components/discovery/nearby_places_component.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:room_finder_flutter/components/search_place/search_place_component.dart';
 import 'package:room_finder_flutter/repos/repositories.dart';
+import 'package:room_finder_flutter/utils/QueryString.dart';
 import 'package:room_finder_flutter/utils/network.dart';
 
 import '../bloc/nearby/nearby_bloc.dart';
 import '../bloc/nearby/nearby_event.dart';
 import '../bloc/nearby/nearby_state.dart';
-import '../models/map/nearby_response.dart';
+import '../models/discovery/nearby_response.dart';
 import '../utils/RFColors.dart';
 import '../utils/RFWidget.dart';
 
@@ -42,6 +44,10 @@ class _MapFragmentState extends State<MapFragment> {
   String dropdownValue = 'All';
 
   late LatLng latLngPosition = LatLng(0, 0);
+
+  bool isSearch = false;
+
+  String searchQuery = '';
 
   @override
   void initState() {
@@ -73,29 +79,6 @@ class _MapFragmentState extends State<MapFragment> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-
-    // Dialog mapDialog = Dialog(
-    //   shape: RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.circular(12.0)), //this right here
-    //   child: Container(
-    //     height: screenHeight * 0.6,
-    //     width: screenWidth * 0.8,
-    //     child: ClipRRect(
-    //       borderRadius: BorderRadius.circular(10),
-    //       child: GoogleMap(
-    //         onMapCreated: _onMapCreated,
-    //         initialCameraPosition: CameraPosition(
-    //           target: latLngPosition,
-    //           zoom: 10.0,
-    //         ),
-    //         myLocationEnabled: true,
-    //         myLocationButtonEnabled: true,
-    //         zoomControlsEnabled: true,
-    //         zoomGesturesEnabled: true,
-    //       ),
-    //     ),
-    //   ),
-    // );
     return RepositoryProvider(
         create: (context) => PlaceRepository(),
         child: BlocProvider(
@@ -125,96 +108,144 @@ class _MapFragmentState extends State<MapFragment> {
                           prefixIcon: Material.Icon(Icons.search,
                               color: rf_primaryColor, size: 16),
                         ),
+                        onChanged: (value) {
+                          setState(() {
+                            searchQuery = value;
+                          });
+                        },
                       ),
                       16.height,
-                      AppButton(
-                        color: rf_primaryColor,
-                        child: Text('Tìm', style: boldTextStyle(color: white)),
-                        width: context.width(),
-                        elevation: 0,
-                        onTap: () {
-                          // RFSearchDetailScreen().launch(context);
-                        },
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AppButton(
+                              color: rf_primaryColor,
+                              child: Text('Tìm',
+                                  style: boldTextStyle(color: white)),
+                              elevation: 0,
+                              onTap: searchQuery != ''
+                                  ? () {
+                                      setState(() {
+                                        isSearch = true;
+                                      });
+                                    }
+                                  : () {},
+                            ),
+                          ),
+                          16.width,
+                          AppButton(
+                            color: rf_primaryColor,
+                            child: Material.Icon(
+                              Icons.near_me,
+                              color: white,
+                            ),
+                            elevation: 0,
+                            width: 30,
+                            onTap: () {
+                              setState(() {
+                                isSearch = false;
+                              });
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
                   subWidget: Column(
                     children: [
-                      Container(
-                        width: context.width(),
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: Text('Nearby', style: boldTextStyle())),
-                            DropdownButton<String>(
-                              value: dropdownValue,
-                              style: primaryTextStyle(),
-                              underline: Container(),
-                              elevation: 10,
-                              icon: Material.Icon(Icons.filter_alt),
-                              items: <String>[
-                                'All',
-                                'Restaurant',
-                                'Store',
-                                'Coffee',
-                                'Market',
-                                'Hospital',
-                                'Residential',
-                                'Office',
-                                'Lookout'
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    textAlign: TextAlign.end,
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (String? value) {
-                                setState(() {
-                                  dropdownValue = value!;
-                                });
-                                print(dropdownValue);
-                              },
+                      !isSearch
+                          ? Container(
+                              width: context.width(),
+                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Text('Gần bạn',
+                                          style: boldTextStyle())),
+                                  DropdownButton<String>(
+                                    value: dropdownValue,
+                                    style: primaryTextStyle(),
+                                    underline: Container(),
+                                    elevation: 10,
+                                    icon: Material.Icon(Icons.filter_alt),
+                                    items: <String>[
+                                      'All',
+                                      'Restaurant',
+                                      'Store',
+                                      'Coffee',
+                                      'Market',
+                                      'Hospital',
+                                      'Residential',
+                                      'Office',
+                                      'Lookout'
+                                    ].map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value,
+                                          textAlign: TextAlign.end,
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        dropdownValue = value!;
+                                      });
+                                      print(dropdownValue);
+                                    },
+                                  )
+                                ],
+                              ),
                             )
-                          ],
-                        ),
-                      ),
-                      NearbyPlacesComponent(
-                        key: ValueKey(dropdownValue),
-                        category: dropdownValue,
-                      ),
+                          : Container(
+                              width: context.width(),
+                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Text('Search results',
+                                          style: boldTextStyle())),
+                                ],
+                              ),
+                            ),
+                      isSearch && searchQuery != ''
+                          ? SearchPlaceComponent(query: searchQuery)
+                          : NearbyPlacesComponent(
+                              key: ValueKey(dropdownValue),
+                              category: dropdownValue,
+                            ),
                     ],
                   ),
                 ),
-                floatingActionButton: BlocBuilder<PlaceBloc, PlaceState>(
-                    builder: (context, state) {
-                  if (state is PlaceLoadedState) {
-                    NearbyPlacesResponse places = state.places;
+                floatingActionButton: !isSearch
+                    ? BlocBuilder<PlaceBloc, PlaceState>(
+                        builder: (context, state) {
+                        if (state is PlaceLoadedState) {
+                          NearbyPlacesResponse places = state.places;
 
-                    return FloatingActionButton(
-                      backgroundColor: rf_primaryColor,
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => MapDialog(
-                                  places: places,
-                                  lat: latLngPosition.latitude,
-                                  lng: latLngPosition.longitude,
-                                  nearby: true,
-                                ));
-                        setState(() {});
-                      },
-                      child: Material.Icon(
-                        Icons.map,
-                        color: Colors.white,
-                      ),
-                    );
-                  } else {
-                    return SizedBox.shrink();
-                  }
-                }))));
+                          return FloatingActionButton(
+                            backgroundColor: rf_primaryColor,
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) => MapDialog(
+                                        category: dropdownValue,
+                                        places: places,
+                                        lat: latLngPosition.latitude,
+                                        lng: latLngPosition.longitude,
+                                        nearby: true,
+                                      ));
+                              setState(() {});
+                            },
+                            child: Material.Icon(
+                              Icons.map,
+                              color: Colors.white,
+                            ),
+                          );
+                        } else {
+                          return SizedBox.shrink();
+                        }
+                      })
+                    : null)));
   }
 }
