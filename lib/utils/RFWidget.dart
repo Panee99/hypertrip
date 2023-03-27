@@ -163,6 +163,7 @@ Widget socialLoginWidget(BuildContext context,
                   socialLoginName: "Continue With Facebook")
               .onTap(() {
             //
+            log('test button');
           }),
           16.height,
           socialLoginButton(context,

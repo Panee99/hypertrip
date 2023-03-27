@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
 import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
-import 'package:room_finder_flutter/fragment/RFSearchFragment.dart';
 import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
 import 'package:room_finder_flutter/fragment/inbox_fragment.dart';
-<<<<<<< Updated upstream
 import 'package:room_finder_flutter/fragment/map_fragment.dart';
-import 'package:room_finder_flutter/screens/chat_screen.dart';
-=======
 import 'package:room_finder_flutter/fragment/ticket/ticket_fragment.dart';
->>>>>>> Stashed changes
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
+
+import '../fragment/discovery/map_fragment.dart';
 
 class RFHomeScreen extends StatefulWidget {
   @override
@@ -28,6 +25,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
     MapFragment(),
     // RFSettingsFragment(),
     TicketFragment(),
+    RFSettingsFragment(),
     RFAccountFragment(),
     InboxFragment(),
   ];
@@ -49,7 +47,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
         ),
         BottomNavigationBarItem(
           icon: rf_search.iconImage(),
-          label: 'Map',
+          label: 'Discovery',
           activeIcon: rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(

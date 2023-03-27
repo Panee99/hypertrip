@@ -6,7 +6,6 @@ import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
 import 'package:room_finder_flutter/screens/RFResetPasswordScreen.dart';
-import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
@@ -243,7 +242,7 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
             title1: "New Member? ",
             title2: "Sign up Here",
             callBack: () {
-              RFSignUpScreen().launch(context);
+              Fluttertoast.showToast(msg: "Sign in success");
             },
           ),
         ),
