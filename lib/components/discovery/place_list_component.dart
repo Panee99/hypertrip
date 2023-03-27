@@ -11,7 +11,7 @@ import '../../repos/repositories.dart';
 import '../../utils/network.dart';
 
 class PlaceListComponent extends Material.StatefulWidget {
-  final Results place;
+  final NearbyResults place;
   final bool? showHeight;
   final int photoIndex;
 
@@ -83,14 +83,16 @@ class _PlaceListComponentState extends Material.State<PlaceListComponent> {
                                       style: boldTextStyle()),
                                   8.height,
                                   Text(
-                                      widget.place.categories!.first.name
-                                          .toString(),
+                                      widget.place.categories!.isNotEmpty
+                                          ? widget.place.categories!.first.name
+                                              .toString()
+                                          : '',
                                       style: secondaryTextStyle()),
                                 ],
                               ).expand(),
                             ],
                           ).paddingOnly(left: 3),
-                          widget.showHeight.validate() ? 8.height : 24.height,
+                          8.height,
                           Row(
                             children: [
                               Material.Icon(Icons.location_on,
@@ -99,10 +101,9 @@ class _PlaceListComponentState extends Material.State<PlaceListComponent> {
                               Flexible(
                                 child: Text(
                                   widget.place.location!.address != null
-                                      ? widget.place.location!.address
+                                      ? widget.place.location!.formattedAddress
                                           .toString()
-                                      : widget.place.location!.locality
-                                          .toString(),
+                                      : 'The address has not been added',
                                   style: secondaryTextStyle(),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -110,6 +111,20 @@ class _PlaceListComponentState extends Material.State<PlaceListComponent> {
                               ),
                             ],
                           ),
+                          Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  widget.place.distance! > 100
+                                      ? '${(widget.place.distance! / 1000).toStringAsFixed(2)} km away'
+                                      : 'Nearby',
+                                  style: secondaryTextStyle(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          )
                         ],
                       ).expand()
                     ])).onTap(() {

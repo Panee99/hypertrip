@@ -50,15 +50,12 @@ class _SearchPlacesComponentState extends State<SearchPlaceComponent> {
               itemCount: nearbyPlaces.results!.length,
               itemBuilder: (BuildContext context, int index) {
                 try {
-                  if (nearbyPlaces.results![index].categories != null &&
-                      !nearbyPlaces.results![index].categories!.isEmpty) {
-                    Results results = nearbyPlaces.results![index];
+                  SearchResults results = nearbyPlaces.results![index];
 
-                    return SearchPlaceListComponent(
-                      place: results,
-                      photoIndex: 0,
-                    );
-                  }
+                  return SearchPlaceListComponent(
+                    place: results,
+                    photoIndex: 0,
+                  );
                 } catch (e) {
                   print(e.toString());
                 }

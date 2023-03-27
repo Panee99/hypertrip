@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< Updated upstream
     return Observer(
       builder: (_) => MaterialApp(
           scrollBehavior: SBehavior(),
@@ -37,6 +38,48 @@ class MyApp extends StatelessWidget {
           themeMode: appStore.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
           // home: RFSplashScreen(),
           home: RFHomeScreen()),
+=======
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthProvider>(
+          create: (_) => AuthProvider(
+            firebaseAuth: FirebaseAuth.instance,
+            googleSignIn: GoogleSignIn(),
+            prefs: this.prefs,
+            firebaseFirestore: this.firebaseFirestore,
+          ),
+        ),
+        Provider<SettingProvider>(
+          create: (_) => SettingProvider(
+            prefs: this.prefs,
+            firebaseFirestore: this.firebaseFirestore,
+            firebaseStorage: this.firebaseStorage,
+          ),
+        ),
+        Provider<HomeProvider>(
+          create: (_) => HomeProvider(
+            firebaseFirestore: this.firebaseFirestore,
+          ),
+        ),
+        Provider<ChatProvider>(
+          create: (_) => ChatProvider(
+            prefs: this.prefs,
+            firebaseFirestore: this.firebaseFirestore,
+            firebaseStorage: this.firebaseStorage,
+          ),
+        ),
+      ],
+      child: MaterialApp(
+        scrollBehavior: SBehavior(),
+        navigatorKey: navigatorKey,
+        title: 'Travel',
+        debugShowCheckedModeBanner: false,
+        theme: AppThemeData.lightTheme,
+        darkTheme: AppThemeData.darkTheme,
+        themeMode: appStore.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
+        home: RFHomeScreen(),
+      ),
+>>>>>>> Stashed changes
     );
   }
 }

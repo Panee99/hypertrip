@@ -12,7 +12,7 @@ import '../../models/discovery/tip_response.dart';
 import '../../repos/repositories.dart';
 
 class SearchPlaceDetailComponent extends StatefulWidget {
-  final Results place;
+  final SearchResults place;
   final List<PlacesPhotoResponse> photos;
 
   SearchPlaceDetailComponent({required this.place, required this.photos});
@@ -207,7 +207,7 @@ class _SearchPlaceDetailComponentState
               if (!snapshot.hasData) {
                 return SizedBox(
                   height: context.height() * 0.5,
-                  child: Center(child: CircularProgressIndicator()),
+                  child: SizedBox.shrink(),
                 );
               } else {
                 final tips = snapshot.data!;

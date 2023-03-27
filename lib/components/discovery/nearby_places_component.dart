@@ -33,7 +33,7 @@ class NearbyPlacesComponent extends StatefulWidget {
 class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
   late Future<NearbyPlacesResponse> nearbyPlacesResponse;
   late Future<NearbyPlacesResponse> nearbyPlacesByCategory;
-  Results results = Results();
+  NearbyResults results = NearbyResults();
   PlacesPhotoResponse placePhoto = PlacesPhotoResponse();
   double lat = 0.0, lon = 0.0;
 
@@ -52,7 +52,6 @@ class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
       }
       if (state is PlaceLoadedState) {
         NearbyPlacesResponse places = state.places;
-        print('${places}');
         return Center(
           child: ListView.builder(
             shrinkWrap: true,
@@ -63,15 +62,12 @@ class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
             itemBuilder: (BuildContext context, int index) {
               try {
                 if (widget.category == 'All') {
-                  if (places.results![index].categories != null &&
-                      !places.results![index].categories!.isEmpty) {
-                    Results results = places.results![index];
-
-                    return PlaceListComponent(
-                      place: results,
-                      photoIndex: 0,
-                    );
-                  }
+                  NearbyResults results = places.results![index];
+                  print(results.name);
+                  return PlaceListComponent(
+                    place: results,
+                    photoIndex: 0,
+                  );
                 } else {
                   // for (var i = 0;
                   //     i < places.results![index].categories!.length;) {
@@ -91,7 +87,7 @@ class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
                           (element) => element.name!.contains(widget.category))
                       .toList()
                       .isNotEmpty) {
-                    Results results = places.results![index];
+                    NearbyResults results = places.results![index];
                     return PlaceListComponent(
                       place: results,
                       photoIndex: 0,

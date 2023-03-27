@@ -5,8 +5,12 @@ import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
 import 'package:room_finder_flutter/fragment/RFSearchFragment.dart';
 import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
 import 'package:room_finder_flutter/fragment/inbox_fragment.dart';
+<<<<<<< Updated upstream
 import 'package:room_finder_flutter/fragment/map_fragment.dart';
 import 'package:room_finder_flutter/screens/chat_screen.dart';
+=======
+import 'package:room_finder_flutter/fragment/ticket/ticket_fragment.dart';
+>>>>>>> Stashed changes
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
@@ -22,7 +26,8 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
   var _pages = [
     RFHomeFragment(),
     MapFragment(),
-    RFSettingsFragment(),
+    // RFSettingsFragment(),
+    TicketFragment(),
     RFAccountFragment(),
     InboxFragment(),
   ];
@@ -37,7 +42,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
       type: BottomNavigationBarType.fixed,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined, size: 22),
+          icon: rf_home.iconImage(),
           label: 'Home',
           activeIcon:
               Icon(Icons.home_outlined, color: rf_primaryColor, size: 22),
@@ -48,10 +53,9 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
           activeIcon: rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
-          icon: rf_setting.iconImage(size: 22),
-          label: 'Settings',
-          activeIcon:
-              rf_setting.iconImage(iconColor: rf_primaryColor, size: 22),
+          icon: rf_ticket.iconImage(size: 22),
+          label: 'Ticket',
+          activeIcon: rf_ticket.iconImage(iconColor: rf_primaryColor, size: 22),
         ),
         BottomNavigationBarItem(
           icon: rf_person.iconImage(),
@@ -59,7 +63,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
           activeIcon: rf_person.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.message),
+          icon: rf_message.iconImage(),
           label: 'Inbox',
           activeIcon: Icon(Icons.message),
         ),

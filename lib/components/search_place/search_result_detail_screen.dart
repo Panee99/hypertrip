@@ -10,7 +10,7 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 class SearchPlaceDetailsScreen extends StatefulWidget {
-  final Results place;
+  final SearchResults place;
   final List<PlacesPhotoResponse> photos;
 
   SearchPlaceDetailsScreen({required this.place, required this.photos});
@@ -47,17 +47,17 @@ class _SearchPlaceDetailsScreenState extends State<SearchPlaceDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: AppButton(
-        color: rf_primaryColor,
-        elevation: 0,
-        child: Text('Book Now', style: boldTextStyle(color: white)),
-        width: context.width(),
-        onTap: () {
-          showInDialog(context, barrierDismissible: true, builder: (context) {
-            return RFCongratulatedDialog();
-          });
-        },
-      ).paddingSymmetric(horizontal: 16, vertical: 24),
+      // bottomNavigationBar: AppButton(
+      //   color: rf_primaryColor,
+      //   elevation: 0,
+      //   child: Text('Book Now', style: boldTextStyle(color: white)),
+      //   width: context.width(),
+      //   onTap: () {
+      //     showInDialog(context, barrierDismissible: true, builder: (context) {
+      //       return RFCongratulatedDialog();
+      //     });
+      //   },
+      // ).paddingSymmetric(horizontal: 16, vertical: 24),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -85,7 +85,9 @@ class _SearchPlaceDetailsScreenState extends State<SearchPlaceDetailsScreen> {
                 background: Stack(
                   children: [
                     rfCommonCachedNetworkImage(
-                      '${widget.photos[0].prefix}original${widget.photos[0].suffix}',
+                      widget.photos.isNotEmpty
+                          ? '${widget.photos[0].prefix}original${widget.photos[0].suffix}'
+                          : '',
                       fit: BoxFit.cover,
                       width: context.width(),
                       height: 350,

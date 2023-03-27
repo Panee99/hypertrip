@@ -3,10 +3,13 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/models/discovery/nearby_response.dart';
+import 'package:room_finder_flutter/models/discovery/search_response.dart';
 
 class MapDialog extends StatefulWidget {
   var lat, lng;
   NearbyPlacesResponse? places;
+  NearbyResults? placeNearby;
+  SearchResults? placeSearch;
   bool nearby;
   var category;
   MapDialog(
@@ -15,7 +18,9 @@ class MapDialog extends StatefulWidget {
       this.lng,
       this.places,
       this.nearby = false,
-      this.category});
+      this.category,
+      this.placeNearby,
+      this.placeSearch});
 
   @override
   State<MapDialog> createState() => _MapDialogState();
@@ -26,17 +31,27 @@ class _MapDialogState extends State<MapDialog> {
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
     setState(() {
-      _markers.add(
-        Marker(
-          markerId: MarkerId("marker_1"),
-          position: LatLng(widget.lat, widget.lng),
-          infoWindow: InfoWindow(
-            title: 'Portland Art Museum',
-            snippet:
-                'Founded in 1892, the museum is located in downtown Portland',
-          ),
-        ),
-      );
+      widget.placeNearby != null
+          ? _markers.add(
+              Marker(
+                markerId: MarkerId(widget.placeNearby!.fsqId.toString()),
+                position: LatLng(widget.lat, widget.lng),
+                infoWindow: InfoWindow(
+                  title: widget.placeNearby!.name,
+                  snippet: widget.placeNearby!.location!.address,
+                ),
+              ),
+            )
+          : _markers.add(
+              Marker(
+                markerId: MarkerId(widget.placeSearch!.fsqId.toString()),
+                position: LatLng(widget.lat, widget.lng),
+                infoWindow: InfoWindow(
+                  title: widget.placeSearch!.name,
+                  snippet: widget.placeSearch!.location!.address,
+                ),
+              ),
+            );
     });
   }
 
