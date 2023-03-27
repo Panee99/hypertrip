@@ -46,19 +46,6 @@ dependencies:
   geolocator: ^9.0.2
   http: ^0.13.5
 
-  #MAP
-  google_maps_flutter: ^2.2.4
-  geolocator: ^9.0.2
-  http: ^0.13.5
-
-<<<<<<< Updated upstream
-  #BLoC
-  flutter_bloc: ^8.0.1
-  equatable: ^2.0.3
-=======
-  timelines: ^0.1.0
->>>>>>> Stashed changes
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

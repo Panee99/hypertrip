@@ -51,7 +51,7 @@ class _SearchPlacesComponentState extends State<SearchPlaceComponent> {
                 try {
                   if (nearbyPlaces.results![index].categories != null &&
                       !nearbyPlaces.results![index].categories!.isEmpty) {
-                    Results results = nearbyPlaces.results![index];
+                    SearchResults results = nearbyPlaces.results![index];
 
                     return SearchPlaceListComponent(
                       place: results,

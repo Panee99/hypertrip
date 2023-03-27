@@ -7,11 +7,8 @@ import 'package:room_finder_flutter/models/discovery/nearby_response.dart';
 import 'package:room_finder_flutter/models/discovery/place_photo_response.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
-<<<<<<< Updated upstream:lib/screens/place_details_screen.dart
 import 'package:http/http.dart' as http;
 import '../utils/QueryString.dart';
-=======
->>>>>>> Stashed changes:lib/screens/discovery/place_details_screen.dart
 
 class PlaceDetailsScreen extends StatefulWidget {
   final NearbyResults place;

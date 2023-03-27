@@ -1,26 +1,10 @@
-import 'dart:convert';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as Material;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
-import 'package:nb_utils/nb_utils.dart';
-// import 'package:room_finder_flutter/bloc/bloc.dart';
-// import 'package:room_finder_flutter/bloc/event.dart';
-import 'package:room_finder_flutter/bloc/nearby/nearby_event.dart';
-import 'package:room_finder_flutter/bloc/nearby/nearby_bloc.dart';
-// import 'package:room_finder_flutter/bloc/nearby/state.dart';
 import 'package:room_finder_flutter/components/discovery/place_list_component.dart';
 import 'package:room_finder_flutter/models/discovery/nearby_response.dart';
 import 'package:room_finder_flutter/models/discovery/place_photo_response.dart';
-import 'package:room_finder_flutter/repos/repositories.dart';
-import 'package:room_finder_flutter/utils/QueryString.dart';
-import 'package:room_finder_flutter/utils/network.dart';
-import '../../bloc/nearby/nearby_state.dart';
-import '../../utils/QueryString.dart';
-import '../../utils/RFColors.dart';
+import '../../blocs/nearby/nearby_bloc.dart';
+import '../../blocs/nearby/nearby_state.dart';
 
 class NearbyPlacesComponent extends StatefulWidget {
   String category;
@@ -33,7 +17,6 @@ class NearbyPlacesComponent extends StatefulWidget {
 class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
   late Future<NearbyPlacesResponse> nearbyPlacesResponse;
   late Future<NearbyPlacesResponse> nearbyPlacesByCategory;
-  NearbyResults results = NearbyResults();
   PlacesPhotoResponse placePhoto = PlacesPhotoResponse();
   double lat = 0.0, lon = 0.0;
 
@@ -52,6 +35,7 @@ class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
       }
       if (state is PlaceLoadedState) {
         NearbyPlacesResponse places = state.places;
+        print('${places}');
         return Center(
           child: ListView.builder(
             shrinkWrap: true,
@@ -62,12 +46,15 @@ class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
             itemBuilder: (BuildContext context, int index) {
               try {
                 if (widget.category == 'All') {
-                  NearbyResults results = places.results![index];
-                  print(results.name);
-                  return PlaceListComponent(
-                    place: results,
-                    photoIndex: 0,
-                  );
+                  if (places.results![index].categories != null &&
+                      !places.results![index].categories!.isEmpty) {
+                    NearbyResults results = places.results![index];
+
+                    return PlaceListComponent(
+                      place: results,
+                      photoIndex: 0,
+                    );
+                  }
                 } else {
                   // for (var i = 0;
                   //     i < places.results![index].categories!.length;) {

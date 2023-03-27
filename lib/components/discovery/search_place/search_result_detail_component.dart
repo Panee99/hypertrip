@@ -12,7 +12,7 @@ import '../../../data/repositories/repositories.dart';
 import '../../../models/discovery/tip_response.dart';
 
 class SearchPlaceDetailComponent extends StatefulWidget {
-  final Results place;
+  final SearchResults place;
   final List<PlacesPhotoResponse> photos;
 
   SearchPlaceDetailComponent({required this.place, required this.photos});

@@ -10,7 +10,7 @@ import '../../../data/repositories/repositories.dart';
 import 'search_result_detail_screen.dart';
 
 class SearchPlaceListComponent extends Material.StatefulWidget {
-  final Results place;
+  final SearchResults place;
   final bool? showHeight;
   final int photoIndex;
 

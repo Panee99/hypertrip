@@ -1,21 +1,23 @@
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/firebase_options.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
+import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
+import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
+import 'package:room_finder_flutter/store/AppStore.dart';
+import 'package:room_finder_flutter/utils/AppTheme.dart';
+import 'package:room_finder_flutter/utils/RFConstant.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/provider/chatProvider.dart';
 import 'package:room_finder_flutter/provider/home_provider.dart';
 import 'package:room_finder_flutter/provider/setting_provider.dart';
-import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
-import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
-import 'package:room_finder_flutter/store/AppStore.dart';
-import 'package:room_finder_flutter/utils/AppTheme.dart';
-import 'package:room_finder_flutter/utils/RFConstant.dart';
+
+import 'firebase_options.dart';
 
 AppStore appStore = AppStore();
 
@@ -36,8 +38,7 @@ class MyApp extends StatelessWidget {
   final SharedPreferences prefs;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-
-  MyApp({required this.prefs});
+  MyApp({Key? key, required this.prefs}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         scrollBehavior: SBehavior(),
         navigatorKey: navigatorKey,
-        title: 'Room Finder',
+        title: 'Travel',
         debugShowCheckedModeBanner: false,
         theme: AppThemeData.lightTheme,
         darkTheme: AppThemeData.darkTheme,
