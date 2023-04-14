@@ -31,7 +31,7 @@ class _PlaceListComponentState
     super.initState();
     try {
       photosList =
-          PlacePhotoRepository().getPlacePhoto(widget.place.fsqId.toString());
+          FoursquareRepository().getPlacePhoto(widget.place.fsqId.toString());
     } catch (e) {
       print(e.toString());
     }

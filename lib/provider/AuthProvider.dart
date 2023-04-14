@@ -4,7 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/constants/firestore_constants.dart.dart';
+import 'package:room_finder_flutter/constants/user_constants.dart';
+import 'package:room_finder_flutter/data/repositories/repositories.dart';
+import 'package:room_finder_flutter/models/user/avatar_response.dart';
 import 'package:room_finder_flutter/models/user_chat.dart';
+
+import '../models/user/sign_in_model.dart';
 
 enum Status {
   uninitialized,
@@ -24,6 +29,13 @@ class AuthProvider extends ChangeNotifier {
   Status _status = Status.uninitialized;
 
   Status get status => _status;
+  String _token = '';
+
+  String get token => _token;
+  late ProfileResponse _user;
+  ProfileResponse get user => _user;
+  late AvatarResponse _avt;
+  AvatarResponse get avt => _avt;
 
   AuthProvider({
     required this.firebaseAuth,
@@ -36,12 +48,36 @@ class AuthProvider extends ChangeNotifier {
     return prefs.getString(FirestoreConstants.id);
   }
 
+  String? getUserId() {
+    return prefs.getString(UserConstants.id);
+  }
+
   Future<bool> isLoggedIn() async {
     bool isLoggedIn = await googleSignIn.isSignedIn();
     if (isLoggedIn &&
         prefs.getString(FirestoreConstants.id)?.isNotEmpty == true) {
       return true;
     } else {
+      return false;
+    }
+  }
+
+  Future<bool> handleSignInWithEmail(String email, String password) async {
+    _status = Status.authenticating;
+    notifyListeners();
+    _token = await AppRepository().getToken(email, password);
+    notifyListeners();
+    _user = (await AppRepository().getUserProfile(_token))!;
+    _avt = await AppRepository().getUserAvatar(_token);
+    notifyListeners();
+    if (_user != null) {
+      _status = Status.authenticated;
+      await prefs.setString(UserConstants.id, _user.id!);
+      notifyListeners();
+      return true;
+    } else {
+      _status = Status.authenticateError;
+      notifyListeners();
       return false;
     }
   }

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/commons/images.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
@@ -212,23 +213,23 @@ Decoration shadowWidget(BuildContext context) {
   );
 }
 
-Widget rfCommonCachedNetworkImage(
-  String? url, {
-  double? height,
-  double? width,
-  BoxFit? fit,
-  AlignmentGeometry? alignment,
-  bool usePlaceholderIfUrlEmpty = true,
-  double? radius,
-  Color? color,
-}) {
+Widget rfCommonCachedNetworkImage(String? url,
+    {double? height,
+    double? width,
+    BoxFit? fit,
+    AlignmentGeometry? alignment,
+    bool usePlaceholderIfUrlEmpty = true,
+    double? radius,
+    Color? color,
+    String? type}) {
   if (url!.validate().isEmpty) {
     return placeHolderWidget(
         height: height,
         width: width,
         fit: fit,
         alignment: alignment,
-        radius: radius);
+        radius: radius,
+        type: type);
   } else if (url.validate().startsWith('http')) {
     return CachedNetworkImage(
       imageUrl: url,
@@ -243,7 +244,8 @@ Widget rfCommonCachedNetworkImage(
             width: width,
             fit: fit,
             alignment: alignment,
-            radius: radius);
+            radius: radius,
+            type: type);
       },
       placeholder: (_, s) {
         if (!usePlaceholderIfUrlEmpty) return SizedBox();
@@ -252,9 +254,10 @@ Widget rfCommonCachedNetworkImage(
             width: width,
             fit: fit,
             alignment: alignment,
-            radius: radius);
+            radius: radius,
+            type: type);
       },
-    );
+    ).cornerRadiusWithClipRRect(radius ?? defaultRadius);
   } else {
     return Image.asset(url,
             height: height,
@@ -271,8 +274,17 @@ Widget placeHolderWidget(
     double? width,
     BoxFit? fit,
     AlignmentGeometry? alignment,
-    double? radius}) {
-  return Image.asset('images/roomFinding/placeholder.png',
+    double? radius,
+    String? type}) {
+  if (type == 'avatar') {
+    return Image.asset(avatar_placeholoder,
+            height: height,
+            width: width,
+            fit: fit ?? BoxFit.cover,
+            alignment: alignment ?? Alignment.center)
+        .cornerRadiusWithClipRRect(radius ?? defaultRadius);
+  }
+  return Image.asset(placeholder,
           height: height,
           width: width,
           fit: fit ?? BoxFit.cover,
@@ -294,12 +306,15 @@ Widget viewAllWidget({String? title, String? subTitle, Function? onTap}) {
   );
 }
 
-PreferredSizeWidget commonAppBarWidget(BuildContext context,
-    {String? title,
-    double? appBarHeight,
-    bool? showLeadingIcon,
-    bool? bottomSheet,
-    bool? roundCornerShape}) {
+PreferredSizeWidget commonAppBarWidget(
+  BuildContext context, {
+  String? title,
+  double? appBarHeight,
+  bool? showLeadingIcon,
+  bool? bottomSheet,
+  bool? roundCornerShape,
+  Widget? action,
+}) {
   return PreferredSize(
     preferredSize: Size.fromHeight(appBarHeight ?? 100.0),
     child: AppBar(
@@ -324,6 +339,7 @@ PreferredSizeWidget commonAppBarWidget(BuildContext context,
           : RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.zero),
             ),
+      actions: [action.validate()],
     ),
   );
 }

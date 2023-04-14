@@ -7,6 +7,7 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 class RFCommonAppComponent extends StatefulWidget {
   final String? title;
   final String? subTitle;
+  final String? coverImage;
   final Widget? cardWidget;
   final Widget? subWidget;
   final Widget? accountCircleWidget;
@@ -17,6 +18,7 @@ class RFCommonAppComponent extends StatefulWidget {
   RFCommonAppComponent(
       {this.title,
       this.subTitle,
+      this.coverImage,
       this.cardWidget,
       this.subWidget,
       this.mainWidgetHeight,
@@ -42,12 +44,20 @@ class _RFCommonAppComponentState extends State<RFCommonAppComponent> {
           Container(
             width: context.width(),
             height: widget.mainWidgetHeight ?? 300,
-            decoration: boxDecorationWithRoundedCorners(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(16),
-                  bottomRight: Radius.circular(16)),
-              backgroundColor: rf_primaryColor,
-            ),
+            decoration: widget.coverImage == null
+                ? boxDecorationWithRoundedCorners(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(16)),
+                    backgroundColor: rf_primaryColor,
+                  )
+                : boxDecorationWithRoundedCorners(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(16)),
+                    decorationImage: DecorationImage(
+                        image: AssetImage(widget.coverImage!),
+                        fit: BoxFit.cover)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:room_finder_flutter/components/discovery/place_list_component.dart';
 import 'package:room_finder_flutter/models/discovery/nearby_response.dart';
 import 'package:room_finder_flutter/models/discovery/place_photo_response.dart';
-import '../../blocs/nearby/nearby_bloc.dart';
-import '../../blocs/nearby/nearby_state.dart';
+
+import '../../bloc/nearby/nearby_bloc.dart';
+import '../../bloc/nearby/nearby_state.dart';
 
 class NearbyPlacesComponent extends StatefulWidget {
   String category;

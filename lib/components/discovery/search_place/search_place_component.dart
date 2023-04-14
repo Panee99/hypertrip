@@ -21,7 +21,7 @@ class _SearchPlacesComponentState extends State<SearchPlaceComponent> {
   @override
   void initState() {
     super.initState();
-    searchPlaceResponse = SearchRepository().searchPlace(widget.query);
+    searchPlaceResponse = FoursquareRepository().searchPlace(widget.query);
   }
 
   @override

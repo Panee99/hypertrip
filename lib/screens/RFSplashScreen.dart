@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
 import 'package:room_finder_flutter/screens/RFMobileSignInScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 
@@ -21,7 +22,8 @@ class _RFSplashScreenState extends State<RFSplashScreen> {
 
     await Future.delayed(Duration(seconds: 2));
     finish(context);
-    RFMobileSignIn().launch(context);
+    // RFMobileSignIn().launch(context);
+    RFEmailSignInScreen().launch(context);
   }
 
   @override
@@ -53,10 +55,9 @@ class _RFSplashScreenState extends State<RFSplashScreen> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Room Finder", style: boldTextStyle(color: white, size: 20)),
+              Text("Travel", style: boldTextStyle(color: white, size: 20)),
               4.height,
-              Text("Ultimate property Finder",
-                  style: primaryTextStyle(color: white)),
+              Text("Enjoy your trip", style: primaryTextStyle(color: white)),
             ],
           ),
         ],

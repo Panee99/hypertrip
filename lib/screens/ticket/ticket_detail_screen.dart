@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Material;
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/commons/colors.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
@@ -10,7 +11,8 @@ class TicketDetailScreen extends StatelessWidget {
   final double clipRadius;
   final double smallClipRadius;
   final int numberOfSmallClips;
-  final String title, type, start, end, from, to, price;
+  final String title, type, start, end, from, to;
+  final double price;
 
   const TicketDetailScreen({
     Key? key,
@@ -68,7 +70,8 @@ class TicketDetailScreen extends StatelessWidget {
             child: Container(
               color: Colors.white,
               child: Padding(
-                padding: const EdgeInsets.all(30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +141,8 @@ class TicketDetailScreen extends StatelessWidget {
                                       style: secondaryTextStyle(),
                                     ),
                                     Text(
-                                      start,
+                                      DateFormat('dd/MM/yyyy')
+                                          .format(DateTime.parse(start)),
                                       style: primaryTextStyle(),
                                     )
                                   ],
@@ -172,7 +176,7 @@ class TicketDetailScreen extends StatelessWidget {
                                       Text('Price',
                                           style: secondaryTextStyle()),
                                       Text(
-                                        '${price}',
+                                        '${price} \$',
                                         style: primaryTextStyle(
                                             weight: FontWeight.bold),
                                       )
@@ -188,7 +192,8 @@ class TicketDetailScreen extends StatelessWidget {
                                         style: secondaryTextStyle(),
                                       ),
                                       Text(
-                                        end,
+                                        DateFormat('dd/MM/yyyy')
+                                            .format(DateTime.parse(end)),
                                         style: primaryTextStyle(),
                                       )
                                     ],
@@ -215,7 +220,7 @@ class TicketDetailScreen extends StatelessWidget {
                       20.height,
                       Center(
                         child: Image.asset(
-                          'images/roomFinding/qr.png',
+                          'assets/images/qr.png',
                           width: 150,
                           height: 150,
                         ),

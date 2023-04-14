@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Material;
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
+import '../../data/repositories/repositories.dart';
+import '../../models/tour/tour_detail_response.dart';
+import '../../provider/AuthProvider.dart';
 import '../../screens/ticket/ticket_detail_screen.dart';
 
-class Ticket extends StatelessWidget {
+class Ticket extends StatefulWidget {
   final double margin;
   final double borderRadius;
   final double clipRadius;
   final double smallClipRadius;
   final int numberOfSmallClips;
-  final String title, type, start, end, from, to, price;
+  final String tourId;
 
   const Ticket({
     Key? key,
@@ -18,131 +23,163 @@ class Ticket extends StatelessWidget {
     this.clipRadius = 15,
     this.smallClipRadius = 5,
     this.numberOfSmallClips = 13,
-    required this.title,
-    required this.type,
-    required this.start,
-    required this.end,
-    required this.from,
-    required this.to,
-    required this.price,
+    required this.tourId,
   }) : super(key: key);
 
   @override
+  State<Ticket> createState() => _TicketState();
+}
+
+class _TicketState extends State<Ticket> {
+  late Future<TourDetailResponse> tour;
+  late AuthProvider authProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    getTourDetail(widget.tourId);
+  }
+
+  void getTourDetail(tourId) {
+    authProvider = context.read<AuthProvider>();
+    tour = AppRepository().getTourDetail(tourId, authProvider.token);
+    print(tour.then((value) => value.title.toString()));
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final ticketWidth = context.width() - margin * 2;
+    final ticketWidth = context.width() - widget.margin * 2;
     final ticketHeight = ticketWidth * 0.5;
 
-    return Container(
-      width: ticketWidth,
-      height: ticketHeight,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 20),
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 15,
-            spreadRadius: 1,
-          ),
-        ],
-      ),
-      child: ClipPath(
-        clipper: TicketClipper(
-          borderRadius: borderRadius,
-          clipRadius: clipRadius,
-          smallClipRadius: smallClipRadius,
-          numberOfSmallClips: numberOfSmallClips,
-        ),
-        child: Container(
-          color: Colors.white,
-          child: Center(
-            child: Row(
-              children: [
-                Flexible(
-                    flex: 35,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 25,
-                            width: 90,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                border:
-                                    Border.all(color: Colors.green, width: 1)),
-                            child: Center(
-                              child: Text(
-                                'Upcoming',
-                                style: secondaryTextStyle(
-                                  color: Colors.green,
-                                ),
+    return FutureBuilder<TourDetailResponse>(
+        future: tour,
+        builder:
+            (BuildContext context, AsyncSnapshot<TourDetailResponse> snapshot) {
+          if (!snapshot.hasData) {
+            return SizedBox(
+              height: context.height() * 0.5,
+              child: Center(child: CircularProgressIndicator()),
+            );
+          } else {
+            final t = snapshot.data!;
+            return Container(
+              width: ticketWidth,
+              height: ticketHeight,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    offset: Offset(0, 20),
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 15,
+                    spreadRadius: 1,
+                  ),
+                ],
+              ),
+              child: ClipPath(
+                clipper: TicketClipper(
+                  borderRadius: widget.borderRadius,
+                  clipRadius: widget.clipRadius,
+                  smallClipRadius: widget.smallClipRadius,
+                  numberOfSmallClips: widget.numberOfSmallClips,
+                ),
+                child: Container(
+                  color: Colors.white,
+                  child: Center(
+                    child: Row(
+                      children: [
+                        Flexible(
+                            flex: 35,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 25,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: Colors.green, width: 1)),
+                                    child: Center(
+                                      child: Text(
+                                        'Upcoming',
+                                        style: secondaryTextStyle(
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    t.title!,
+                                    style: boldTextStyle(),
+                                  ),
+                                  Text(t.type!)
+                                ],
                               ),
-                            ),
-                          ),
-                          Text(
-                            title,
-                            style: boldTextStyle(),
-                          ),
-                          Text(type)
-                        ],
-                      ),
-                    )),
-                Flexible(
-                    flex: 55,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Material.Icon(
-                                Icons.schedule_outlined,
-                                size: 15,
+                            )),
+                        Flexible(
+                            flex: 55,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Material.Icon(
+                                        Icons.schedule_outlined,
+                                        size: 15,
+                                      ),
+                                      Text('Schedule',
+                                          style: secondaryTextStyle()),
+                                      Text(
+                                        '${DateFormat('dd/MM/yyyy').format(DateTime.parse(t.startTime!))} - ${DateFormat('dd/MM/yyyy').format(DateTime.parse(t.endTime!))}',
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Material.Icon(
+                                        Icons.place,
+                                        size: 15,
+                                      ),
+                                      Text(
+                                        'From - To',
+                                        style: secondaryTextStyle(),
+                                      ),
+                                      Text('${t.departure} - ${t.destination}')
+                                    ],
+                                  )
+                                ],
                               ),
-                              Text('Schedule', style: secondaryTextStyle()),
-                              Text(
-                                '${start} - ${end}',
-                              ),
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Material.Icon(
-                                Icons.place,
-                                size: 15,
-                              ),
-                              Text(
-                                'From - To',
-                                style: secondaryTextStyle(),
-                              ),
-                              Text('${from} - ${to}')
-                            ],
-                          )
-                        ],
-                      ),
-                    )),
-              ],
-            ),
-          ),
-        ),
-      ),
-    ).onTap(() {
-      TicketDetailScreen(
-              title: title,
-              type: type,
-              to: to,
-              from: from,
-              start: start,
-              end: end,
-              price: price)
-          .launch(context);
-    });
+                            )),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ).onTap(() {
+              TicketDetailScreen(
+                      title: t.title!,
+                      type: t.type!,
+                      to: t.departure!,
+                      from: t.destination!,
+                      start: t.startTime!,
+                      end: t.endTime!,
+                      price: t.price!)
+                  .launch(context);
+            });
+          }
+        });
   }
 }
 

@@ -33,7 +33,7 @@ class _SearchPlaceDetailComponentState
   }
 
   void getTips() {
-    tips = TipRepository().tip(widget.place.fsqId.toString());
+    tips = FoursquareRepository().tip(widget.place.fsqId.toString());
   }
 
   late final PageController _controller;

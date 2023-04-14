@@ -1,4 +1,6 @@
 // import 'package:firebase_core/firebase_core.dart';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,7 +33,17 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp(prefs: prefs));
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -80,7 +92,7 @@ class MyApp extends StatelessWidget {
         theme: AppThemeData.lightTheme,
         darkTheme: AppThemeData.darkTheme,
         themeMode: appStore.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
-        home: RFHomeScreen(),
+        home: RFSplashScreen(),
       ),
     );
   }

@@ -8,12 +8,13 @@ import 'package:room_finder_flutter/models/RoomFinderModel.dart';
 import 'package:room_finder_flutter/models/discovery/nearby_response.dart';
 import 'package:room_finder_flutter/models/discovery/place_photo_response.dart';
 import 'package:room_finder_flutter/models/discovery/tip_response.dart';
-import 'package:room_finder_flutter/repos/repositories.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:flutter/material.dart' as Material;
+
+import '../../data/repositories/repositories.dart';
 
 class PlaceDetailComponent extends StatefulWidget {
   final NearbyResults place;
@@ -35,7 +36,7 @@ class _PlaceDetailComponentState extends State<PlaceDetailComponent> {
   }
 
   void getTips() {
-    tips = TipRepository().tip(widget.place.fsqId.toString());
+    tips = FoursquareRepository().tip(widget.place.fsqId.toString());
   }
 
   late final PageController _controller;

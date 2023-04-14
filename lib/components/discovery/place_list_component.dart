@@ -7,7 +7,7 @@ import 'package:room_finder_flutter/screens/place_details_screen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
-import '../../repos/repositories.dart';
+import '../../data/repositories/repositories.dart';
 import '../../utils/network.dart';
 
 class PlaceListComponent extends Material.StatefulWidget {
@@ -31,7 +31,7 @@ class _PlaceListComponentState extends Material.State<PlaceListComponent> {
     super.initState();
     try {
       photosList =
-          PlacePhotoRepository().getPlacePhoto(widget.place.fsqId.toString());
+          FoursquareRepository().getPlacePhoto(widget.place.fsqId.toString());
     } catch (e) {
       print(e.toString());
     }
