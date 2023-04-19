@@ -68,8 +68,11 @@ class AuthProvider extends ChangeNotifier {
     _token = await AppRepository().getToken(email, password);
     notifyListeners();
     _user = (await AppRepository().getUserProfile(_token))!;
-    _avt = await AppRepository().getUserAvatar(_token);
-    notifyListeners();
+    if (await AppRepository().getUserAvatar(_token) != null) {
+      _avt = (await AppRepository().getUserAvatar(_token))!;
+      print(_avt);
+      notifyListeners();
+    }
     if (_user != null) {
       _status = Status.authenticated;
       await prefs.setString(UserConstants.id, _user.id!);

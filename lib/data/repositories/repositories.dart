@@ -7,6 +7,7 @@ import 'package:room_finder_flutter/models/discovery/search_response.dart';
 import 'package:room_finder_flutter/models/discovery/tip_response.dart';
 import 'package:room_finder_flutter/models/ticket/ticket_list_response.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
+import 'package:room_finder_flutter/models/tour/tour_locations_response.dart';
 import 'package:room_finder_flutter/models/user/avatar_response.dart';
 
 import '../../models/discovery/nearby_response.dart';
@@ -191,13 +192,38 @@ class AppRepository {
     return TourDetailResponse.fromJson(jsonDecode(response!));
   }
 
-  Future<AvatarResponse> getUserAvatar(String token) async {
+  Future<AvatarResponse?> getUserAvatar(String token) async {
     var response = await NetworkUtility.fetchUrl(
         Uri.parse('https://mrkool.online/accounts/avatar'),
         headers: {
           'Authorization': '${token.toString()}',
           'accept': 'application/json',
         });
-    return AvatarResponse.fromJson(jsonDecode(response!));
+    if (response != null) {
+      return AvatarResponse.fromJson(jsonDecode(response));
+    }
+    return null;
+  }
+
+  Future<List<TourLocationsResponse>?> getTourLocations(
+      String id, String token) async {
+    var response = await NetworkUtility.fetchUrl(
+        Uri.parse('https://mrkool.online/tours/${id}/locations'),
+        headers: {
+          'Authorization': '${token.toString()}',
+          'accept': 'application/json',
+        });
+    if (response != null) {
+      List<TourLocationsResponse> parseLocation(String responseBody) {
+        final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+        return parsed
+            .map<TourLocationsResponse>(
+                (json) => TourLocationsResponse.fromJson(json))
+            .toList();
+      }
+
+      return parseLocation(response.toString());
+    }
+    return null;
   }
 }
