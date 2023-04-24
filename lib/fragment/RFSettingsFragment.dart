@@ -59,7 +59,8 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
                 decoration: boxDecorationWithRoundedCorners(
                     boxShape: BoxShape.circle,
                     border: Border.all(color: white, width: 4)),
-                child: rfCommonCachedNetworkImage(authProvider.avt.url,
+                child: rfCommonCachedNetworkImage(
+                    authProvider.avt.url.toString(),
                     type: 'avatar',
                     fit: BoxFit.cover,
                     width: 100,

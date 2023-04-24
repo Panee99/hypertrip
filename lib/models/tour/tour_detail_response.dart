@@ -1,8 +1,6 @@
-import 'dart:ffi';
-
 class TourDetailResponse {
-  double? babyPrice;
-  double? childrenPrice;
+  int? babyPrice;
+  int? childrenPrice;
   String? code;
   String? departure;
   String? description;
@@ -10,12 +8,12 @@ class TourDetailResponse {
   String? endTime;
   String? id;
   int? maxOccupancy;
-  double? price;
+  int? price;
   String? startTime;
-  Null thumbnailUrl;
+  String? thumbnailUrl;
   String? title;
   String? type;
-  String? vehicle;
+  Null vehicle;
   String? status;
 
   TourDetailResponse(

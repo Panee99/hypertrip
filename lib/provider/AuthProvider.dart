@@ -70,7 +70,9 @@ class AuthProvider extends ChangeNotifier {
     _user = (await AppRepository().getUserProfile(_token))!;
     if (await AppRepository().getUserAvatar(_token) != null) {
       _avt = (await AppRepository().getUserAvatar(_token))!;
-      print(_avt);
+      notifyListeners();
+    } else {
+      _avt = AvatarResponse();
       notifyListeners();
     }
     if (_user != null) {

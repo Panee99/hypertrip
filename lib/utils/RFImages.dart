@@ -32,3 +32,4 @@ const rf_ticket = "assets/images/rf_ticket.png";
 const placeholder = "assets/images/placeholder.png";
 const settings = 'assets/images/settings.png';
 const avatar_placeholoder = 'assets/images/avatar_placeholder.png';
+const calendar = 'assets/images/calendar.png';

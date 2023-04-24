@@ -43,7 +43,6 @@ class _TicketState extends State<Ticket> {
   void getTourDetail(tourId) {
     authProvider = context.read<AuthProvider>();
     tour = AppRepository().getTourDetail(tourId, authProvider.token);
-    print(tour.then((value) => value.title.toString()));
   }
 
   @override

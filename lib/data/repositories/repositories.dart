@@ -142,7 +142,7 @@ class FoursquareRepository {
 class AppRepository {
   Future<String> getToken(String email, String password) async {
     final token = jsonDecode((await NetworkUtility.post(
-      Uri.parse('https://mrkool.online/auth'),
+      Uri.parse('https://dotnet-travelers.fly.dev/auth'),
       headers: {
         'accept': 'application/json',
         'Content-Type': 'application/json-patch+json',
@@ -154,7 +154,7 @@ class AppRepository {
 
   Future<ProfileResponse>? getUserProfile(String token) async {
     var authResponse = await NetworkUtility.fetchUrl(
-        Uri.parse('https://mrkool.online/accounts/profile'),
+        Uri.parse('https://dotnet-travelers.fly.dev/accounts/profile'),
         headers: {
           'Authorization': '${token.toString()}',
           'Accept': 'application/json',
@@ -166,7 +166,7 @@ class AppRepository {
   Future<List<TicketListResponse>> getTicketList(
       String userId, String token) async {
     var response = await NetworkUtility.post(
-        Uri.parse('https://mrkool.online/tickets/filter'),
+        Uri.parse('https://dotnet-travelers.fly.dev/tickets/filter'),
         headers: {
           'Authorization': '${token}',
           'Content-Type': 'application/json-patch+json',
@@ -179,22 +179,26 @@ class AppRepository {
           .toList();
     }
 
+    parseTicket(response.toString()).forEach((ticket) {
+      print(ticket.tourId);
+    });
     return parseTicket(response.toString());
   }
 
   Future<TourDetailResponse> getTourDetail(String tourId, String token) async {
     var response = await NetworkUtility.fetchUrl(
-        Uri.parse('https://mrkool.online/tours/${tourId}'),
+        Uri.parse('https://dotnet-travelers.fly.dev/tours/${tourId}'),
         headers: {
           'Authorization': '${token.toString()}',
           'accept': 'application/json',
         });
+    print(TourDetailResponse.fromJson(jsonDecode(response!)));
     return TourDetailResponse.fromJson(jsonDecode(response!));
   }
 
   Future<AvatarResponse?> getUserAvatar(String token) async {
     var response = await NetworkUtility.fetchUrl(
-        Uri.parse('https://mrkool.online/accounts/avatar'),
+        Uri.parse('https://dotnet-travelers.fly.dev/accounts/avatar'),
         headers: {
           'Authorization': '${token.toString()}',
           'accept': 'application/json',
@@ -208,7 +212,7 @@ class AppRepository {
   Future<List<TourLocationsResponse>?> getTourLocations(
       String id, String token) async {
     var response = await NetworkUtility.fetchUrl(
-        Uri.parse('https://mrkool.online/tours/${id}/locations'),
+        Uri.parse('https://dotnet-travelers.fly.dev/tours/${id}/locations'),
         headers: {
           'Authorization': '${token.toString()}',
           'accept': 'application/json',

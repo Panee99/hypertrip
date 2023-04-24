@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Material;
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/commons/colors.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 
 class TicketDetailScreen extends StatelessWidget {
@@ -12,7 +11,7 @@ class TicketDetailScreen extends StatelessWidget {
   final double smallClipRadius;
   final int numberOfSmallClips;
   final String title, type, start, end, from, to;
-  final double price;
+  final int price;
 
   const TicketDetailScreen({
     Key? key,
@@ -176,7 +175,7 @@ class TicketDetailScreen extends StatelessWidget {
                                       Text('Price',
                                           style: secondaryTextStyle()),
                                       Text(
-                                        '${price} \$',
+                                        '${price} VND',
                                         style: primaryTextStyle(
                                             weight: FontWeight.bold),
                                       )
