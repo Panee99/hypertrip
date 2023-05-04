@@ -10,7 +10,7 @@ import '../../../data/repositories/repositories.dart';
 import 'search_result_detail_screen.dart';
 
 class SearchPlaceListComponent extends Material.StatefulWidget {
-  final Results place;
+  final SearchResults place;
   final bool? showHeight;
   final int photoIndex;
 
@@ -31,7 +31,7 @@ class _PlaceListComponentState
     super.initState();
     try {
       photosList =
-          PlacePhotoRepository().getPlacePhoto(widget.place.fsqId.toString());
+          FoursquareRepository().getPlacePhoto(widget.place.fsqId.toString());
     } catch (e) {
       print(e.toString());
     }

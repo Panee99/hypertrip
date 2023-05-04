@@ -5,6 +5,7 @@ import 'package:room_finder_flutter/screens/RFAboutUsScreen.dart';
 import 'package:room_finder_flutter/screens/RFHelpScreen.dart';
 import 'package:room_finder_flutter/screens/RFNotificationScreen.dart';
 import 'package:room_finder_flutter/screens/RFRecentlyViewedScreen.dart';
+import 'package:room_finder_flutter/screens/account/WarningSettingScreen.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 
 List<RoomFinderModel> categoryList() {
@@ -161,6 +162,10 @@ List<RoomFinderModel> settingList() {
       img: rf_notification,
       roomCategoryName: "Notifications",
       newScreenWidget: RFNotificationScreen()));
+  settingListData.add(RoomFinderModel(
+      img: settings,
+      roomCategoryName: "Warning Setting",
+      newScreenWidget: WarningSettingScreen()));
   settingListData.add(RoomFinderModel(
       img: rf_recent_view,
       roomCategoryName: "Recent Viewed",

@@ -10,7 +10,7 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'search_result_detail_component.dart';
 
 class SearchPlaceDetailsScreen extends StatefulWidget {
-  final Results place;
+  final SearchResults place;
   final List<PlacesPhotoResponse> photos;
 
   SearchPlaceDetailsScreen({required this.place, required this.photos});

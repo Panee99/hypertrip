@@ -6,9 +6,9 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import '../../blocs/nearby/nearby_bloc.dart';
-import '../../blocs/nearby/nearby_event.dart';
-import '../../blocs/nearby/nearby_state.dart';
+import '../../bloc/nearby/nearby_bloc.dart';
+import '../../bloc/nearby/nearby_event.dart';
+import '../../bloc/nearby/nearby_state.dart';
 import '../../components/discovery/map_dialog_component.dart';
 import '../../components/discovery/nearby_places_component.dart';
 import '../../components/discovery/search_place/search_place_component.dart';
@@ -74,10 +74,10 @@ class _MapFragmentState extends State<MapFragment> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return RepositoryProvider(
-        create: (context) => PlaceRepository(),
+        create: (context) => FoursquareRepository(),
         child: BlocProvider(
             create: (context) =>
-                PlaceBloc(RepositoryProvider.of<PlaceRepository>(context))
+                PlaceBloc(RepositoryProvider.of<FoursquareRepository>(context))
                   ..add(LoadPlaceEvent()),
             child: Scaffold(
                 body: RFCommonAppComponent(

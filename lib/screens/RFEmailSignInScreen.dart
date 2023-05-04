@@ -12,6 +12,8 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
+import '../models/user/sign_in_model.dart';
+
 // ignore: must_be_immutable
 class RFEmailSignInScreen extends StatefulWidget {
   bool showDialog;
@@ -25,7 +27,7 @@ class RFEmailSignInScreen extends StatefulWidget {
 class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  Future<ProfileResponse>? profile;
   FocusNode emailFocusNode = FocusNode();
   FocusNode passWordFocusNode = FocusNode();
 
@@ -125,7 +127,10 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
               width: context.width(),
               elevation: 0,
               onTap: () {
-                authProvider.handleSignIn().then((isSuccess) {
+                authProvider
+                    .handleSignInWithEmail(
+                        emailController.text, passwordController.text)
+                    .then((isSuccess) {
                   if (isSuccess) {
                     Navigator.pushReplacement(
                       context,
@@ -134,9 +139,6 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
                       ),
                     );
                   }
-                }).catchError((error, stackTrace) {
-                  Fluttertoast.showToast(msg: error.toString());
-                  authProvider.handleException();
                 });
               },
             ),
@@ -156,5 +158,8 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
         }),
       ),
     );
+    // } else {
+    //   return SizedBox.shrink();
+    // }
   }
 }

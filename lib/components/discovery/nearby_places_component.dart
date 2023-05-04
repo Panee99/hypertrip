@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:room_finder_flutter/components/discovery/place_list_component.dart';
 import 'package:room_finder_flutter/models/discovery/nearby_response.dart';
 import 'package:room_finder_flutter/models/discovery/place_photo_response.dart';
-import '../../blocs/nearby/nearby_bloc.dart';
-import '../../blocs/nearby/nearby_state.dart';
+
+import '../../bloc/nearby/nearby_bloc.dart';
+import '../../bloc/nearby/nearby_state.dart';
 
 class NearbyPlacesComponent extends StatefulWidget {
   String category;
@@ -17,7 +18,6 @@ class NearbyPlacesComponent extends StatefulWidget {
 class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
   late Future<NearbyPlacesResponse> nearbyPlacesResponse;
   late Future<NearbyPlacesResponse> nearbyPlacesByCategory;
-  Results results = Results();
   PlacesPhotoResponse placePhoto = PlacesPhotoResponse();
   double lat = 0.0, lon = 0.0;
 
@@ -49,7 +49,7 @@ class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
                 if (widget.category == 'All') {
                   if (places.results![index].categories != null &&
                       !places.results![index].categories!.isEmpty) {
-                    Results results = places.results![index];
+                    NearbyResults results = places.results![index];
 
                     return PlaceListComponent(
                       place: results,
@@ -75,7 +75,7 @@ class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
                           (element) => element.name!.contains(widget.category))
                       .toList()
                       .isNotEmpty) {
-                    Results results = places.results![index];
+                    NearbyResults results = places.results![index];
                     return PlaceListComponent(
                       place: results,
                       photoIndex: 0,

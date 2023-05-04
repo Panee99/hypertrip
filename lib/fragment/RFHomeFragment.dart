@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
-import 'package:room_finder_flutter/components/RFHotelListComponent.dart';
-import 'package:room_finder_flutter/components/RFLocationComponent.dart';
-import 'package:room_finder_flutter/components/RFRecentUpdateComponent.dart';
-import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/models/RoomFinderModel.dart';
-import 'package:room_finder_flutter/screens/RFLocationViewAllScreen.dart';
-import 'package:room_finder_flutter/screens/RFRecentupdateViewAllScreen.dart';
-import 'package:room_finder_flutter/screens/RFSearchDetailScreen.dart';
-import 'package:room_finder_flutter/screens/RFViewAllHotelListScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
-import 'package:room_finder_flutter/utils/RFWidget.dart';
+
+import '../components/RFHotelListComponent.dart';
+import '../components/RFLocationComponent.dart';
+import '../components/RFRecentUpdateComponent.dart';
+import '../main.dart';
+import '../screens/RFLocationViewAllScreen.dart';
+import '../screens/RFRecentupdateViewAllScreen.dart';
+import '../screens/RFSearchDetailScreen.dart';
+import '../screens/RFViewAllHotelListScreen.dart';
+import '../utils/RFWidget.dart';
 
 class RFHomeFragment extends StatefulWidget {
   @override
@@ -89,6 +90,11 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                     style: primaryTextStyle(), textAlign: TextAlign.end),
               ),
             )
+            // SizedBox(
+            //   child: LocationTrackingComponent(),
+            //   width: context.width() * 0.8,
+            //   height: 300,
+            // )
           ],
         ),
         subWidget: Column(

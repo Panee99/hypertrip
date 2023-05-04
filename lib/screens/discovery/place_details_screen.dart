@@ -10,11 +10,9 @@ import 'package:room_finder_flutter/models/discovery/place_details_response.dart
 import 'package:room_finder_flutter/models/discovery/place_photo_response.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
-import 'package:http/http.dart' as http;
-import '../../utils/QueryString.dart';
 
 class PlaceDetailsScreen extends StatefulWidget {
-  final Results place;
+  final NearbyResults place;
   final List<PlacesPhotoResponse> photos;
 
   PlaceDetailsScreen({required this.place, required this.photos});
