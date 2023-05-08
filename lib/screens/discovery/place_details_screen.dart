@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCongratulatedDialog.dart';
 import 'package:room_finder_flutter/components/discovery/place_detail_component.dart';
-import 'package:room_finder_flutter/models/RoomFinderModel.dart';
+import 'package:room_finder_flutter/models/TourFinderModel.dart';
 import 'package:room_finder_flutter/models/discovery/nearby_response.dart';
 import 'package:room_finder_flutter/models/discovery/place_details_response.dart';
 import 'package:room_finder_flutter/models/discovery/place_photo_response.dart';

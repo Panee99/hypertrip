@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/components/home/Location_tracking_component.dart';
-import 'package:room_finder_flutter/models/RoomFinderModel.dart';
+import 'package:room_finder_flutter/models/TourFinderModel.dart';
+import 'package:room_finder_flutter/models/TourFinderModel.dart';
+import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
@@ -13,10 +15,10 @@ class ScheduleFragment extends StatefulWidget {
 }
 
 class _ScheduleFragmentState extends State<ScheduleFragment> {
-  List<RoomFinderModel> categoryData = categoryList();
-  List<RoomFinderModel> hotelListData = hotelList();
-  List<RoomFinderModel> locationListData = locationList();
-  //List<RoomFinderModel> recentUpdateData = recentUpdateList();
+  List<TourFinderModel> categoryData = categoryList();
+  List<TourFinderModel> hotelListData = tourList();
+  List<TourFinderModel> locationListData = locationList();
+  //List<TourFinderModel> recentUpdateData = recentUpdateList();
 
   int selectCategoryIndex = 0;
 
@@ -95,7 +97,7 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
         //       wrapAlignment: WrapAlignment.spaceEvenly,
         //       itemCount: categoryData.length,
         //       itemBuilder: (BuildContext context, int index) {
-        //         RoomFinderModel data = categoryData[index];
+        //         TourFinderModel data = categoryData[index];
 
         //         return GestureDetector(
         //           onTap: () {
@@ -146,7 +148,7 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
         //       scrollDirection: Axis.vertical,
         //       itemCount: hotelListData.take(3).length,
         //       itemBuilder: (BuildContext context, int index) {
-        //         RoomFinderModel data = hotelListData[index];
+        //         TourFinderModel data = hotelListData[index];
         //         return RFHotelListComponent(hotelData: data);
         //       },
         //     ),
@@ -194,7 +196,7 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
         //       scrollDirection: Axis.vertical,
         //       itemCount: hotelListData.take(3).length,
         //       itemBuilder: (BuildContext context, int index) {
-        //         RoomFinderModel data = hotelListData[index];
+        //         TourFinderModel data = hotelListData[index];
         //         return RFRecentUpdateComponent(recentUpdateData: data);
         //       },
         //     ),

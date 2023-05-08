@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RoomFinderModel {
+class TourFinderModel {
   String? img;
   String? roomCategoryName;
   String? description;
@@ -14,7 +14,7 @@ class RoomFinderModel {
   Color? color;
   String? status;
 
-  RoomFinderModel(
+  TourFinderModel(
       {this.img,
       this.roomCategoryName,
       this.description,

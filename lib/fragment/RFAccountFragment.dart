@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/components/RFAppliedHotelListComponent.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
-import 'package:room_finder_flutter/models/RoomFinderModel.dart';
+import 'package:room_finder_flutter/models/TourFinderModel.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
@@ -17,9 +17,9 @@ class RFAccountFragment extends StatefulWidget {
 }
 
 class _RFAccountFragmentState extends State<RFAccountFragment> {
-  final List<RoomFinderModel> settingData = settingList();
-  final List<RoomFinderModel> appliedHotelData = appliedHotelList();
-  final List<RoomFinderModel> applyHotelData = applyHotelList();
+  final List<TourFinderModel> settingData = settingList();
+  final List<TourFinderModel> appliedHotelData = appliedHotelList();
+  final List<TourFinderModel> applyHotelData = applyHotelList();
 
   int selectedIndex = 0;
 
@@ -202,7 +202,7 @@ class _RFAccountFragmentState extends State<RFAccountFragment> {
               itemCount: applyHotelData.length,
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               itemBuilder: (_, index) {
-                RoomFinderModel data = applyHotelData[index];
+                TourFinderModel data = applyHotelData[index];
 
                 return Container(
                   padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -234,7 +234,7 @@ class _RFAccountFragmentState extends State<RFAccountFragment> {
               scrollDirection: Axis.vertical,
               itemCount: appliedHotelData.length,
               itemBuilder: (BuildContext context, int index) {
-                RoomFinderModel data = appliedHotelData[index];
+                TourFinderModel data = appliedHotelData[index];
                 return RFAppliedHotelListComponent(appliedHotelList: data);
               },
             ),

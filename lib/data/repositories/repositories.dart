@@ -154,12 +154,13 @@ class AppRepository {
 
   Future<ProfileResponse>? getUserProfile(String token) async {
     var authResponse = await NetworkUtility.fetchUrl(
-        Uri.parse('https://dotnet-travelers.fly.dev/accounts/profile'),
+        Uri.parse('https://dotnet-travelers.fly.dev/accounts/self/profile'),
         headers: {
           'Authorization': '${token.toString()}',
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         });
+    print(authResponse);
     return ProfileResponse.fromJson(jsonDecode(authResponse!));
   }
 
@@ -229,5 +230,48 @@ class AppRepository {
       return parseLocation(response.toString());
     }
     return null;
+  }
+
+  Future<List<TourDetailResponse>> getTourList(String page, String size) async {
+    var response = await NetworkUtility.post(
+        Uri.parse('https://dotnet-travelers.fly.dev/tours/filter'),
+        headers: {
+          // 'Authorization': '${token}',
+          'accept': 'application/json',
+          'Content-Type': 'application/json-patch+json',
+        },
+        body: jsonEncode({"page": page, "size": size}));
+    List<TourDetailResponse> parseTour(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<TourDetailResponse>((json) => TourDetailResponse.fromJson(json))
+          .toList();
+    }
+
+    parseTour(response.toString()).forEach((tour) {
+      print(tour.id);
+    });
+    return parseTour(response.toString());
+  }
+
+  Future<List<TourDetailResponse>> getTourDetails(String id) async {
+    var response = await NetworkUtility.post(
+      Uri.parse('https://dotnet-travelers.fly.dev/tours/${id}/details'),
+      headers: {
+        // 'Authorization': '${token}',
+        'accept': 'application/json',
+      },
+    );
+    List<TourDetailResponse> parseTour(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<TourDetailResponse>((json) => TourDetailResponse.fromJson(json))
+          .toList();
+    }
+
+    parseTour(response.toString()).forEach((tour) {
+      print(tour.id);
+    });
+    return parseTour(response.toString());
   }
 }
