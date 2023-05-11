@@ -36,20 +36,34 @@ class _RFViewAllHotelListScreenState extends State<RFViewAllHotelListScreen> {
           appBarHeight: 80,
           showLeadingIcon: false,
           roundCornerShape: true),
-      // body: FutureBuilder<List<TourDetailResponse>>(
-      // future: listTour,
-      // builder: (BuildContext context,
-      //     AsyncSnapshot<List<TourDetailResponse>> snapshot) {
-      //   if (!snapshot.hasData) {
-      //     return SizedBox(
-      //       // height: context.height() * 0.5,
-      //       child: Center(child: CircularProgressIndicator()),
-      //     );
-      //   } else {
-      //     final tours = snapshot.data!;
-      //   }
-      // },
-      // ),
+      body: FutureBuilder<List<TourDetailResponse>>(
+        future: listTour,
+        builder: (BuildContext context,
+            AsyncSnapshot<List<TourDetailResponse>> snapshot) {
+          if (!snapshot.hasData) {
+            return SizedBox(
+              // height: context.height() * 0.5,
+              child: Center(child: CircularProgressIndicator()),
+            );
+          } else {
+            final tours = snapshot.data!;
+            return Center(
+                child: ListView.builder(
+                    itemCount: tours.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          // 10.height,
+                          // Tours(
+                          //   tourId: tickets[index].tourId!,
+                          // ),
+                          // 10.height
+                        ],
+                      );
+                    }));
+          }
+        },
+      ),
 
       //body: ListView.builder(
       //   padding: EdgeInsets.only(right: 16, left: 16, bottom: 16, top: 24),
