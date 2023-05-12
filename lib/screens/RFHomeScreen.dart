@@ -35,7 +35,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
     return BottomNavigationBar(
       currentIndex: _selectedIndex,
       onTap: _onItemTapped,
-      selectedLabelStyle: boldTextStyle(size: 14),
+      selectedLabelStyle: boldTextStyle(size: 14, color: rf_primaryColor),
       selectedFontSize: 14,
       unselectedFontSize: 14,
       type: BottomNavigationBarType.fixed,
@@ -100,7 +100,11 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: _bottomTab(),
-      body: Center(child: _pages.elementAt(_selectedIndex)),
+      body: IndexedStack(
+          index: _selectedIndex,
+          children:
+              // [Center(child: _pages.elementAt(_selectedIndex))]
+              _pages),
     );
   }
 }

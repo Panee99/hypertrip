@@ -38,11 +38,13 @@ class _TicketState extends State<Ticket> {
   void initState() {
     super.initState();
     getTourDetail(widget.tourId);
+    print('Ticket component: ' + widget.tourId);
   }
 
   void getTourDetail(tourId) {
     authProvider = context.read<AuthProvider>();
     tour = AppRepository().getTourDetail(tourId, authProvider.token);
+    print('Ticket component: ' + tour.then((value) => value.code).toString());
   }
 
   @override
@@ -111,9 +113,12 @@ class _TicketState extends State<Ticket> {
                                       ),
                                     ),
                                   ),
-                                  Text(
-                                    t.title!,
-                                    style: boldTextStyle(),
+                                  Container(
+                                    height: 20,
+                                    child: Text(
+                                      t.title!,
+                                      style: boldTextStyle(size: 12),
+                                    ),
                                   ),
                                   Text(t.type!)
                                 ],
@@ -168,14 +173,8 @@ class _TicketState extends State<Ticket> {
               ),
             ).onTap(() {
               TicketDetailScreen(
-                      title: t.title!,
-                      type: t.type!,
-                      to: t.departure!,
-                      from: t.destination!,
-                      start: t.startTime!,
-                      end: t.endTime!,
-                      price: t.price!)
-                  .launch(context);
+                tourDetail: t,
+              ).launch(context);
             });
           }
         });

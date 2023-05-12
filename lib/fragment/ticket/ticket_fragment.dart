@@ -76,10 +76,13 @@ class _TicketFragmentState extends State<TicketFragment> {
                 );
               } else {
                 final tickets = snapshot.data!;
+                print('Ticket fragment: ' + tickets.length.toString());
                 return Center(
                     child: ListView.builder(
                         itemCount: tickets.length,
                         itemBuilder: (context, index) {
+                          print('Ticker fragment: ' +
+                              tickets[index].tourId.toString());
                           return Column(
                             children: [
                               10.height,

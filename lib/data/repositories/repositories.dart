@@ -1,11 +1,17 @@
 import 'dart:convert';
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:geolocator/geolocator.dart';
-import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/models/discovery/search_response.dart';
 import 'package:room_finder_flutter/models/discovery/tip_response.dart';
+import 'package:room_finder_flutter/models/goolge/google_place_detail_response.dart';
+import 'package:room_finder_flutter/models/goolge/google_search_place_response.dart';
 import 'package:room_finder_flutter/models/ticket/ticket_list_response.dart';
+import 'package:room_finder_flutter/models/tour/joined_tour_response.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/models/tour/tour_locations_response.dart';
 import 'package:room_finder_flutter/models/user/avatar_response.dart';
@@ -137,6 +143,21 @@ class FoursquareRepository {
     print(parseTips(response.toString()).first.text);
     return parseTips(response.toString());
   }
+
+  Future<SearchResults?> searchPlaceByLL(String lat, String lng) async {
+    var url = Uri.parse(
+        'https://api.foursquare.com/v3/places/search?ll=${lat}%2C${lng}');
+    var response = await NetworkUtility.fetchUrl(url, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'fsq37qFTKrGLWiBZDd6Eexr+8xiKOhen6VB/vTmq42RlKSs=',
+      'Host': 'api.foursquare.com'
+    });
+    if (response != null) {
+      return SearchResults.fromJson(jsonDecode(response.toString()));
+    } else {
+      return null;
+    }
+  }
 }
 
 class AppRepository {
@@ -154,7 +175,7 @@ class AppRepository {
 
   Future<ProfileResponse>? getUserProfile(String token) async {
     var authResponse = await NetworkUtility.fetchUrl(
-        Uri.parse('https://dotnet-travelers.fly.dev/accounts/profile'),
+        Uri.parse('https://dotnet-travelers.fly.dev/accounts/self/profile'),
         headers: {
           'Authorization': '${token.toString()}',
           'Accept': 'application/json',
@@ -187,12 +208,11 @@ class AppRepository {
 
   Future<TourDetailResponse> getTourDetail(String tourId, String token) async {
     var response = await NetworkUtility.fetchUrl(
-        Uri.parse('https://dotnet-travelers.fly.dev/tours/${tourId}'),
+        Uri.parse('https://dotnet-travelers.fly.dev/tours/${tourId}/details'),
         headers: {
           'Authorization': '${token.toString()}',
           'accept': 'application/json',
         });
-    print(TourDetailResponse.fromJson(jsonDecode(response!)));
     return TourDetailResponse.fromJson(jsonDecode(response!));
   }
 
@@ -229,5 +249,80 @@ class AppRepository {
       return parseLocation(response.toString());
     }
     return null;
+  }
+
+  Future<List<JoinedTourResponse>?> getJoinedTour(
+      String travelerId, String token) async {
+    var response = await NetworkUtility.fetchUrl(
+        Uri.parse(
+            'https://dotnet-travelers.fly.dev/travelers/${travelerId}/joined-tours'),
+        headers: {
+          'Authorization': '${token.toString()}',
+          'accept': 'application/json',
+        });
+    if (response != null) {
+      List<JoinedTourResponse> parseTour(String body) {
+        final parsed = json.decode(body).cast<Map<String, dynamic>>();
+        return parsed
+            .map<JoinedTourResponse>(
+                (json) => JoinedTourResponse.fromJson(json))
+            .toList();
+      }
+
+      return parseTour(response.toString());
+    }
+    return null;
+  }
+}
+
+class GoogleRepository {
+  final apiKey = 'AIzaSyAPZiYIlR-ztOa6maus6urUhs1Z-6spyj4';
+  Future<GoogleSearchPlaceResponse?> getSearchPlaceByCoordinate(
+      double latitude, double longitude) async {
+    var url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}');
+    var response = await NetworkUtility.fetchUrl(url);
+    if (response != null) {
+      return GoogleSearchPlaceResponse.fromJson(
+          jsonDecode(response.toString()));
+    } else {
+      return null;
+    }
+  }
+
+  Future<GooglePlaceDetailResponse?> getPlaceDetail(String placeId) async {
+    var url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${apiKey}');
+    var response = await NetworkUtility.fetchUrl(url);
+    if (response != null) {
+      return GooglePlaceDetailResponse.fromJson(
+          jsonDecode(response.toString()));
+    } else {
+      return null;
+    }
+  }
+
+  Future<Widget> getPlacePhoto(String photoReference) async {
+    var url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/photo?&photoreference=${photoReference}&key=${apiKey}');
+
+    var response = await http.get(url);
+
+    final bytes = Uint8List.fromList(response.bodyBytes);
+    final image = Image.memory(bytes);
+    return image;
+    // Use the image in your app
+  }
+
+  Future<List<LatLng>> getDirection(LatLng startPoint, LatLng endPoint) async {
+    var url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/directions/json?origin=${startPoint.latitude},${startPoint.longitude}&destination=${endPoint.latitude},${endPoint.longitude}&key=$apiKey');
+    var response = await http.get(url);
+    var json = jsonDecode(response.body);
+
+    List<LatLng> routeCoords = PolylinePoints()
+        .decodePolyline(json['routes'][0]['overview_polyline']['points'])
+        .cast<LatLng>();
+    return routeCoords;
   }
 }

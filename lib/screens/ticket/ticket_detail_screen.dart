@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Material;
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 
 class TicketDetailScreen extends StatelessWidget {
@@ -10,24 +11,17 @@ class TicketDetailScreen extends StatelessWidget {
   final double clipRadius;
   final double smallClipRadius;
   final int numberOfSmallClips;
-  final String title, type, start, end, from, to;
-  final int price;
+  final TourDetailResponse tourDetail;
 
-  const TicketDetailScreen({
-    Key? key,
-    this.margin = 20,
-    this.borderRadius = 20,
-    this.clipRadius = 20,
-    this.smallClipRadius = 5,
-    this.numberOfSmallClips = 13,
-    required this.title,
-    required this.type,
-    required this.start,
-    required this.end,
-    required this.from,
-    required this.to,
-    required this.price,
-  }) : super(key: key);
+  const TicketDetailScreen(
+      {Key? key,
+      this.margin = 20,
+      this.borderRadius = 20,
+      this.clipRadius = 20,
+      this.smallClipRadius = 5,
+      this.numberOfSmallClips = 13,
+      required this.tourDetail})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,20 +74,18 @@ class TicketDetailScreen extends StatelessWidget {
                         width: 100,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            border: Border.all(color: Colors.green, width: 2)),
+                            border: Border.all(color: Colors.green, width: 1)),
                         child: Center(
                           child: Text(
                             'Upcoming',
-                            style: primaryTextStyle(
-                                color: Colors.green, weight: FontWeight.w900),
+                            style: primaryTextStyle(color: Colors.green),
                           ),
                         ),
                       ),
                       20.height,
                       Text(
                         'Tour Ticket',
-                        style:
-                            primaryTextStyle(size: 23, weight: FontWeight.bold),
+                        style: primaryTextStyle(size: 20),
                       ),
                       20.height,
                       Column(
@@ -104,7 +96,7 @@ class TicketDetailScreen extends StatelessWidget {
                             style: secondaryTextStyle(),
                           ),
                           Text(
-                            title,
+                            tourDetail.title.toString(),
                             style: primaryTextStyle(),
                           )
                         ],
@@ -126,7 +118,7 @@ class TicketDetailScreen extends StatelessWidget {
                                       style: secondaryTextStyle(),
                                     ),
                                     Text(
-                                      type,
+                                      tourDetail.type.toString(),
                                       style: primaryTextStyle(),
                                     )
                                   ],
@@ -140,8 +132,9 @@ class TicketDetailScreen extends StatelessWidget {
                                       style: secondaryTextStyle(),
                                     ),
                                     Text(
-                                      DateFormat('dd/MM/yyyy')
-                                          .format(DateTime.parse(start)),
+                                      DateFormat('dd/MM/yyyy').format(
+                                          DateTime.parse(
+                                              tourDetail.startTime.toString())),
                                       style: primaryTextStyle(),
                                     )
                                   ],
@@ -155,7 +148,7 @@ class TicketDetailScreen extends StatelessWidget {
                                       style: secondaryTextStyle(),
                                     ),
                                     Text(
-                                      from,
+                                      tourDetail.departure.toString(),
                                       style: primaryTextStyle(),
                                     )
                                   ],
@@ -175,9 +168,8 @@ class TicketDetailScreen extends StatelessWidget {
                                       Text('Price',
                                           style: secondaryTextStyle()),
                                       Text(
-                                        '${price} VND',
-                                        style: primaryTextStyle(
-                                            weight: FontWeight.bold),
+                                        '${tourDetail.adultPrice!.toInt()} VND',
+                                        style: primaryTextStyle(),
                                       )
                                     ],
                                   ),
@@ -191,8 +183,9 @@ class TicketDetailScreen extends StatelessWidget {
                                         style: secondaryTextStyle(),
                                       ),
                                       Text(
-                                        DateFormat('dd/MM/yyyy')
-                                            .format(DateTime.parse(end)),
+                                        DateFormat('dd/MM/yyyy').format(
+                                            DateTime.parse(
+                                                tourDetail.endTime.toString())),
                                         style: primaryTextStyle(),
                                       )
                                     ],
@@ -207,7 +200,7 @@ class TicketDetailScreen extends StatelessWidget {
                                         style: secondaryTextStyle(),
                                       ),
                                       Text(
-                                        to,
+                                        tourDetail.destination.toString(),
                                         style: primaryTextStyle(),
                                       )
                                     ],
@@ -216,14 +209,6 @@ class TicketDetailScreen extends StatelessWidget {
                               ))
                         ],
                       ),
-                      20.height,
-                      Center(
-                        child: Image.asset(
-                          'assets/images/qr.png',
-                          width: 150,
-                          height: 150,
-                        ),
-                      )
                     ]),
               ),
             ),
