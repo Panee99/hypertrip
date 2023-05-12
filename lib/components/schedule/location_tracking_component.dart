@@ -125,20 +125,25 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
     // });
     // print('Polyline Coordinate: ' + _polylineCoordinate.length.toString());
     // print('Route: ' + route.routes.length.toString());
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        googleApiKey,
-        PointLatLng(tourFlow!.first.latitude!, tourFlow!.first.longitude!),
-        PointLatLng(tourFlow!.elementAt(1).latitude!,
-            tourFlow!.elementAt(1).longitude!));
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) =>
-          _polylineCoordinate.add(LatLng(point.latitude, point.longitude)));
-      setState(() {});
+    if (tourFlow != null) {
+      tourFlow!.reversed.toList().asMap().forEach((index, place) async {
+        PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+            googleApiKey,
+            PointLatLng(tourFlow!.elementAt(index).latitude!,
+                tourFlow!.elementAt(index).longitude!),
+            PointLatLng(tourFlow!.elementAt(index + 1).latitude!,
+                tourFlow!.elementAt(index + 1).longitude!),
+            travelMode: TravelMode.bicycling);
+        if (result.points.isNotEmpty) {
+          setState(() {
+            result.points.forEach((PointLatLng point) => _polylineCoordinate
+                .add(LatLng(point.latitude, point.longitude)));
+          });
+          print('Polyline Result Status: ' + result.status.toString());
+          print('Polyline Result: ' + result.points.length.toString());
+        }
+      });
     }
-    print('Source: ' + tourFlow!.first.latitude.toString());
-    print('Destinate: ' + tourFlow!.elementAt(1).latitude.toString());
-    print('Polyline Result Status: ' + result.status.toString());
-    print('Polyline Result: ' + result.points.length.toString());
     // String apiUrl = 'https://maps.googleapis.com/maps/api/directions/json?'
     //     'origin=${tourFlow!.first.latitude},${tourFlow!.first.longitude}&'
     //     'destination=${tourFlow!.elementAt(1).latitude},${tourFlow!.elementAt(1).longitude}&'
