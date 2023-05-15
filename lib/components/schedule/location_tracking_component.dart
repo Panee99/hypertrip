@@ -39,7 +39,6 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   MapsRoutes route = new MapsRoutes();
   DistanceCalculator distanceCalculator = new DistanceCalculator();
   String googleApiKey = 'AIzaSyAvMnrp-xOiyWA0rMaxLFNgqLQiP7ZtKiQ';
-  String totalDistance = 'No route';
 
   @override
   void initState() {
@@ -106,25 +105,6 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
 
   void getDirection() async {
     PolylinePoints polylinePoints = PolylinePoints();
-
-    // if (tourFlow != null) {
-    //   tourFlow!.reversed.toList().asMap().forEach((index, position) async {
-    //     setState(() {
-    //       LatLng latLng = LatLng(
-    //           position.latitude!.toDouble(), position.longitude!.toDouble());
-    //       _polylineCoordinate.add(latLng);
-    //     });
-    //   });
-    // }
-    // await route.drawRoute(
-    //     _polylineCoordinate, 'Test routes', rf_primaryColor, googleApiKey,
-    //     travelMode: TravelModes.driving);
-    // setState(() {
-    //   totalDistance = distanceCalculator
-    //       .calculateRouteDistance(_polylineCoordinate, decimals: 1);
-    // });
-    // print('Polyline Coordinate: ' + _polylineCoordinate.length.toString());
-    // print('Route: ' + route.routes.length.toString());
     if (tourFlow != null) {
       tourFlow!.reversed.toList().asMap().forEach((index, place) async {
         PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
@@ -139,34 +119,9 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
             result.points.forEach((PointLatLng point) => _polylineCoordinate
                 .add(LatLng(point.latitude, point.longitude)));
           });
-          print('Polyline Result Status: ' + result.status.toString());
-          print('Polyline Result: ' + result.points.length.toString());
         }
       });
     }
-    // String apiUrl = 'https://maps.googleapis.com/maps/api/directions/json?'
-    //     'origin=${tourFlow!.first.latitude},${tourFlow!.first.longitude}&'
-    //     'destination=${tourFlow!.elementAt(1).latitude},${tourFlow!.elementAt(1).longitude}&'
-    //     'key=${googleApiKey}';
-
-    // var response = await http.get(Uri.parse(apiUrl));
-    // if (response.statusCode == 200) {
-    //   var jsonResponse = jsonDecode(response.body);
-
-    //   List<PointLatLng> result = polylinePoints.decodePolyline(
-    //       jsonResponse['routes'][0]['overview_polyline']['points']);
-    //   _polylineCoordinate.clear();
-    //   if (result.isNotEmpty) {
-    //     result.forEach((PointLatLng point) {
-    //       _polylineCoordinate.add(LatLng(point.latitude, point.longitude));
-    //     });
-    //     print('Result: ' + result.length.toString());
-    //   } else {
-    //     print('Result: ' + result.first.latitude.toString());
-    //   }
-    // } else {
-    //   print('Request failed with status: ${response.statusCode}.');
-    // }
   }
 
   void getPolypoints() async {

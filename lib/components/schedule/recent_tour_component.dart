@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/models/RoomFinderModel.dart';
 import 'package:room_finder_flutter/models/tour/joined_tour_response.dart';
@@ -48,7 +49,12 @@ class _RecentTourComponentState extends State<RecentTourComponent> {
                   .paddingOnly(left: 4),
               Row(
                 children: [
-                  Text(widget.recentTour.adultPrice.toString().validate(),
+                  Text(
+                      NumberFormat('#,###')
+                              .format(widget.recentTour.adultPrice!.toInt())
+                              .toString()
+                              .validate() +
+                          ' VND',
                       style: boldTextStyle(color: rf_primaryColor)),
                   // Text("${widget.recentTour.rentDuration.validate()}",
                   //     style: secondaryTextStyle()),

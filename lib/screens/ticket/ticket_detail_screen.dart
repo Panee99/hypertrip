@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Material;
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
@@ -38,6 +39,8 @@ class TicketDetailScreen extends StatelessWidget {
           },
         ),
         backgroundColor: rf_primaryColor,
+        systemOverlayStyle:
+            SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
       ),
       body: Center(
         child: Container(

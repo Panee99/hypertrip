@@ -1,12 +1,9 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/models/goolge/google_place_detail_response.dart';
 import 'package:room_finder_flutter/models/goolge/google_search_place_response.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
-import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 class LocationComponent extends StatefulWidget {
   final TourFlows? tourFlow;

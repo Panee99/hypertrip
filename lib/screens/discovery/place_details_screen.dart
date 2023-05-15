@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart' as Material;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCongratulatedDialog.dart';
 import 'package:room_finder_flutter/components/discovery/place_detail_component.dart';

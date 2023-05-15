@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
-import 'package:room_finder_flutter/components/schedule/lacation_component.dart';
+import 'package:room_finder_flutter/components/schedule/place_component.dart';
 import 'package:room_finder_flutter/components/schedule/location_tracking_component.dart';
 import 'package:room_finder_flutter/components/schedule/recent_tour_component.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
@@ -80,14 +80,12 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
         builder:
             (BuildContext context, AsyncSnapshot<TourDetailResponse> snapshot) {
           if (!snapshot.hasData) {
-            print('Đang đợi data tour');
             return SizedBox(
               height: context.height() * 0.5,
               child: Center(child: CircularProgressIndicator()),
             );
           } else {
             final tour = snapshot.data!;
-            print('Có data');
             return Scaffold(
               body: RFCommonAppComponent(
                 mainWidgetHeight: 200,
@@ -149,6 +147,12 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: RecentTourComponent(recentTour: tour),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Schedule', style: boldTextStyle()),
+                      ],
+                    ).paddingOnly(left: 16, right: 16, bottom: 8),
                     // Row(
                     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     //   children: [
@@ -164,14 +168,14 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
                     //     )
                     //   ],
                     // ).paddingOnly(left: 16, right: 16, bottom: 8),
-                    Wrap(
-                      spacing: 16,
-                      runSpacing: 16,
-                      children: List.generate(tour.tourFlows!.length, (index) {
-                        return LocationComponent(
-                            tourFlow: tour.tourFlows![index]);
-                      }),
-                    ),
+                    // Wrap(
+                    //   spacing: 16,
+                    //   runSpacing: 16,
+                    //   children: List.generate(tour.tourFlows!.length, (index) {
+                    //     return LocationComponent(
+                    //         tourFlow: tour.tourFlows![index]);
+                    //   }),
+                    // ),
                   ],
                 ),
               ),
