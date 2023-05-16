@@ -19,6 +19,7 @@ import 'package:room_finder_flutter/models/user/avatar_response.dart';
 import '../../models/discovery/nearby_response.dart';
 import '../../models/discovery/place_details_response.dart';
 import '../../models/discovery/place_photo_response.dart';
+import '../../models/tour/tour_list_response.dart';
 import '../../models/user/sign_in_model.dart';
 import '../../utils/QueryString.dart';
 import '../../utils/network.dart';
@@ -181,6 +182,7 @@ class AppRepository {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         });
+    print(authResponse);
     return ProfileResponse.fromJson(jsonDecode(authResponse!));
   }
 

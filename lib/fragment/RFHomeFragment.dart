@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
-import 'package:room_finder_flutter/models/RoomFinderModel.dart';
+import 'package:room_finder_flutter/data/repositories/repositories.dart';
+import 'package:room_finder_flutter/models/TourFinderModel.dart';
+import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
@@ -22,10 +24,11 @@ class RFHomeFragment extends StatefulWidget {
 }
 
 class _RFHomeFragmentState extends State<RFHomeFragment> {
-  List<RoomFinderModel> categoryData = categoryList();
-  List<RoomFinderModel> hotelListData = hotelList();
-  List<RoomFinderModel> locationListData = locationList();
-  //List<RoomFinderModel> recentUpdateData = recentUpdateList();
+  Future<List<TourDetailResponse>>? listTour;
+  List<TourFinderModel> categoryData = categoryList();
+  List<TourFinderModel> hotelListData = tourList();
+  List<TourFinderModel> locationListData = locationList();
+  //List<TourFinderModel> recentUpdateData = recentUpdateList();
 
   int selectCategoryIndex = 0;
 
@@ -58,12 +61,13 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Find a property anywhere', style: boldTextStyle(size: 18)),
+            Text('Enter the place you want to go to',
+                style: boldTextStyle(size: 18)),
             16.height,
             AppTextField(
               textFieldType: TextFieldType.EMAIL,
               decoration: rfInputDecoration(
-                hintText: "Search address or near you",
+                hintText: "Country, city, tourist destination",
                 showPreFixIcon: true,
                 showLableText: false,
                 prefixIcon:
@@ -80,16 +84,16 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                 RFSearchDetailScreen().launch(context);
               },
             ),
-            TextButton(
-              onPressed: () {
-                //
-              },
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Text('Advance Search',
-                    style: primaryTextStyle(), textAlign: TextAlign.end),
-              ),
-            )
+            // TextButton(
+            //   onPressed: () {
+            //     //
+            //   },
+            //   child: Align(
+            //     alignment: Alignment.topRight,
+            //     child: Text('Advance Search',
+            //         style: primaryTextStyle(), textAlign: TextAlign.end),
+            //   ),
+            // )
             // SizedBox(
             //   child: LocationTrackingComponent(),
             //   width: context.width() * 0.8,
@@ -104,7 +108,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
               wrapAlignment: WrapAlignment.spaceEvenly,
               itemCount: categoryData.length,
               itemBuilder: (BuildContext context, int index) {
-                RoomFinderModel data = categoryData[index];
+                TourFinderModel data = categoryData[index];
 
                 return GestureDetector(
                   onTap: () {
@@ -148,17 +152,17 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                 )
               ],
             ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
-            ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              itemCount: hotelListData.take(3).length,
-              itemBuilder: (BuildContext context, int index) {
-                RoomFinderModel data = hotelListData[index];
-                return RFHotelListComponent(hotelData: data);
-              },
-            ),
+            // ListView.builder(
+            //   padding: EdgeInsets.symmetric(horizontal: 16),
+            //   shrinkWrap: true,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   scrollDirection: Axis.vertical,
+            //   itemCount: hotelListData.take(3).length,
+            //   itemBuilder: (BuildContext context, int index) {
+            //     TourFinderModel data = hotelListData[index];
+            //     return RFHotelListComponent(hotelData: data);
+            //   },
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -203,7 +207,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
               scrollDirection: Axis.vertical,
               itemCount: hotelListData.take(3).length,
               itemBuilder: (BuildContext context, int index) {
-                RoomFinderModel data = hotelListData[index];
+                TourFinderModel data = hotelListData[index];
                 return RFRecentUpdateComponent(recentUpdateData: data);
               },
             ),
