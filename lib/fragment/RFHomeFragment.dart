@@ -152,17 +152,17 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                 )
               ],
             ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
-            ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              itemCount: hotelListData.take(3).length,
-              itemBuilder: (BuildContext context, int index) {
-                TourFinderModel data = hotelListData[index];
-                return RFHotelListComponent(hotelData: data);
-              },
-            ),
+            // ListView.builder(
+            //   padding: EdgeInsets.symmetric(horizontal: 16),
+            //   shrinkWrap: true,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   scrollDirection: Axis.vertical,
+            //   itemCount: hotelListData.take(3).length,
+            //   itemBuilder: (BuildContext context, int index) {
+            //     TourFinderModel data = hotelListData[index];
+            //     return RFHotelListComponent(hotelData: data);
+            //   },
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

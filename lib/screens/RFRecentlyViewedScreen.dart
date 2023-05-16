@@ -31,8 +31,8 @@ class RFRecentlyViewedScreen extends StatelessWidget {
               scrollDirection: Axis.vertical,
               itemCount: hotelListData.length,
               itemBuilder: (BuildContext context, int index) {
-                return RFHotelListComponent(
-                    hotelData: hotelListData[index], showHeight: true);
+                // return RFHotelListComponent(
+                //     hotelData: hotelListData[index], showHeight: true);
               },
             ),
             Container(

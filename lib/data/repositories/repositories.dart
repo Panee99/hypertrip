@@ -13,6 +13,7 @@ import 'package:room_finder_flutter/models/user/avatar_response.dart';
 import '../../models/discovery/nearby_response.dart';
 import '../../models/discovery/place_details_response.dart';
 import '../../models/discovery/place_photo_response.dart';
+import '../../models/tour/tour_list_response.dart';
 import '../../models/user/sign_in_model.dart';
 import '../../utils/QueryString.dart';
 import '../../utils/network.dart';
@@ -232,7 +233,7 @@ class AppRepository {
     return null;
   }
 
-  Future<List<TourDetailResponse>> getTourList(String page, String size) async {
+  Future<TourListResponse> getTourList() async {
     var response = await NetworkUtility.post(
         Uri.parse('https://dotnet-travelers.fly.dev/tours/filter'),
         headers: {
@@ -240,18 +241,19 @@ class AppRepository {
           'accept': 'application/json',
           'Content-Type': 'application/json-patch+json',
         },
-        body: jsonEncode({"page": page, "size": size}));
-    List<TourDetailResponse> parseTour(String responseBody) {
-      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-      return parsed
-          .map<TourDetailResponse>((json) => TourDetailResponse.fromJson(json))
-          .toList();
-    }
-
-    parseTour(response.toString()).forEach((tour) {
-      print(tour.id);
-    });
-    return parseTour(response.toString());
+        body: jsonEncode({'page': '1', 'size': '10'}));
+    print("Tour List Respose:" +
+        TourListResponse.fromJson(jsonDecode(response!))
+            .values!
+            .length
+            .toString());
+    // List<TourListResponse> parseTour(String responseBody) {
+    //   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    //   return parsed
+    //       .map<TourListResponse>((json) => TourListResponse.fromJson(json))
+    //       .toList();
+    // }
+    return TourListResponse.fromJson(jsonDecode(response!));
   }
 
   Future<List<TourDetailResponse>> getTourDetails(String id) async {

@@ -127,15 +127,15 @@ class _RFLocationScreenState extends State<RFLocationScreen> {
                 });
               },
             ),
-            ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              itemCount: hotelListData.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  RFHotelListComponent(hotelData: hotelListData[index]),
-            ),
+            // ListView.builder(
+            //   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            //   shrinkWrap: true,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   scrollDirection: Axis.vertical,
+            //   itemCount: hotelListData.length,
+            //   itemBuilder: (BuildContext context, int index) =>
+            //       RFHotelListComponent(hotelData: hotelListData[index]),
+            // ),
           ],
         ),
       ),

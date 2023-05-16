@@ -6,6 +6,7 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 import '../data/repositories/repositories.dart';
 import '../models/tour/tour_detail_response.dart';
+import '../models/tour/tour_list_response.dart';
 
 class RFViewAllHotelListScreen extends StatefulWidget {
   const RFViewAllHotelListScreen({super.key});
@@ -16,10 +17,10 @@ class RFViewAllHotelListScreen extends StatefulWidget {
 }
 
 class _RFViewAllHotelListScreenState extends State<RFViewAllHotelListScreen> {
-  Future<List<TourDetailResponse>>? listTour;
+  Future<TourListResponse>? listTour;
   final List<TourFinderModel> hotelListData = tourList();
   void getTourList() {
-    listTour = AppRepository().getTourList('1', '10');
+    listTour = AppRepository().getTourList();
   }
 
   @override
@@ -36,10 +37,10 @@ class _RFViewAllHotelListScreenState extends State<RFViewAllHotelListScreen> {
           appBarHeight: 80,
           showLeadingIcon: false,
           roundCornerShape: true),
-      body: FutureBuilder<List<TourDetailResponse>>(
+      body: FutureBuilder<TourListResponse>(
         future: listTour,
-        builder: (BuildContext context,
-            AsyncSnapshot<List<TourDetailResponse>> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<TourListResponse> snapshot) {
           if (!snapshot.hasData) {
             return SizedBox(
               // height: context.height() * 0.5,
@@ -49,15 +50,13 @@ class _RFViewAllHotelListScreenState extends State<RFViewAllHotelListScreen> {
             final tours = snapshot.data!;
             return Center(
                 child: ListView.builder(
-                    itemCount: tours.length,
+                    itemCount: tours.values!.length,
                     itemBuilder: (context, index) {
+                      print(tours.values![index].code);
                       return Column(
                         children: [
-                          // 10.height,
-                          // Tours(
-                          //   tourId: tickets[index].tourId!,
-                          // ),
-                          // 10.height
+                          RFHotelListComponent(
+                              tourListData: tours.values![index]),
                         ],
                       );
                     }));
@@ -65,7 +64,7 @@ class _RFViewAllHotelListScreenState extends State<RFViewAllHotelListScreen> {
         },
       ),
 
-      //body: ListView.builder(
+      // body: ListView.builder(
       //   padding: EdgeInsets.only(right: 16, left: 16, bottom: 16, top: 24),
       //   shrinkWrap: true,
       //   scrollDirection: Axis.vertical,

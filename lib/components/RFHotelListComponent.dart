@@ -7,13 +7,14 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 import '../models/tour/tour_detail_response.dart';
+import '../models/tour/tour_list_response.dart';
 
 class RFHotelListComponent extends StatelessWidget {
   Future<TourDetailResponse>? listTour;
-  final TourFinderModel? hotelData;
+  final TourListModels? tourListData;
   final bool? showHeight;
 
-  RFHotelListComponent({this.hotelData, this.showHeight});
+  RFHotelListComponent({this.tourListData, this.showHeight});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class RFHotelListComponent extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          rfCommonCachedNetworkImage(hotelData!.img.validate(),
+          rfCommonCachedNetworkImage(tourListData!.thumbnailUrl.validate(),
                   height: 100, width: 100, fit: BoxFit.cover)
               .cornerRadiusWithClipRRect(8),
           16.width,
@@ -41,29 +42,29 @@ class RFHotelListComponent extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(hotelData!.roomCategoryName.validate(),
+                      Text(tourListData!.title.validate(),
                           style: boldTextStyle()),
                       8.height,
                       Row(
                         children: [
-                          Text(hotelData!.price.validate(),
+                          Text(tourListData!.adultPrice.toString(),
                               style: boldTextStyle(color: rf_primaryColor)),
-                          Text(hotelData!.rentDuration.validate(),
-                              style: secondaryTextStyle()),
+                          // Text(tourListData!.description.validate(),
+                          //     style: secondaryTextStyle()),
                         ],
                       )
                     ],
                   ).expand(),
                   Row(
                     children: [
-                      Container(
-                        decoration: boxDecorationWithRoundedCorners(
-                            boxShape: BoxShape.circle,
-                            backgroundColor: hotelData!.color ?? greenColor),
-                        padding: EdgeInsets.all(4),
-                      ),
+                      // Container(
+                      //   decoration: boxDecorationWithRoundedCorners(
+                      //       boxShape: BoxShape.circle,
+                      //       backgroundColor: tourListData!.color ?? greenColor),
+                      //   padding: EdgeInsets.all(4),
+                      // ),
                       6.width,
-                      Text(hotelData!.address.validate(),
+                      Text(tourListData!.departure.validate(),
                           style: secondaryTextStyle()),
                     ],
                   ),
@@ -74,7 +75,7 @@ class RFHotelListComponent extends StatelessWidget {
                 children: [
                   Icon(Icons.location_on, color: rf_primaryColor, size: 16),
                   6.width,
-                  Text(hotelData!.location.validate(),
+                  Text(tourListData!.destination.validate(),
                       style: secondaryTextStyle()),
                 ],
               ),
@@ -83,7 +84,7 @@ class RFHotelListComponent extends StatelessWidget {
         ],
       ),
     ).onTap(() {
-      RFHotelDescriptionScreen(hotelData: hotelData).launch(context);
+      // RFHotelDescriptionScreen(hotelData: tourListData.id).launch(context);
     },
         splashColor: Colors.transparent,
         hoverColor: Colors.transparent,
