@@ -131,7 +131,7 @@ class TourFlows {
   double? longitude;
   double? latitude;
   String? arrivalTime;
-  Null? description;
+  String? description;
 
   TourFlows(
       {this.id,

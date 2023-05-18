@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
@@ -37,8 +35,7 @@ class _WarningSettingScreenState extends State<WarningSettingScreen> {
           });
         },
       ).paddingSymmetric(horizontal: 16, vertical: 24),
-      appBar: commonAppBarWidget(context,
-          title: 'Warning Setting', roundCornerShape: true, appBarHeight: 80),
+      appBar: commonAppBarWidget(context, title: 'App Bar'),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child: Column(

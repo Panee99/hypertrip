@@ -175,7 +175,7 @@ class AppRepository {
 
   Future<ProfileResponse>? getUserProfile(String token) async {
     var authResponse = await NetworkUtility.fetchUrl(
-        Uri.parse('https://dotnet-travelers.fly.dev/accounts/self/profile'),
+        Uri.parse('https://dotnet-travelers.fly.dev/users/self/profile'),
         headers: {
           'Authorization': '${token.toString()}',
           'Accept': 'application/json',
@@ -251,6 +251,21 @@ class AppRepository {
     return null;
   }
 
+<<<<<<< Updated upstream
+=======
+  Future<TourListResponse> getTourList() async {
+    var response = await NetworkUtility.post(
+        Uri.parse('https://dotnet-travelers.fly.dev/tours/filter'),
+        headers: {
+          // 'Authorization': '${token}',
+          'accept': 'application/json',
+          'Content-Type': 'application/json-patch+json',
+        },
+        body: jsonEncode({'page': '1', 'size': '10'}));
+    return TourListResponse.fromJson(jsonDecode(response!));
+  }
+
+>>>>>>> Stashed changes
   Future<List<JoinedTourResponse>?> getJoinedTour(
       String travelerId, String token) async {
     var response = await NetworkUtility.fetchUrl(
@@ -290,29 +305,29 @@ class GoogleRepository {
     }
   }
 
-  Future<GooglePlaceDetailResponse?> getPlaceDetail(String placeId) async {
-    var url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${apiKey}');
-    var response = await NetworkUtility.fetchUrl(url);
-    if (response != null) {
-      return GooglePlaceDetailResponse.fromJson(
-          jsonDecode(response.toString()));
-    } else {
-      return null;
-    }
-  }
+  // Future<GooglePlaceDetailResponse?> getPlaceDetail(String placeId) async {
+  //   var url = Uri.parse(
+  //       'https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${apiKey}');
+  //   var response = await NetworkUtility.fetchUrl(url);
+  //   if (response != null) {
+  //     return GooglePlaceDetailResponse.fromJson(
+  //         jsonDecode(response.toString()));
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
-  Future<Widget> getPlacePhoto(String photoReference) async {
-    var url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/photo?&photoreference=${photoReference}&key=${apiKey}');
+  // Future<Widget> getPlacePhoto(String photoReference) async {
+  //   var url = Uri.parse(
+  //       'https://maps.googleapis.com/maps/api/place/photo?&photoreference=${photoReference}&key=${apiKey}');
 
-    var response = await http.get(url);
+  //   var response = await http.get(url);
 
-    final bytes = Uint8List.fromList(response.bodyBytes);
-    final image = Image.memory(bytes);
-    return image;
-    // Use the image in your app
-  }
+  //   final bytes = Uint8List.fromList(response.bodyBytes);
+  //   final image = Image.memory(bytes);
+  //   return image;
+  //   // Use the image in your app
+  // }
 
   Future<List<LatLng>> getDirection(LatLng startPoint, LatLng endPoint) async {
     var url = Uri.parse(

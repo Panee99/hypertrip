@@ -13,7 +13,12 @@ class RFNotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< Updated upstream
       appBar: commonAppBarWidget(context, showLeadingIcon: false, title: 'Notifications', roundCornerShape: true, appBarHeight: 80),
+=======
+      appBar:
+          commonAppBarWidget(context, title: 'App Bar', showLeadingIcon: false),
+>>>>>>> Stashed changes
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

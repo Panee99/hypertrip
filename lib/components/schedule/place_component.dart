@@ -22,8 +22,8 @@ class _LocationComponentState extends State<LocationComponent> {
   @override
   void initState() {
     super.initState();
-    placeDetail = getPlaceDetail();
-    getPlacePhoto();
+    // placeDetail = getPlaceDetail();
+    // getPlacePhoto();
   }
 
   Future<GoogleSearchPlaceResponse?> getPlaces() async {
@@ -36,29 +36,29 @@ class _LocationComponentState extends State<LocationComponent> {
     }
   }
 
-  Future<GooglePlaceDetailResponse?> getPlaceDetail() async {
-    final locationDetail = await GoogleRepository().getPlaceDetail(
-        getPlaces().then((place) => place!.results!.first.placeId).toString());
-    if (locationDetail != null) {
-      return locationDetail;
-    } else {
-      return null;
-    }
-  }
+  // Future<GooglePlaceDetailResponse?> getPlaceDetail() async {
+  //   final locationDetail = await GoogleRepository().getPlaceDetail(
+  //       getPlaces().then((place) => place!.results!.first.placeId).toString());
+  //   if (locationDetail != null) {
+  //     return locationDetail;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
-  void getPlacePhoto() async {
-    var photos = getPlaceDetail().then((detail) => detail!.result!.photos);
-    if (await photos.then((value) => value!.isNotEmpty)) {
-      photos.then((photos) => photos!.forEach((photo) {
-            photoList.add(GoogleRepository()
-                .getPlacePhoto(photo.photoReference.toString()));
-          }));
-    }
-    // getPlaceDetail().then((detail) => detail!.result!.photos!.forEach((photo) {
-    //       photos.add(GoogleRepository()
-    //           .getPlacePhoto(photo.photoReference.toString()));
-    //     }));
-  }
+  // void getPlacePhoto() async {
+  //   var photos = getPlaceDetail().then((detail) => detail!.result!.photos);
+  //   if (await photos.then((value) => value!.isNotEmpty)) {
+  //     photos.then((photos) => photos!.forEach((photo) {
+  //           photoList.add(GoogleRepository()
+  //               .getPlacePhoto(photo.photoReference.toString()));
+  //         }));
+  //   }
+  //   getPlaceDetail().then((detail) => detail!.result!.photos!.forEach((photo) {
+  //         photos.add(GoogleRepository()
+  //             .getPlacePhoto(photo.photoReference.toString()));
+  //       }));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -73,29 +73,29 @@ class _LocationComponentState extends State<LocationComponent> {
               //       ? context.width()
               //       : context.width() * 0.47 - 16,
               // ),
-              FutureBuilder<Widget>(
-                future: GoogleRepository().getPlacePhoto(getPlaceDetail()
-                    .then((value) => value!.result!.photos!.first)
-                    .toString()),
-                builder:
-                    (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SizedBox(
-                      height: context.height() * 0.5,
-                      child: Center(child: CircularProgressIndicator()),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'),
-                    );
-                  } else if (snapshot.hasData) {
-                    Widget photoWidget = snapshot.data!;
-                    return photoWidget;
-                  } else {
-                    return SizedBox.shrink();
-                  }
-                },
-              ),
+              // FutureBuilder<Widget>(
+              //   future: GoogleRepository().getPlacePhoto(getPlaceDetail()
+              //       .then((value) => value!.result!.photos!.first)
+              //       .toString()),
+              //   builder:
+              //       (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+              //     if (snapshot.connectionState == ConnectionState.waiting) {
+              //       return SizedBox(
+              //         height: context.height() * 0.5,
+              //         child: Center(child: CircularProgressIndicator()),
+              //       );
+              //     } else if (snapshot.hasError) {
+              //       return Center(
+              //         child: Text('Error: ${snapshot.error}'),
+              //       );
+              //     } else if (snapshot.hasData) {
+              //       Widget photoWidget = snapshot.data!;
+              //       return photoWidget;
+              //     } else {
+              //       return SizedBox.shrink();
+              //     }
+              //   },
+              // ),
               Container(
                 height: 170,
                 width: widget.locationWidth.validate()

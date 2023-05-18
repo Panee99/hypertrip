@@ -309,19 +309,18 @@ Widget viewAllWidget({String? title, String? subTitle, Function? onTap}) {
 PreferredSizeWidget commonAppBarWidget(
   BuildContext context, {
   String? title,
-  double? appBarHeight,
   bool? showLeadingIcon,
   bool? bottomSheet,
   bool? roundCornerShape,
   Widget? action,
 }) {
   return PreferredSize(
-    preferredSize: Size.fromHeight(appBarHeight ?? 100.0),
+    preferredSize: Size.fromHeight(appBarHeight),
     child: AppBar(
       title: Text(title!, style: boldTextStyle(color: whiteColor, size: 20)),
-      systemOverlayStyle:
-          SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
-      backgroundColor: rf_primaryColor,
+      systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.dark, statusBarColor: whiteColor),
+      backgroundColor: whiteColor,
       centerTitle: true,
       leading: showLeadingIcon.validate()
           ? SizedBox()
@@ -329,7 +328,7 @@ PreferredSizeWidget commonAppBarWidget(
               onPressed: () {
                 finish(context);
               },
-              icon: Icon(Icons.arrow_back_ios_new, color: whiteColor, size: 18),
+              icon: Icon(Icons.arrow_back_ios_new, color: blackColor, size: 18),
               color: rf_primaryColor,
             ),
       elevation: 0,

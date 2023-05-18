@@ -20,7 +20,6 @@ class RFSearchDetailScreen extends StatelessWidget {
       appBar: commonAppBarWidget(
         context,
         showLeadingIcon: false,
-        appBarHeight: 50,
         title: "Search Detail",
         roundCornerShape: false,
       ),

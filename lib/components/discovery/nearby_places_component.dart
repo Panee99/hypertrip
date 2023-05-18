@@ -36,7 +36,6 @@ class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
       }
       if (state is PlaceLoadedState) {
         NearbyPlacesResponse places = state.places;
-        print('${places}');
         return Center(
           child: ListView.builder(
             shrinkWrap: true,

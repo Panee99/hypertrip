@@ -27,10 +27,6 @@ class MapFragment extends StatefulWidget {
 class _MapFragmentState extends State<MapFragment> {
   late GoogleMapController mapController;
 
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
   TextEditingController place = TextEditingController();
 
   FocusNode placeFocusNode = FocusNode();

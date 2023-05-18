@@ -11,7 +11,12 @@ class RFRecentUpdateViewAllScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< Updated upstream
       appBar: commonAppBarWidget(context, title: "Recent Updates", appBarHeight: 80, showLeadingIcon: false, roundCornerShape: true),
+=======
+      appBar:
+          commonAppBarWidget(context, title: 'App Bar', showLeadingIcon: false),
+>>>>>>> Stashed changes
       body: ListView.builder(
         padding: EdgeInsets.only(right: 16, left: 16, bottom: 16, top: 24),
         shrinkWrap: true,

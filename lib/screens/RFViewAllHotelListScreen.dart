@@ -10,6 +10,7 @@ class RFViewAllHotelListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< Updated upstream
       appBar: commonAppBarWidget(context,
           title: "Tour List",
           appBarHeight: 80,
@@ -23,6 +24,34 @@ class RFViewAllHotelListScreen extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           RoomFinderModel data = hotelListData[index % hotelListData.length];
           return RFHotelListComponent(hotelData: data);
+=======
+      appBar:
+          commonAppBarWidget(context, title: 'App Bar', showLeadingIcon: false),
+      body: FutureBuilder<TourListResponse>(
+        future: listTour,
+        builder:
+            (BuildContext context, AsyncSnapshot<TourListResponse> snapshot) {
+          if (!snapshot.hasData) {
+            return SizedBox(
+              // height: context.height() * 0.5,
+              child: Center(child: CircularProgressIndicator()),
+            );
+          } else {
+            final tours = snapshot.data!;
+            return Center(
+                child: ListView.builder(
+                    itemCount: tours.values!.length,
+                    itemBuilder: (context, index) {
+                      print(tours.values![index].code);
+                      return Column(
+                        children: [
+                          RFHotelListComponent(
+                              tourListData: tours.values![index]),
+                        ],
+                      );
+                    }));
+          }
+>>>>>>> Stashed changes
         },
       ),
     );

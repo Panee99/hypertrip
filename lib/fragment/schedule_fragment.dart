@@ -6,7 +6,10 @@ import 'package:room_finder_flutter/components/schedule/place_component.dart';
 import 'package:room_finder_flutter/components/schedule/location_tracking_component.dart';
 import 'package:room_finder_flutter/components/schedule/recent_tour_component.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
+<<<<<<< Updated upstream
 import 'package:room_finder_flutter/models/RoomFinderModel.dart';
+=======
+>>>>>>> Stashed changes
 import 'package:room_finder_flutter/models/tour/joined_tour_response.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
@@ -20,9 +23,12 @@ class ScheduleFragment extends StatefulWidget {
 }
 
 class _ScheduleFragmentState extends State<ScheduleFragment> {
+<<<<<<< Updated upstream
   List<RoomFinderModel> categoryData = categoryList();
   List<RoomFinderModel> hotelListData = hotelList();
   List<RoomFinderModel> locationListData = locationList();
+=======
+>>>>>>> Stashed changes
   //List<RoomFinderModel> recentUpdateData = recentUpdateList();
   late Future<TourDetailResponse> tourDetail;
   late AuthProvider authProvider;
@@ -35,7 +41,6 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
     authProvider = context.read<AuthProvider>();
     super.initState();
     tourDetail = getTourDetail(authProvider.token);
-    print('Schedule Fragment');
     init();
   }
 
@@ -135,49 +140,49 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
                     )
                   ],
                 ),
-                subWidget: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Recent Tour', style: boldTextStyle()),
-                      ],
-                    ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: RecentTourComponent(recentTour: tour),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Schedule', style: boldTextStyle()),
-                      ],
-                    ).paddingOnly(left: 16, right: 16, bottom: 8),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text('Locations', style: boldTextStyle()),
-                    //     TextButton(
-                    //       onPressed: () {
-                    //         RFLocationViewAllScreen(locationWidth: true)
-                    //             .launch(context);
-                    //       },
-                    //       child: Text('View All',
-                    //           style: secondaryTextStyle(
-                    //               decoration: TextDecoration.underline)),
-                    //     )
-                    //   ],
-                    // ).paddingOnly(left: 16, right: 16, bottom: 8),
-                    // Wrap(
-                    //   spacing: 16,
-                    //   runSpacing: 16,
-                    //   children: List.generate(tour.tourFlows!.length, (index) {
-                    //     return LocationComponent(
-                    //         tourFlow: tour.tourFlows![index]);
-                    //   }),
-                    // ),
-                  ],
-                ),
+                // subWidget: Column(
+                //   children: [
+                //     Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         Text('Recent Tour', style: boldTextStyle()),
+                //       ],
+                //     ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
+                //     Padding(
+                //       padding: const EdgeInsets.symmetric(horizontal: 16),
+                //       child: RecentTourComponent(recentTour: tour),
+                //     ),
+                //     Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         Text('Schedule', style: boldTextStyle()),
+                //       ],
+                //     ).paddingOnly(left: 16, right: 16, bottom: 8),
+                //     // Row(
+                //     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     //   children: [
+                //     //     Text('Locations', style: boldTextStyle()),
+                //     //     TextButton(
+                //     //       onPressed: () {
+                //     //         RFLocationViewAllScreen(locationWidth: true)
+                //     //             .launch(context);
+                //     //       },
+                //     //       child: Text('View All',
+                //     //           style: secondaryTextStyle(
+                //     //               decoration: TextDecoration.underline)),
+                //     //     )
+                //     //   ],
+                //     // ).paddingOnly(left: 16, right: 16, bottom: 8),
+                //     // Wrap(
+                //     //   spacing: 16,
+                //     //   runSpacing: 16,
+                //     //   children: List.generate(tour.tourFlows!.length, (index) {
+                //     //     return LocationComponent(
+                //     //         tourFlow: tour.tourFlows![index]);
+                //     //   }),
+                //     // ),
+                //   ],
+                // ),
               ),
             );
           }

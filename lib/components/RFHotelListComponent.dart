@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:nb_utils/nb_utils.dart';
+<<<<<<< Updated upstream
 import 'package:room_finder_flutter/models/RoomFinderModel.dart';
 import 'package:room_finder_flutter/screens/RFHotelDescriptionScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
@@ -8,6 +8,15 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 class RFHotelListComponent extends StatelessWidget {
   final RoomFinderModel? hotelData;
+=======
+import 'package:room_finder_flutter/screens/RFHotelDescriptionScreen.dart';
+import 'package:room_finder_flutter/utils/RFColors.dart';
+import 'package:room_finder_flutter/utils/RFWidget.dart';
+import '../models/tour/tour_list_response.dart';
+
+class RFHotelListComponent extends StatelessWidget {
+  final TourListModels? tourListData;
+>>>>>>> Stashed changes
   final bool? showHeight;
 
   RFHotelListComponent({this.hotelData, this.showHeight});
@@ -70,7 +79,15 @@ class RFHotelListComponent extends StatelessWidget {
         ],
       ),
     ).onTap(() {
+<<<<<<< Updated upstream
       RFHotelDescriptionScreen(hotelData: hotelData).launch(context);
     }, splashColor: Colors.transparent, hoverColor: Colors.transparent, highlightColor: Colors.transparent);
+=======
+      RFHotelDescriptionScreen(tourId: tourListData!.id!).launch(context);
+    },
+        splashColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        highlightColor: Colors.transparent);
+>>>>>>> Stashed changes
   }
 }

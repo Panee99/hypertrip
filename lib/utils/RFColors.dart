@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const rf_primaryColor = Color(0xFF6DA9E4);
+const rf_primaryColor = Color(0xFF3E99C9);
 const rf_splashBgColor = Color(0xFFAFD3E2);
 const rf_categoryBgColor = Color(0xFFF3F3F3);
 const rf_selectedCategoryBgColor = Color(0xFFE8ECF7);
