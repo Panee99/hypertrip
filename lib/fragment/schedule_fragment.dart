@@ -6,10 +6,6 @@ import 'package:room_finder_flutter/components/schedule/place_component.dart';
 import 'package:room_finder_flutter/components/schedule/location_tracking_component.dart';
 import 'package:room_finder_flutter/components/schedule/recent_tour_component.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
-<<<<<<< Updated upstream
-import 'package:room_finder_flutter/models/RoomFinderModel.dart';
-=======
->>>>>>> Stashed changes
 import 'package:room_finder_flutter/models/tour/joined_tour_response.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
@@ -23,12 +19,6 @@ class ScheduleFragment extends StatefulWidget {
 }
 
 class _ScheduleFragmentState extends State<ScheduleFragment> {
-<<<<<<< Updated upstream
-  List<RoomFinderModel> categoryData = categoryList();
-  List<RoomFinderModel> hotelListData = hotelList();
-  List<RoomFinderModel> locationListData = locationList();
-=======
->>>>>>> Stashed changes
   //List<RoomFinderModel> recentUpdateData = recentUpdateList();
   late Future<TourDetailResponse> tourDetail;
   late AuthProvider authProvider;

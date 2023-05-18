@@ -11,19 +11,17 @@ class RFHelpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< Updated upstream
-      appBar: commonAppBarWidget(context, showLeadingIcon: false, title: 'Help', roundCornerShape: true, appBarHeight: 80),
-=======
       appBar:
           commonAppBarWidget(context, title: 'App Bar', showLeadingIcon: false),
->>>>>>> Stashed changes
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Frequent Asked Questions', style: boldTextStyle(size: 18)).paddingOnly(left: 16, top: 24),
+            Text('Frequent Asked Questions', style: boldTextStyle(size: 18))
+                .paddingOnly(left: 16, top: 24),
             ListView.builder(
-              padding: EdgeInsets.only(right: 16, left: 16, bottom: 16, top: 24),
+              padding:
+                  EdgeInsets.only(right: 16, left: 16, bottom: 16, top: 24),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               scrollDirection: Axis.vertical,

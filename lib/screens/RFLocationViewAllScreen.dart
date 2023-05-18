@@ -13,12 +13,8 @@ class RFLocationViewAllScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< Updated upstream
-      appBar: commonAppBarWidget(context, title: "Locations", appBarHeight: 80, showLeadingIcon: false, roundCornerShape: true),
-=======
       appBar:
           commonAppBarWidget(context, title: 'App Bar', showLeadingIcon: false),
->>>>>>> Stashed changes
       body: SingleChildScrollView(
         padding: EdgeInsets.only(left: 16, right: 16, top: 24, bottom: 24),
         child: Wrap(
@@ -27,7 +23,10 @@ class RFLocationViewAllScreen extends StatelessWidget {
           children: List.generate(
             20,
             (index) {
-              return RFLocationComponent(locationData: locationListData[index % locationListData.length], locationWidth: locationWidth);
+              return RFLocationComponent(
+                  locationData:
+                      locationListData[index % locationListData.length],
+                  locationWidth: locationWidth);
             },
           ),
         ),

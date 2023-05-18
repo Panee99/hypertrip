@@ -15,29 +15,29 @@ class RFRecentlyViewedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< Updated upstream
-      appBar: commonAppBarWidget(context, showLeadingIcon: false, title: 'Recently Viewed', roundCornerShape: true, appBarHeight: 80),
-=======
       appBar:
           commonAppBarWidget(context, title: 'App Bar', showLeadingIcon: false),
->>>>>>> Stashed changes
       body: SingleChildScrollView(
         child: Column(
           children: [
             24.height,
-            ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              itemCount: hotelListData.length,
-              itemBuilder: (BuildContext context, int index) {
-                return RFHotelListComponent(hotelData: hotelListData[index], showHeight: true);
-              },
-            ),
+            // ListView.builder(
+            //   padding: EdgeInsets.symmetric(horizontal: 16),
+            //   shrinkWrap: true,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   scrollDirection: Axis.vertical,
+            //   itemCount: hotelListData.length,
+            //   itemBuilder: (BuildContext context, int index) {
+            //     return RFHotelListComponent(
+            //         hotelData: hotelListData[index], showHeight: true);
+            //   },
+            // ),
             Container(
               margin: EdgeInsets.all(16),
-              decoration: boxDecorationWithRoundedCorners(backgroundColor: appStore.isDarkModeOn ? scaffoldDarkColor : rf_selectedCategoryBgColor),
+              decoration: boxDecorationWithRoundedCorners(
+                  backgroundColor: appStore.isDarkModeOn
+                      ? scaffoldDarkColor
+                      : rf_selectedCategoryBgColor),
               padding: EdgeInsets.all(16),
               child: RFPremiumServiceComponent(),
             ),

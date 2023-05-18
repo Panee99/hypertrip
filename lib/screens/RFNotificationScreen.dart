@@ -7,18 +7,15 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 class RFNotificationScreen extends StatelessWidget {
   final List<RoomFinderModel> notificationData = notificationList();
-  final List<RoomFinderModel> yesterdayNotificationData = yesterdayNotificationList();
+  final List<RoomFinderModel> yesterdayNotificationData =
+      yesterdayNotificationList();
   final bool yesterdayList = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< Updated upstream
-      appBar: commonAppBarWidget(context, showLeadingIcon: false, title: 'Notifications', roundCornerShape: true, appBarHeight: 80),
-=======
       appBar:
           commonAppBarWidget(context, title: 'App Bar', showLeadingIcon: false),
->>>>>>> Stashed changes
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +24,9 @@ class RFNotificationScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Today', style: boldTextStyle(size: 18)),
-                TextButton(onPressed: () {}, child: Text('Mark all read', style: secondaryTextStyle())),
+                TextButton(
+                    onPressed: () {},
+                    child: Text('Mark all read', style: secondaryTextStyle())),
               ],
             ).paddingOnly(left: 16, right: 16, top: 16),
             ListView.builder(
@@ -45,9 +44,11 @@ class RFNotificationScreen extends StatelessWidget {
                 );
               },
             ),
-            Text('Yesterday', style: boldTextStyle(size: 18)).paddingOnly(left: 16),
+            Text('Yesterday', style: boldTextStyle(size: 18))
+                .paddingOnly(left: 16),
             ListView.builder(
-              padding: EdgeInsets.only(right: 16, left: 16, bottom: 16, top: 16),
+              padding:
+                  EdgeInsets.only(right: 16, left: 16, bottom: 16, top: 16),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               physics: NeverScrollableScrollPhysics(),

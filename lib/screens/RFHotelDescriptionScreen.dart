@@ -7,14 +7,9 @@ import 'package:room_finder_flutter/bloc/tour/tour_detail_bloc.dart';
 import 'package:room_finder_flutter/bloc/tour/tour_detail_event.dart';
 import 'package:room_finder_flutter/bloc/tour/tour_detail_state.dart';
 import 'package:room_finder_flutter/components/RFCongratulatedDialog.dart';
-<<<<<<< Updated upstream
-import 'package:room_finder_flutter/components/RFHotelDetailComponent.dart';
-import 'package:room_finder_flutter/models/RoomFinderModel.dart';
-=======
 import 'package:room_finder_flutter/components/tour/photo_dialog_component.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
->>>>>>> Stashed changes
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:flutter/material.dart' as Material;
@@ -23,16 +18,13 @@ import '../models/tour/tour_detail_response.dart';
 import '../utils/RFImages.dart';
 
 class RFHotelDescriptionScreen extends StatefulWidget {
-<<<<<<< Updated upstream
-  final RoomFinderModel? hotelData;
-=======
   final String tourId;
->>>>>>> Stashed changes
 
   RFHotelDescriptionScreen({required this.tourId});
 
   @override
-  _RFHotelDescriptionScreenState createState() => _RFHotelDescriptionScreenState();
+  _RFHotelDescriptionScreenState createState() =>
+      _RFHotelDescriptionScreenState();
 }
 
 class _RFHotelDescriptionScreenState extends State<RFHotelDescriptionScreen> {
@@ -46,16 +38,12 @@ class _RFHotelDescriptionScreenState extends State<RFHotelDescriptionScreen> {
   }
 
   void init() async {
-<<<<<<< Updated upstream
-    setStatusBarColor(Colors.transparent, statusBarIconBrightness: Brightness.light);
-=======
     setStatusBarColor(Colors.transparent,
         statusBarIconBrightness: Brightness.light);
     authProvider = context.read<AuthProvider>();
     loadTourDetailEvent =
         LoadTourDetailEvent(widget.tourId, authProvider.token);
     tourDetailBloc.add(loadTourDetailEvent);
->>>>>>> Stashed changes
   }
 
   @override
@@ -65,73 +53,15 @@ class _RFHotelDescriptionScreenState extends State<RFHotelDescriptionScreen> {
 
   @override
   void dispose() {
-<<<<<<< Updated upstream
-    setStatusBarColor(Colors.transparent, statusBarIconBrightness: Brightness.light);
-=======
     tourDetailBloc.close();
     setStatusBarColor(Colors.transparent,
         statusBarIconBrightness: Brightness.light);
->>>>>>> Stashed changes
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< Updated upstream
-      bottomNavigationBar: AppButton(
-        color: rf_primaryColor,
-        elevation: 0,
-        child: Text('Book Now', style: boldTextStyle(color: white)),
-        width: context.width(),
-        onTap: () {
-          showInDialog(context, barrierDismissible: true, builder: (context) {
-            return RFCongratulatedDialog();
-          });
-        },
-      ).paddingSymmetric(horizontal: 16, vertical: 24),
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios_new, color: white, size: 18),
-                onPressed: () {
-                  finish(context);
-                },
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)),
-              ),
-              backgroundColor: rf_primaryColor,
-              pinned: true,
-              elevation: 2,
-              expandedHeight: 300,
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.parallax,
-                titlePadding: EdgeInsets.all(10),
-                centerTitle: true,
-                background: Stack(
-                  children: [
-                    rfCommonCachedNetworkImage(
-                      widget.hotelData!.img.validate(),
-                      fit: BoxFit.cover,
-                      width: context.width(),
-                      height: 350,
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(widget.hotelData!.roomCategoryName.validate(), style: boldTextStyle(color: white, size: 18)),
-                          8.height,
-                          Row(
-                            children: [
-                              Text("${widget.hotelData!.price.validate()} ", style: boldTextStyle(color: white)),
-                              Text(widget.hotelData!.rentDuration.validate(), style: secondaryTextStyle(color: white)),
-=======
         body: RepositoryProvider(
       create: (context) => AppRepository(),
       child: BlocProvider(
@@ -196,7 +126,6 @@ class _RFHotelDescriptionScreenState extends State<RFHotelDescriptionScreen> {
                                 width: context.width(),
                                 height: 288,
                               ),
->>>>>>> Stashed changes
                             ],
                           ),
                         ),
