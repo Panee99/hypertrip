@@ -176,7 +176,7 @@ class AppRepository {
 
   Future<ProfileResponse>? getUserProfile(String token) async {
     var authResponse = await NetworkUtility.fetchUrl(
-        Uri.parse('https://dotnet-travelers.fly.dev/accounts/self/profile'),
+        Uri.parse('https://dotnet-travelers.fly.dev/users/self/profile'),
         headers: {
           'Authorization': '${token.toString()}',
           'Accept': 'application/json',
