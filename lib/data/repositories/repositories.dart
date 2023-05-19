@@ -19,6 +19,7 @@ import 'package:room_finder_flutter/models/user/avatar_response.dart';
 import '../../models/discovery/nearby_response.dart';
 import '../../models/discovery/place_details_response.dart';
 import '../../models/discovery/place_photo_response.dart';
+import '../../models/tour/tour_list_response.dart';
 import '../../models/user/sign_in_model.dart';
 import '../../utils/QueryString.dart';
 import '../../utils/network.dart';
@@ -181,6 +182,7 @@ class AppRepository {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         });
+    print(authResponse);
     return ProfileResponse.fromJson(jsonDecode(authResponse!));
   }
 
@@ -251,8 +253,6 @@ class AppRepository {
     return null;
   }
 
-<<<<<<< Updated upstream
-=======
   Future<TourListResponse> getTourList() async {
     var response = await NetworkUtility.post(
         Uri.parse('https://dotnet-travelers.fly.dev/tours/filter'),
@@ -262,10 +262,20 @@ class AppRepository {
           'Content-Type': 'application/json-patch+json',
         },
         body: jsonEncode({'page': '1', 'size': '10'}));
+    print("Tour List Respose:" +
+        TourListResponse.fromJson(jsonDecode(response!))
+            .values!
+            .length
+            .toString());
+    // List<TourListResponse> parseTour(String responseBody) {
+    //   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    //   return parsed
+    //       .map<TourListResponse>((json) => TourListResponse.fromJson(json))
+    //       .toList();
+    // }
     return TourListResponse.fromJson(jsonDecode(response!));
   }
 
->>>>>>> Stashed changes
   Future<List<JoinedTourResponse>?> getJoinedTour(
       String travelerId, String token) async {
     var response = await NetworkUtility.fetchUrl(
@@ -305,29 +315,29 @@ class GoogleRepository {
     }
   }
 
-  // Future<GooglePlaceDetailResponse?> getPlaceDetail(String placeId) async {
-  //   var url = Uri.parse(
-  //       'https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${apiKey}');
-  //   var response = await NetworkUtility.fetchUrl(url);
-  //   if (response != null) {
-  //     return GooglePlaceDetailResponse.fromJson(
-  //         jsonDecode(response.toString()));
-  //   } else {
-  //     return null;
-  //   }
-  // }
+  Future<GooglePlaceDetailResponse?> getPlaceDetail(String placeId) async {
+    var url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${apiKey}');
+    var response = await NetworkUtility.fetchUrl(url);
+    if (response != null) {
+      return GooglePlaceDetailResponse.fromJson(
+          jsonDecode(response.toString()));
+    } else {
+      return null;
+    }
+  }
 
-  // Future<Widget> getPlacePhoto(String photoReference) async {
-  //   var url = Uri.parse(
-  //       'https://maps.googleapis.com/maps/api/place/photo?&photoreference=${photoReference}&key=${apiKey}');
+  Future<Widget> getPlacePhoto(String photoReference) async {
+    var url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/photo?&photoreference=${photoReference}&key=${apiKey}');
 
-  //   var response = await http.get(url);
+    var response = await http.get(url);
 
-  //   final bytes = Uint8List.fromList(response.bodyBytes);
-  //   final image = Image.memory(bytes);
-  //   return image;
-  //   // Use the image in your app
-  // }
+    final bytes = Uint8List.fromList(response.bodyBytes);
+    final image = Image.memory(bytes);
+    return image;
+    // Use the image in your app
+  }
 
   Future<List<LatLng>> getDirection(LatLng startPoint, LatLng endPoint) async {
     var url = Uri.parse(
@@ -339,5 +349,49 @@ class GoogleRepository {
         .decodePolyline(json['routes'][0]['overview_polyline']['points'])
         .cast<LatLng>();
     return routeCoords;
+  }
+
+  Future<TourListResponse> getTourList() async {
+    var response = await NetworkUtility.post(
+        Uri.parse('https://dotnet-travelers.fly.dev/tours/filter'),
+        headers: {
+          // 'Authorization': '${token}',
+          'accept': 'application/json',
+          'Content-Type': 'application/json-patch+json',
+        },
+        body: jsonEncode({'page': '1', 'size': '10'}));
+    print("Tour List Respose:" +
+        TourListResponse.fromJson(jsonDecode(response!))
+            .values!
+            .length
+            .toString());
+    // List<TourListResponse> parseTour(String responseBody) {
+    //   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    //   return parsed
+    //       .map<TourListResponse>((json) => TourListResponse.fromJson(json))
+    //       .toList();
+    // }
+    return TourListResponse.fromJson(jsonDecode(response!));
+  }
+
+  Future<List<TourDetailResponse>> getTourDetails(String id) async {
+    var response = await NetworkUtility.post(
+      Uri.parse('https://dotnet-travelers.fly.dev/tours/${id}/details'),
+      headers: {
+        // 'Authorization': '${token}',
+        'accept': 'application/json',
+      },
+    );
+    List<TourDetailResponse> parseTour(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<TourDetailResponse>((json) => TourDetailResponse.fromJson(json))
+          .toList();
+    }
+
+    parseTour(response.toString()).forEach((tour) {
+      print(tour.id);
+    });
+    return parseTour(response.toString());
   }
 }

@@ -3,7 +3,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
-import 'package:room_finder_flutter/models/RoomFinderModel.dart';
+import 'package:room_finder_flutter/models/TourFinderModel.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
 import 'package:room_finder_flutter/screens/account/EditProfileScreen.dart';
@@ -18,7 +18,7 @@ class RFSettingsFragment extends StatefulWidget {
 }
 
 class _RFSettingsFragmentState extends State<RFSettingsFragment> {
-  final List<RoomFinderModel> settingData = settingList();
+  final List<TourFinderModel> settingData = settingList();
 
   @override
   void initState() {
@@ -217,7 +217,7 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
               scrollDirection: Axis.vertical,
               itemCount: settingData.length,
               itemBuilder: (BuildContext context, int index) {
-                RoomFinderModel data = settingData[index];
+                TourFinderModel data = settingData[index];
                 return Container(
                   margin: EdgeInsets.only(right: 24),
                   child: SettingItemWidget(

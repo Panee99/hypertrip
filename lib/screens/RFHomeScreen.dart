@@ -11,6 +11,7 @@ import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 import '../fragment/discovery/map_fragment.dart';
+import 'RFHomePageFragment.dart';
 
 class RFHomeScreen extends StatefulWidget {
   @override
@@ -21,7 +22,8 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
   int _selectedIndex = 0;
 
   var _pages = [
-    RFHomeFragment(),
+    RFHomePageFragment(),
+    // RFHomeFragment(),
     ScheduleFragment(),
     MapFragment(),
     // RFSettingsFragment(),
