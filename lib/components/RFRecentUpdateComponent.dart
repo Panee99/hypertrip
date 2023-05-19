@@ -81,7 +81,7 @@ class RFRecentUpdateComponent extends StatelessWidget {
         ],
       ),
     ).onTap(() {
-      RFHotelDescriptionScreen(hotelData: recentUpdateData).launch(context);
+      //RFHotelDescriptionScreen(hotelData: recentUpdateData).launch(context);
     },
         splashColor: Colors.transparent,
         hoverColor: Colors.transparent,
