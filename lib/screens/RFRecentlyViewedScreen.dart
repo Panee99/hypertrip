@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/components/RFHotelListComponent.dart';
 import 'package:room_finder_flutter/components/RFPremiumServiceComponent.dart';
 import 'package:room_finder_flutter/main.dart';
-import 'package:room_finder_flutter/models/RoomFinderModel.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
-import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 class RFRecentlyViewedScreen extends StatelessWidget {
-  final List<RoomFinderModel> hotelListData = hotelList();
   final bool showHeight = false;
 
   @override
