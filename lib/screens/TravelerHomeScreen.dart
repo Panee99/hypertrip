@@ -13,12 +13,12 @@ import 'dart:math' as math;
 import '../fragment/RFHomeFragment.dart';
 import '../fragment/discovery/discovery_fragment.dart';
 
-class RFHomeScreen extends StatefulWidget {
+class TravelerHomeScreen extends StatefulWidget {
   @override
-  _RFHomeScreenState createState() => _RFHomeScreenState();
+  _TravelerHomeScreenState createState() => _TravelerHomeScreenState();
 }
 
-class _RFHomeScreenState extends State<RFHomeScreen> {
+class _TravelerHomeScreenState extends State<TravelerHomeScreen> {
   int _selectedIndex = 0;
 
   var _pages = [
@@ -109,7 +109,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
+      extendBody: false,
       bottomNavigationBar: _bottomTab(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -122,7 +122,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
           ),
           onPressed: () {
             setState(() {
-              _selectedIndex = 1;
+              _selectedIndex = 2;
             });
           }),
       body: IndexedStack(

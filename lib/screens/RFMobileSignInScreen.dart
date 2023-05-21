@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
@@ -11,7 +12,8 @@ import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:room_finder_flutter/utils/codePicker/country_code_picker.dart';
 
-import 'RFHomeScreen.dart';
+import '../provider/AuthProvider.dart';
+import 'TravelerHomeScreen.dart';
 
 class RFMobileSignIn extends StatefulWidget {
   @override
@@ -22,7 +24,8 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
   String dialCodeDigits = '+84';
   String phoneNumber = '';
   final phoneController = TextEditingController();
-  final otpController = TextEditingController();
+  final passwordController = TextEditingController();
+  FocusNode phoneFocusNode = FocusNode();
   String _verificationId = '';
   bool statusBtn = false;
 
@@ -34,7 +37,8 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
   }
 
   void init() async {
-    // setStatusBarColor(rf_primaryColor, statusBarIconBrightness: Brightness.light);
+    setStatusBarColor(rf_primaryColor,
+        statusBarIconBrightness: Brightness.light);
   }
 
   @override
@@ -68,59 +72,73 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
   //     },
   //     codeSent: (String vID, int? resentToken) {
   //       setState(() {
-  //         verificationID = vID;
+  //         _verificationId = vID;
   //       });
   //     },
   //     codeAutoRetrievalTimeout: (String vID) {
   //       setState(() {
-  //         verificationID = vID;
+  //         _verificationId = vID;
   //       });
   //     },
   //     timeout: Duration(seconds: 60),
   //   );
   // }
 
-  sentOTP() async {
-    try {
-      await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: '${this.dialCodeDigits + phoneController.text}',
-        timeout: Duration(seconds: 60),
-        verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
-          await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
-          // await FirebaseAuth.instance.signInWithCredential(credential);
-          // Navigator.of(context).pushReplacementNamed('/home');
-          print(
-              'Phone number automatically verified and user signed in: ${FirebaseAuth.instance.currentUser?.uid}');
-        },
-        verificationFailed: (FirebaseAuthException authException) {
-          print(
-              'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}. Phone number: ${this.dialCodeDigits + phoneController.text}');
-        },
-        codeSent: (verificationId, [forceResendingToken]) {
-          print('Please check your phone for the verification code.');
-          _verificationId = verificationId;
-        },
-        codeAutoRetrievalTimeout: (verificationId) {
-          print("verification code: " + verificationId);
-          _verificationId = verificationId;
-        },
-      );
-    } catch (e) {
-      print("Failed to Verify Phone Number: ${e}");
-    }
-  }
+  // sentOTP() async {
+  //   try {
+  //     await FirebaseAuth.instance.verifyPhoneNumber(
+  //       phoneNumber: '${this.dialCodeDigits + phoneController.text}',
+  //       timeout: Duration(seconds: 60),
+  //       verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
+  //         await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
+  //         // await FirebaseAuth.instance.signInWithCredential(credential);
+  //         // Navigator.of(context).pushReplacementNamed('/home');
+  //         print(
+  //             'Phone number automatically verified and user signed in: ${FirebaseAuth.instance.currentUser?.uid}');
+  //       },
+  //       verificationFailed: (FirebaseAuthException authException) {
+  //         print(
+  //             'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}. Phone number: ${this.dialCodeDigits + phoneController.text}');
+  //       },
+  //       codeSent: (verificationId, [forceResendingToken]) {
+  //         print('Please check your phone for the verification code.');
+  //         _verificationId = verificationId;
+  //       },
+  //       codeAutoRetrievalTimeout: (verificationId) {
+  //         print("verification code: " + verificationId);
+  //         _verificationId = verificationId;
+  //       },
+  //     );
+  //   } catch (e) {
+  //     print("Failed to Verify Phone Number: ${e}");
+  //   }
+  // }
 
-  verifyPhoneNum() async {
-    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-      verificationId: _verificationId,
-      smsCode: otpController.text,
-    );
-    await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
-    RFHomeScreen().launch(context);
-  }
+  // verifyPhoneNum() async {
+  //   PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+  //     verificationId: _verificationId,
+  //     smsCode: passwordController.text,
+  //   );
+  //   await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
+  //   RFHomeScreen().launch(context);
+  // }
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    switch (authProvider.status) {
+      case Status.authenticateError:
+        Fluttertoast.showToast(msg: "Sign in fail");
+        break;
+      case Status.authenticateCanceled:
+        Fluttertoast.showToast(msg: "Sign in canceled");
+        break;
+      case Status.authenticated:
+        Fluttertoast.showToast(msg: "Sign in success");
+        break;
+      default:
+        break;
+    }
     return SafeArea(
       child: Scaffold(
         body: RFCommonAppComponent(
@@ -129,14 +147,14 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
           cardWidget: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Mobile Number', style: boldTextStyle(size: 18)),
-              16.height,
-              Text(
-                'Please enter your phone number. We will send you 4-digit code to verify your account.',
-                style: primaryTextStyle(),
-                maxLines: 4,
-                textAlign: TextAlign.center,
-              ).flexible(),
+              // Text('Mobile Number', style: boldTextStyle(size: 18)),
+              // 16.height,
+              // Text(
+              //   'Please enter your phone number. We will send you 4-digit code to verify your account.',
+              //   style: primaryTextStyle(),
+              //   maxLines: 4,
+              //   textAlign: TextAlign.center,
+              // ).flexible(),
               16.height,
               Container(
                 padding: EdgeInsets.only(left: 15),
@@ -169,6 +187,7 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
                     ),
                     TextField(
                       controller: phoneController,
+                      focusNode: phoneFocusNode,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                           border: InputBorder.none, hintText: "Phone Number"),
@@ -183,48 +202,61 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
               ),
               16.height,
               AppTextField(
-                controller: otpController,
+                controller: passwordController,
                 textFieldType: TextFieldType.NUMBER,
                 decoration: rfInputDecoration(
-                  lableText: "OTP",
+                  lableText: "Password",
                   showLableText: true,
-                  suffixIcon: Container(
-                    padding: EdgeInsets.all(2),
-                    decoration: boxDecorationWithRoundedCorners(
-                        boxShape: BoxShape.circle,
-                        backgroundColor: rf_rattingBgColor),
-                    child: Icon(Icons.done, color: Colors.white, size: 14),
-                  ),
+                  // suffixIcon: Container(
+                  //   padding: EdgeInsets.all(2),
+                  //   decoration: boxDecorationWithRoundedCorners(
+                  //       boxShape: BoxShape.circle,
+                  //       backgroundColor: rf_rattingBgColor),
+                  //   child: Icon(Icons.done, color: Colors.white, size: 14),
+                  // ),
                 ),
               ),
-              24.height,
+              // 32.height,
+              // AppButton(
+              //   color: rf_primaryColor,
+              //   child: Text('Gửi OTP', style: boldTextStyle(color: white)),
+              //   width: context.width(),
+              //   elevation: 0,
+              //   onTap: () {
+              //     // if (statusBtn) {
+
+              //     // } else {
+              //     // }
+              //     // sentOTP();
+              //     // RFEmailSignInScreen().launch(context);
+              //   },
+              // ),
+              32.height,
               AppButton(
                 color: rf_primaryColor,
-                child: Text('Gửi OTP', style: boldTextStyle(color: white)),
+                child: Text('Log In', style: boldTextStyle(color: white)),
                 width: context.width(),
                 elevation: 0,
                 onTap: () {
-                  // if (statusBtn) {
-
-                  // } else {
-                  // }
-                  sentOTP();
-                  // RFEmailSignInScreen().launch(context);
-                },
-              ),
-              24.height,
-              AppButton(
-                color: rf_primaryColor,
-                child: Text('Đăng nhập', style: boldTextStyle(color: white)),
-                width: context.width(),
-                elevation: 0,
-                onTap: () async {
-                  final credential = PhoneAuthProvider.credential(
-                    verificationId: _verificationId,
-                    smsCode: otpController.text,
-                  );
-                  await FirebaseAuth.instance.signInWithCredential(credential);
-                  RFHomeScreen().launch(context);
+                  // final credential = PhoneAuthProvider.credential(
+                  //   verificationId: _verificationId,
+                  //   smsCode: passwordController.text,
+                  // );
+                  // await FirebaseAuth.instance.signInWithCredential(credential);
+                  // RFHomeScreen().launch(context);
+                  authProvider
+                      .handleSignInWithPhone(
+                          (dialCodeDigits + phoneController.text).substring(1),
+                          passwordController.text)
+                      .then((isSuccess) {
+                    if (isSuccess) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TravelerHomeScreen(),
+                          ));
+                    }
+                  });
                 },
               ),
               Align(
@@ -237,13 +269,24 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
               ),
             ],
           ),
-          subWidget: socialLoginWidget(
-            context,
-            title1: "New Member? ",
-            title2: "Sign up Here",
-            callBack: () {
-              Fluttertoast.showToast(msg: "Sign in success");
-            },
+          subWidget: Column(
+            children: [
+              socialLoginWidget(
+                context,
+                title1: "New Member? ",
+                title2: "Sign up Here",
+                callBack: () {
+                  Fluttertoast.showToast(msg: "Sign in success");
+                },
+              ),
+              32.height,
+              Text(
+                'For Tour Guide',
+                style: primaryTextStyle(color: rf_primaryColor, size: 14),
+              ).onTap(() {
+                RFEmailSignInScreen().launch(context);
+              })
+            ],
           ),
         ),
       ),
