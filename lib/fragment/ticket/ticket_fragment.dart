@@ -42,7 +42,6 @@ class _TicketFragmentState extends State<TicketFragment> {
             title: 'Ticket',
             roundCornerShape: true,
             showLeadingIcon: true,
-            appBarHeight: 80,
             action: IconButton(
                 onPressed: () {
                   Navigator.push(context,

@@ -30,11 +30,16 @@ class _RFResetPasswordScreenState extends State<RFResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: commonAppBarWidget(context, showLeadingIcon: false, title: 'Reset Password', roundCornerShape: true, appBarHeight: 80),
+      appBar: commonAppBarWidget(context,
+          showLeadingIcon: true,
+          title: 'Reset Password',
+          roundCornerShape: true),
       body: Column(
         children: [
           32.height,
-          Text('Enter your email address below \nto reset password', style: secondaryTextStyle(height: 1.5), textAlign: TextAlign.center),
+          Text('Enter your email address below \nto reset password',
+              style: secondaryTextStyle(height: 1.5),
+              textAlign: TextAlign.center),
           16.height,
           AppTextField(
             controller: emailController,
@@ -44,7 +49,8 @@ class _RFResetPasswordScreenState extends State<RFResetPasswordScreen> {
               showLableText: true,
               suffixIcon: Container(
                 padding: EdgeInsets.all(2),
-                decoration: boxDecorationWithRoundedCorners(boxShape: BoxShape.circle, backgroundColor: redColor),
+                decoration: boxDecorationWithRoundedCorners(
+                    boxShape: BoxShape.circle, backgroundColor: redColor),
                 child: Icon(Icons.done, color: Colors.white, size: 14),
               ),
             ),

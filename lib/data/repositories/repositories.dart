@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:geolocator/geolocator.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/models/discovery/search_response.dart';
 import 'package:room_finder_flutter/models/discovery/tip_response.dart';
 import 'package:room_finder_flutter/models/goolge/google_place_detail_response.dart';
@@ -182,7 +183,6 @@ class AppRepository {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         });
-    print(authResponse);
     return ProfileResponse.fromJson(jsonDecode(authResponse!));
   }
 
@@ -262,17 +262,6 @@ class AppRepository {
           'Content-Type': 'application/json-patch+json',
         },
         body: jsonEncode({'page': '1', 'size': '10'}));
-    print("Tour List Respose:" +
-        TourListResponse.fromJson(jsonDecode(response!))
-            .values!
-            .length
-            .toString());
-    // List<TourListResponse> parseTour(String responseBody) {
-    //   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    //   return parsed
-    //       .map<TourListResponse>((json) => TourListResponse.fromJson(json))
-    //       .toList();
-    // }
     return TourListResponse.fromJson(jsonDecode(response!));
   }
 
@@ -301,7 +290,7 @@ class AppRepository {
 }
 
 class GoogleRepository {
-  final apiKey = 'AIzaSyAPZiYIlR-ztOa6maus6urUhs1Z-6spyj4';
+  final apiKey = 'AIzaSyD826hryjncjuNGu1xDkDC6iAVv33O7nRI';
   Future<GoogleSearchPlaceResponse?> getSearchPlaceByCoordinate(
       double latitude, double longitude) async {
     var url = Uri.parse(
@@ -315,29 +304,61 @@ class GoogleRepository {
     }
   }
 
-  Future<GooglePlaceDetailResponse?> getPlaceDetail(String placeId) async {
-    var url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${apiKey}');
-    var response = await NetworkUtility.fetchUrl(url);
-    if (response != null) {
-      return GooglePlaceDetailResponse.fromJson(
-          jsonDecode(response.toString()));
-    } else {
-      return null;
+  Future<String?> getCurrentCity() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse &&
+          permission != LocationPermission.always) {
+        // return null;
+      }
+    }
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    var place =
+        getSearchPlaceByCoordinate(position.latitude, position.longitude);
+    String? compoundCode =
+        await place.then((value) => value!.plusCode!.compoundCode.validate());
+
+    if (compoundCode != null) {
+      // Find the last comma index
+      int lastCommaIndex = compoundCode.lastIndexOf(',');
+
+      // Find the previous comma index
+      int previousCommaIndex =
+          compoundCode.lastIndexOf(',', lastCommaIndex - 1);
+
+      // Get the substring between the two commas
+      String substring =
+          compoundCode.substring(previousCommaIndex + 1, lastCommaIndex).trim();
+
+      return substring;
     }
   }
 
-  Future<Widget> getPlacePhoto(String photoReference) async {
-    var url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/photo?&photoreference=${photoReference}&key=${apiKey}');
+  // Future<GooglePlaceDetailResponse?> getPlaceDetail(String placeId) async {
+  //   var url = Uri.parse(
+  //       'https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${apiKey}');
+  //   var response = await NetworkUtility.fetchUrl(url);
+  //   if (response != null) {
+  //     return GooglePlaceDetailResponse.fromJson(
+  //         jsonDecode(response.toString()));
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
-    var response = await http.get(url);
+  // Future<Widget> getPlacePhoto(String photoReference) async {
+  //   var url = Uri.parse(
+  //       'https://maps.googleapis.com/maps/api/place/photo?&photoreference=${photoReference}&key=${apiKey}');
 
-    final bytes = Uint8List.fromList(response.bodyBytes);
-    final image = Image.memory(bytes);
-    return image;
-    // Use the image in your app
-  }
+  //   var response = await http.get(url);
+
+  //   final bytes = Uint8List.fromList(response.bodyBytes);
+  //   final image = Image.memory(bytes);
+  //   return image;
+  //   // Use the image in your app
+  // }
 
   Future<List<LatLng>> getDirection(LatLng startPoint, LatLng endPoint) async {
     var url = Uri.parse(
@@ -349,49 +370,5 @@ class GoogleRepository {
         .decodePolyline(json['routes'][0]['overview_polyline']['points'])
         .cast<LatLng>();
     return routeCoords;
-  }
-
-  Future<TourListResponse> getTourList() async {
-    var response = await NetworkUtility.post(
-        Uri.parse('https://dotnet-travelers.fly.dev/tours/filter'),
-        headers: {
-          // 'Authorization': '${token}',
-          'accept': 'application/json',
-          'Content-Type': 'application/json-patch+json',
-        },
-        body: jsonEncode({'page': '1', 'size': '10'}));
-    print("Tour List Respose:" +
-        TourListResponse.fromJson(jsonDecode(response!))
-            .values!
-            .length
-            .toString());
-    // List<TourListResponse> parseTour(String responseBody) {
-    //   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    //   return parsed
-    //       .map<TourListResponse>((json) => TourListResponse.fromJson(json))
-    //       .toList();
-    // }
-    return TourListResponse.fromJson(jsonDecode(response!));
-  }
-
-  Future<List<TourDetailResponse>> getTourDetails(String id) async {
-    var response = await NetworkUtility.post(
-      Uri.parse('https://dotnet-travelers.fly.dev/tours/${id}/details'),
-      headers: {
-        // 'Authorization': '${token}',
-        'accept': 'application/json',
-      },
-    );
-    List<TourDetailResponse> parseTour(String responseBody) {
-      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-      return parsed
-          .map<TourDetailResponse>((json) => TourDetailResponse.fromJson(json))
-          .toList();
-    }
-
-    parseTour(response.toString()).forEach((tour) {
-      print(tour.id);
-    });
-    return parseTour(response.toString());
   }
 }

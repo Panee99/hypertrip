@@ -15,10 +15,9 @@ class RFNotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: commonAppBarWidget(context,
-          showLeadingIcon: false,
+          showLeadingIcon: true,
           title: 'Notifications',
-          roundCornerShape: true,
-          appBarHeight: 80),
+          roundCornerShape: true),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

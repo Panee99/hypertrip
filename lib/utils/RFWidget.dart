@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/commons/images.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
@@ -268,6 +269,48 @@ Widget rfCommonCachedNetworkImage(String? url,
         .cornerRadiusWithClipRRect(radius ?? defaultRadius);
   }
 }
+// Widget commonCachedNetworkAvatar(String? url,
+//     {
+//     bool usePlaceholderIfUrlEmpty = true,
+//     AlignmentGeometry? alignment,
+//     double? radius,
+//     String? type}) {
+//   if (url!.validate().isEmpty) {
+//     return placeHolderWidget(
+//         radius: radius,
+//         type: type);
+//   } else if (url.validate().startsWith('http')) {
+//     return CircleAvatar(
+//       child: CachedNetworkImage(
+//         imageUrl: url,
+//         alignment: alignment as Alignment? ?? Alignment.center,
+//         errorWidget: (_, s, d) {
+//           return placeHolderWidget(
+//               height: height,
+//               width: width,
+//               fit: fit,
+//               alignment: alignment,
+//               radius: radius,
+//               type: type);
+//         },
+//         placeholder: (_, s) {
+//           if (!usePlaceholderIfUrlEmpty) return SizedBox();
+//           return placeHolderWidget(
+//               radius: radius,
+//               type: type);
+//         },
+//       ).cornerRadiusWithClipRRect(radius ?? defaultRadius),
+//     );
+//   } else {
+//     return Image.asset(url,
+//             height: height,
+//             width: width,
+//             fit: fit,
+//             color: color,
+//             alignment: alignment ?? Alignment.center)
+//         .cornerRadiusWithClipRRect(radius ?? defaultRadius);
+//   }
+// }
 
 Widget placeHolderWidget(
     {double? height,
@@ -309,29 +352,28 @@ Widget viewAllWidget({String? title, String? subTitle, Function? onTap}) {
 PreferredSizeWidget commonAppBarWidget(
   BuildContext context, {
   String? title,
-  double? appBarHeight,
   bool? showLeadingIcon,
   bool? bottomSheet,
   bool? roundCornerShape,
   Widget? action,
 }) {
   return PreferredSize(
-    preferredSize: Size.fromHeight(appBarHeight ?? 100.0),
+    preferredSize: Size.fromHeight(40),
     child: AppBar(
-      title: Text(title!, style: boldTextStyle(color: whiteColor, size: 20)),
-      systemOverlayStyle:
-          SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
-      backgroundColor: rf_primaryColor,
+      title: Text(title!, style: boldTextStyle(size: 16)),
+      systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.dark, statusBarColor: whiteSmoke),
+      backgroundColor: whiteSmoke,
       centerTitle: true,
       leading: showLeadingIcon.validate()
-          ? SizedBox()
-          : IconButton(
+          ? IconButton(
               onPressed: () {
                 finish(context);
               },
-              icon: Icon(Icons.arrow_back_ios_new, color: whiteColor, size: 18),
+              icon: Icon(Icons.arrow_back_ios_new, color: blackColor, size: 18),
               color: rf_primaryColor,
-            ),
+            )
+          : SizedBox(),
       elevation: 0,
       shape: roundCornerShape.validate()
           ? RoundedRectangleBorder(

@@ -32,4 +32,13 @@ const rf_ticket = "assets/images/rf_ticket.png";
 const placeholder = "assets/images/placeholder.png";
 const settings = 'assets/images/settings.png';
 const avatar_placeholoder = 'assets/images/avatar_placeholder.png';
-const calendar = 'assets/images/calendar.png';
+
+const notification = 'assets/icons/notification.svg';
+const location = 'assets/icons/location_dot.svg';
+const star = 'assets/icons/star.svg';
+const calendar = 'assets/icons/calendar.svg';
+const plus = 'assets/icons/plus.svg';
+const minus = 'assets/icons/minus.svg';
+const shoe_prints = 'assets/icons/shoe-prints.svg';
+const angle_left = 'assets/icons/angle-left.svg';
+const angle_right = 'assets/icons/angle-right.svg';

@@ -4,7 +4,7 @@ import 'package:nb_utils/nb_utils.dart';
 // import 'package:room_finder_flutter/models/RoomFinderModel.dart';
 import 'package:room_finder_flutter/models/tour/joined_tour_response.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
-import 'package:room_finder_flutter/screens/RFHotelDescriptionScreen.dart';
+import 'package:room_finder_flutter/screens/tour/RFHotelDescriptionScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 

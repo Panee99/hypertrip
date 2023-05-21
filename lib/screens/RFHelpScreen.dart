@@ -12,10 +12,7 @@ class RFHelpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: commonAppBarWidget(context,
-          showLeadingIcon: false,
-          title: 'Help',
-          roundCornerShape: true,
-          appBarHeight: 80),
+          showLeadingIcon: true, title: 'Help', roundCornerShape: true),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

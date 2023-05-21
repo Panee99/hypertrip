@@ -98,7 +98,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         },
       ).paddingSymmetric(horizontal: 16, vertical: 24),
       appBar: commonAppBarWidget(context,
-          title: 'Edit Profile', roundCornerShape: true, appBarHeight: 80),
+          title: 'Edit Profile', roundCornerShape: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 32),

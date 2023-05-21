@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
 import 'package:room_finder_flutter/store/AppStore.dart';
 import 'package:room_finder_flutter/utils/AppTheme.dart';

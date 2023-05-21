@@ -13,8 +13,7 @@ class RFRecentUpdateViewAllScreen extends StatelessWidget {
     return Scaffold(
       appBar: commonAppBarWidget(context,
           title: "Recent Updates",
-          appBarHeight: 80,
-          showLeadingIcon: false,
+          showLeadingIcon: true,
           roundCornerShape: true),
       body: ListView.builder(
         padding: EdgeInsets.only(right: 16, left: 16, bottom: 16, top: 24),

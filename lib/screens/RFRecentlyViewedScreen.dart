@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/components/RFHotelListComponent.dart';
 import 'package:room_finder_flutter/components/RFPremiumServiceComponent.dart';
 import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/models/TourFinderModel.dart';
@@ -16,10 +15,9 @@ class RFRecentlyViewedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: commonAppBarWidget(context,
-          showLeadingIcon: false,
+          showLeadingIcon: true,
           title: 'Recently Viewed',
-          roundCornerShape: true,
-          appBarHeight: 80),
+          roundCornerShape: true),
       body: SingleChildScrollView(
         child: Column(
           children: [

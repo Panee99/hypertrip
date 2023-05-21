@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
-import 'package:room_finder_flutter/components/schedule/place_component.dart';
 import 'package:room_finder_flutter/components/schedule/location_tracking_component.dart';
 import 'package:room_finder_flutter/components/schedule/recent_tour_component.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
@@ -11,8 +10,6 @@ import 'package:room_finder_flutter/models/tour/joined_tour_response.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
-import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
-import 'package:room_finder_flutter/utils/RFString.dart';
 
 class ScheduleFragment extends StatefulWidget {
   @override

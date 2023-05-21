@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/components/RFHotelListComponent.dart';
 import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/models/TourFinderModel.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
@@ -39,8 +38,7 @@ class _RFLocationScreenState extends State<RFLocationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: commonAppBarWidget(context,
-          showLeadingIcon: false,
-          appBarHeight: 50,
+          showLeadingIcon: true,
           title: "Search Detail",
           roundCornerShape: false),
       body: SingleChildScrollView(

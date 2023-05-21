@@ -38,7 +38,7 @@ class _WarningSettingScreenState extends State<WarningSettingScreen> {
         },
       ).paddingSymmetric(horizontal: 16, vertical: 24),
       appBar: commonAppBarWidget(context,
-          title: 'Warning Setting', roundCornerShape: true, appBarHeight: 80),
+          title: 'Warning Setting', roundCornerShape: true),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child: Column(

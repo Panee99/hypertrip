@@ -8,6 +8,10 @@ const rf_faqBgColor = Color(0xFFD5DDF2);
 const rf_notificationBgColor = Color(0xFFF2F2F2);
 const rf_rattingBgColor = Color(0xFF2DD35c);
 const rf_textColor = Color(0xFF4F4F4F);
+const textBlurColor = Color(0xFFBDC1C6);
+const starRateColor = Color(0xFFF99D00);
+const starUnrateColor = Color(0xFFCDCDCD);
+const disableButtonColor = Color(0xFFBDC1C6);
 
 // Dark Theme Colors
 const appBackgroundColorDark = Color(0xFF121212);

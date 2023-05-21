@@ -19,8 +19,7 @@ class RFSearchDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: commonAppBarWidget(
         context,
-        showLeadingIcon: false,
-        appBarHeight: 50,
+        showLeadingIcon: true,
         title: "Search Detail",
         roundCornerShape: false,
       ),
