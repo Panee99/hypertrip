@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/components/RFConformationDialog.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
+import 'package:room_finder_flutter/screens/TourGuideHomeScreen.dart';
 import 'package:room_finder_flutter/screens/TravelerHomeScreen.dart';
 import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
@@ -127,19 +128,20 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
               width: context.width(),
               elevation: 0,
               onTap: () {
-                // authProvider
-                //     .handleSignInWithEmail(
-                //         emailController.text, passwordController.text)
-                //     .then((isSuccess) {
-                //   if (isSuccess) {
-                //     Navigator.pushReplacement(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => RFHomeScreen(),  //Sửa RFHomeScreen() thành home của tourguide
-                //       ),
-                //     );
-                //   }
-                // });
+                authProvider
+                    .handleSignInWithEmail(
+                        emailController.text, passwordController.text)
+                    .then((isSuccess) {
+                  if (isSuccess) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            TourGuideHomeScreen(), //Sửa RFHomeScreen() thành home của tourguide
+                      ),
+                    );
+                  }
+                });
               },
             ),
             Align(
