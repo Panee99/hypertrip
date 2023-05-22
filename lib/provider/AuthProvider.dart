@@ -87,6 +87,31 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> handleSignInWithPhone(String phone, String password) async {
+    _status = Status.authenticating;
+    notifyListeners();
+    _token = await AppRepository().getToken(phone, password);
+    notifyListeners();
+    _user = (await AppRepository().getUserProfile(_token))!;
+    if (await AppRepository().getUserAvatar(_token) != null) {
+      _avt = (await AppRepository().getUserAvatar(_token))!;
+      notifyListeners();
+    } else {
+      _avt = AvatarResponse();
+      notifyListeners();
+    }
+    if (_user != null) {
+      _status = Status.authenticated;
+      await prefs.setString(UserConstants.id, _user.id!);
+      notifyListeners();
+      return true;
+    } else {
+      _status = Status.authenticateError;
+      notifyListeners();
+      return false;
+    }
+  }
+
   Future<bool> handleSignIn() async {
     _status = Status.authenticating;
     notifyListeners();

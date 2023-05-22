@@ -11,8 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../main.dart';
 
-Widget socialLoginButton(BuildContext context,
-    {String? socialImage, String? socialLoginName}) {
+Widget socialLoginButton(BuildContext context, {String? socialLoginName}) {
   return OutlinedButton(
     onPressed: () {},
     style: OutlinedButton.styleFrom(
@@ -24,8 +23,6 @@ Widget socialLoginButton(BuildContext context,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        commonCacheImageWidget(socialImage!, 20, fit: BoxFit.cover),
-        8.width,
         Text(socialLoginName!, style: primaryTextStyle()),
       ],
     ),
@@ -157,24 +154,24 @@ Widget socialLoginWidget(BuildContext context,
     children: [
       Column(
         children: [
-          28.height,
-          Text('Or Sign Up with', style: primaryTextStyle()),
-          16.height,
-          socialLoginButton(context,
-                  socialImage: rf_facebook_logo,
-                  socialLoginName: "Continue With Facebook")
-              .onTap(() {
-            //
-            log('test button');
-          }),
-          16.height,
-          socialLoginButton(context,
-                  socialImage: rf_google_logo,
-                  socialLoginName: "Continue With Google")
-              .onTap(() {
-            //
-          }),
-          24.height,
+          // 28.height,
+          // Text('Or Sign Up with', style: primaryTextStyle()),
+          // 16.height,
+          // socialLoginButton(context,
+          //         socialImage: rf_facebook_logo,
+          //         socialLoginName: "Continue With Facebook")
+          //     .onTap(() {
+          //   //
+          //   log('test button');
+          // }),
+          // 16.height,
+          // socialLoginButton(context,
+          //         socialImage: rf_google_logo,
+          //         socialLoginName: "Continue With Google")
+          //     .onTap(() {
+          //   //
+          // }),
+          // 24.height,
           rfCommonRichText(title: title1, subTitle: title2)
               .paddingAll(8)
               .onTap(() {

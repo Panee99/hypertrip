@@ -3,6 +3,8 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 
+import 'RFMobileSignInScreen.dart';
+
 class RFSplashScreen extends StatefulWidget {
   @override
   _RFSplashScreenState createState() => _RFSplashScreenState();
@@ -21,8 +23,8 @@ class _RFSplashScreenState extends State<RFSplashScreen> {
 
     await Future.delayed(Duration(seconds: 2));
     finish(context);
-    // RFMobileSignIn().launch(context);
-    RFEmailSignInScreen().launch(context);
+    RFMobileSignIn().launch(context);
+    // RFEmailSignInScreen().launch(context);
   }
 
   @override

@@ -163,14 +163,14 @@ class FoursquareRepository {
 }
 
 class AppRepository {
-  Future<String> getToken(String email, String password) async {
+  Future<String> getToken(String username, String password) async {
     final token = jsonDecode((await NetworkUtility.post(
       Uri.parse('https://dotnet-travelers.fly.dev/auth'),
       headers: {
         'accept': 'application/json',
         'Content-Type': 'application/json-patch+json',
       },
-      body: jsonEncode({"username": email, "password": password}),
+      body: jsonEncode({"username": username, "password": password}),
     ))!)['token'];
     return token;
   }

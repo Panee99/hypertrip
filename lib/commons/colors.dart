@@ -14,6 +14,7 @@ final Color textIconColorGray = Colors.black;
 final Color greenColor = Color.fromRGBO(76, 175, 80, 1);
 final color747480 = Color.fromRGBO(116, 116, 128, 1);
 final colorC1C1C1 = Color.fromRGBO(193, 193, 193, 1);
+
 // Dark Theme Colors
 const appBackgroundColorDark = Color(0xFF121212);
 const cardBackgroundBlackDark = Color(0xFF1F1F1F);
