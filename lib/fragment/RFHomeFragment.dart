@@ -6,7 +6,11 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/bloc/location/location_bloc.dart';
 import 'package:room_finder_flutter/bloc/location/location_state.dart';
+import 'package:room_finder_flutter/bloc/nearby/nearby_bloc.dart';
+import 'package:room_finder_flutter/bloc/nearby/nearby_event.dart';
 import 'package:room_finder_flutter/bloc/tour/tour_detail_event.dart';
+import 'package:room_finder_flutter/fragment/discovery/discovery_fragment.dart';
+import 'package:room_finder_flutter/screens/home/nearby_you.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
@@ -43,7 +47,156 @@ class RFHomeFragment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
-
+    List<Widget> travelBody = [
+      // Container(
+      //   padding: EdgeInsets.only(top: 8, left: 30, right: 30, bottom: 8),
+      //   decoration: BoxDecoration(
+      //     color: Color(0xFF3E99C9),
+      //     // borderRadius: BorderRadius.only(
+      //     //   bottomLeft: Radius.circular(20),
+      //     //   bottomRight: Radius.circular(20),
+      //     // ),
+      //   ),
+      //   child: Column(
+      //     children: [
+      //       Row(
+      //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //           children: [
+      //             Column(
+      //               crossAxisAlignment: CrossAxisAlignment.start,
+      //               children: [
+      //                 Text(
+      //                   'Hi Pannie',
+      //                   style: TextStyle(
+      //                       fontSize: 12,
+      //                       color: Colors.black,
+      //                       fontWeight: FontWeight.bold),
+      //                 ),
+      //                 // SizedBox(
+      //                 //   height: 8,
+      //                 // ),
+      //                 Row(
+      //                   children: [
+      //                     Icon(
+      //                       Icons.location_on_sharp,
+      //                       color: Colors.black,
+      //                       size: 12,
+      //                     ),
+      //                     Text('Ho Chi Minh City')
+      //                   ],
+      //                 ),
+      //               ],
+      //             ),
+      //             Icon(
+      //               Icons.notifications,
+      //               size: 24,
+      //               color: Colors.black,
+      //             ),
+      //             // Icon(
+      //             //   Icons.account_circle,
+      //             //   size: 30,
+      //             //   color: Colors.white,
+      //             // ),
+      //           ]),
+      //     ],
+      //   ),
+      // ),
+      Container(
+        child: Text(
+          "Nearby you",
+          style: boldTextStyle(size: 12),
+        ),
+      ),
+      SizedBox(
+        height: 16,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            height: 100,
+            child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: catNames.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    width: (MediaQuery.of(context).size.width - 32) /
+                        catNames.length,
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 46,
+                          width: 46,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFD7E8F9),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(child: catIcons[index]),
+                        ).onTap(() {
+                          NearbyYou(
+                            category: catNames[index],
+                          ).launch(context);
+                        }),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
+                        Text(
+                          catNames[index],
+                          style: TextStyle(fontSize: 12),
+                        )
+                      ],
+                    ).paddingRight(16),
+                  );
+                }),
+          ),
+        ],
+      ),
+      Container(
+        child: Text(
+          'Popular Tour',
+          style: boldTextStyle(size: 12),
+        ),
+      ),
+      16.height,
+      RepositoryProvider(
+        create: (context) => AppRepository(),
+        child: BlocProvider(
+          create: (context) =>
+              TourListBloc(RepositoryProvider.of<AppRepository>(context))
+                ..add(LoadTourListEvent()),
+          child: BlocBuilder<TourListBloc, TourListState>(
+            builder: (context, state) {
+              if (state is TourListLoadingState) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is TourListLoadedState) {
+                var tourList = state.tourList;
+                return SingleChildScrollView(
+                  // Wrap with SingleChildScrollView
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(tourList.values!.length, (index) {
+                      return PopularTourComponent(
+                        tour: tourList.values![index],
+                      );
+                    }),
+                  ),
+                );
+              } else {
+                return SizedBox.shrink();
+              }
+            },
+          ),
+        ),
+      ),
+      // CategoriesWidget(),
+    ];
+    List<Widget> tourGuideBody = [];
+    List<Widget> body = authProvider.user.role.toString() == 'Traveler'
+        ? travelBody
+        : tourGuideBody;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(40),
@@ -119,149 +272,7 @@ class RFHomeFragment extends StatelessWidget {
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Container(
-          //   padding: EdgeInsets.only(top: 8, left: 30, right: 30, bottom: 8),
-          //   decoration: BoxDecoration(
-          //     color: Color(0xFF3E99C9),
-          //     // borderRadius: BorderRadius.only(
-          //     //   bottomLeft: Radius.circular(20),
-          //     //   bottomRight: Radius.circular(20),
-          //     // ),
-          //   ),
-          //   child: Column(
-          //     children: [
-          //       Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             Column(
-          //               crossAxisAlignment: CrossAxisAlignment.start,
-          //               children: [
-          //                 Text(
-          //                   'Hi Pannie',
-          //                   style: TextStyle(
-          //                       fontSize: 12,
-          //                       color: Colors.black,
-          //                       fontWeight: FontWeight.bold),
-          //                 ),
-          //                 // SizedBox(
-          //                 //   height: 8,
-          //                 // ),
-          //                 Row(
-          //                   children: [
-          //                     Icon(
-          //                       Icons.location_on_sharp,
-          //                       color: Colors.black,
-          //                       size: 12,
-          //                     ),
-          //                     Text('Ho Chi Minh City')
-          //                   ],
-          //                 ),
-          //               ],
-          //             ),
-          //             Icon(
-          //               Icons.notifications,
-          //               size: 24,
-          //               color: Colors.black,
-          //             ),
-          //             // Icon(
-          //             //   Icons.account_circle,
-          //             //   size: 30,
-          //             //   color: Colors.white,
-          //             // ),
-          //           ]),
-          //     ],
-          //   ),
-          // ),
-          Container(
-            child: Text(
-              "Nearby you",
-              style: boldTextStyle(size: 12),
-            ),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                height: 100,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: catNames.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        width: (MediaQuery.of(context).size.width - 32) /
-                            catNames.length,
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 46,
-                              width: 46,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFD7E8F9),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(child: catIcons[index]),
-                            ),
-                            // SizedBox(
-                            //   height: 10,
-                            // ),
-                            Text(
-                              catNames[index],
-                              style: TextStyle(fontSize: 12),
-                            )
-                          ],
-                        ).paddingRight(16),
-                      );
-                    }),
-              ),
-            ],
-          ),
-          Container(
-            child: Text(
-              'Popular Tour',
-              style: boldTextStyle(size: 12),
-            ),
-          ),
-          16.height,
-          RepositoryProvider(
-            create: (context) => AppRepository(),
-            child: BlocProvider(
-              create: (context) =>
-                  TourListBloc(RepositoryProvider.of<AppRepository>(context))
-                    ..add(LoadTourListEvent()),
-              child: BlocBuilder<TourListBloc, TourListState>(
-                builder: (context, state) {
-                  if (state is TourListLoadingState) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is TourListLoadedState) {
-                    var tourList = state.tourList;
-                    return SingleChildScrollView(
-                      // Wrap with SingleChildScrollView
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children:
-                            List.generate(tourList.values!.length, (index) {
-                          return PopularTourComponent(
-                            tour: tourList.values![index],
-                          );
-                        }),
-                      ),
-                    );
-                  } else {
-                    return SizedBox.shrink();
-                  }
-                },
-              ),
-            ),
-          ),
-          // CategoriesWidget(),
-        ],
+        children: body,
       ).paddingOnly(left: 16, top: 32),
     );
   }

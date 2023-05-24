@@ -114,21 +114,21 @@ class _PopularTourState extends State<PopularTourComponent> {
                         ),
                 ],
               ),
-              8.height,
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      NumberFormat('#,###')
-                              .format(widget.tour.adultPrice!.toInt())
-                              .toString()
-                              .validate() +
-                          ' VND',
-                      style: boldTextStyle(size: 12),
-                    ),
-                  ),
-                ],
-              )
+              // 8.height,
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: Text(
+              //         NumberFormat('#,###')
+              //                 .format(widget.tour.adultPrice!.toInt())
+              //                 .toString()
+              //                 .validate() +
+              //             ' VND',
+              //         style: boldTextStyle(size: 12),
+              //       ),
+              //     ),
+              //   ],
+              // )
             ],
           ).paddingAll(8),
         ).onTap(() {

@@ -13,7 +13,7 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:room_finder_flutter/utils/codePicker/country_code_picker.dart';
 
 import '../provider/AuthProvider.dart';
-import 'TravelerHomeScreen.dart';
+import 'HomeScreen.dart';
 
 class RFMobileSignIn extends StatefulWidget {
   @override
@@ -203,7 +203,7 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
               16.height,
               AppTextField(
                 controller: passwordController,
-                textFieldType: TextFieldType.NUMBER,
+                textFieldType: TextFieldType.PASSWORD,
                 decoration: rfInputDecoration(
                   lableText: "Password",
                   showLableText: true,
@@ -245,7 +245,7 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
                   // await FirebaseAuth.instance.signInWithCredential(credential);
                   // RFHomeScreen().launch(context);
                   authProvider
-                      .handleSignInWithPhone(
+                      .handleSignIn(
                           (dialCodeDigits + phoneController.text).substring(1),
                           passwordController.text)
                       .then((isSuccess) {
@@ -253,7 +253,7 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => TravelerHomeScreen(),
+                            builder: (context) => HomeScreen(),
                           ));
                     }
                   });
