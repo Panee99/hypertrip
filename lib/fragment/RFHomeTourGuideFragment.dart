@@ -120,93 +120,93 @@ class RFHomeTourGuideFragment extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Container(
-          //   child: Text(
-          //     "Nearby you",
-          //     style: boldTextStyle(size: 12),
-          //   ),
-          // ),
-          // SizedBox(
-          //   height: 16,
-          // ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   children: [
-          //     Container(
-          //       height: 100,
-          //       child: ListView.builder(
-          //           shrinkWrap: true,
-          //           scrollDirection: Axis.horizontal,
-          //           itemCount: catNames.length,
-          //           itemBuilder: (context, index) {
-          //             return Container(
-          //               width: (MediaQuery.of(context).size.width - 32) /
-          //                   catNames.length,
-          //               child: Column(
-          //                 children: [
-          //                   Container(
-          //                     height: 46,
-          //                     width: 46,
-          //                     decoration: BoxDecoration(
-          //                       color: Color(0xFFD7E8F9),
-          //                       shape: BoxShape.circle,
-          //                     ),
-          //                     child: Center(child: catIcons[index]),
-          //                   ),
-          //                   // SizedBox(
-          //                   //   height: 10,
-          //                   // ),
-          //                   Text(
-          //                     catNames[index],
-          //                     style: TextStyle(fontSize: 12),
-          //                   )
-          //                 ],
-          //               ).paddingRight(16),
-          //             );
-          //           }),
-          //     ),
-          //   ],
-          // ),
           Container(
             child: Text(
-              'Popular Tour',
+              "Nearby you",
               style: boldTextStyle(size: 12),
             ),
           ),
-          16.height,
-          RepositoryProvider(
-            create: (context) => AppRepository(),
-            child: BlocProvider(
-              create: (context) =>
-                  TourListBloc(RepositoryProvider.of<AppRepository>(context))
-                    ..add(LoadTourListEvent()),
-              child: BlocBuilder<TourListBloc, TourListState>(
-                builder: (context, state) {
-                  if (state is TourListLoadingState) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is TourListLoadedState) {
-                    var tourList = state.tourList;
-                    return SingleChildScrollView(
-                      // Wrap with SingleChildScrollView
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children:
-                            List.generate(tourList.values!.length, (index) {
-                          return PopularTourComponent(
-                            tour: tourList.values![index],
-                          );
-                        }),
-                      ),
-                    );
-                  } else {
-                    return SizedBox.shrink();
-                  }
-                },
-              ),
-            ),
+          SizedBox(
+            height: 16,
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                height: 100,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: catNames.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: (MediaQuery.of(context).size.width - 32) /
+                            catNames.length,
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 46,
+                              width: 46,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFD7E8F9),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(child: catIcons[index]),
+                            ),
+                            // SizedBox(
+                            //   height: 10,
+                            // ),
+                            Text(
+                              catNames[index],
+                              style: TextStyle(fontSize: 12),
+                            )
+                          ],
+                        ).paddingRight(16),
+                      );
+                    }),
+              ),
+            ],
+          ),
+          // Container(
+          //   child: Text(
+          //     'Popular Tour',
+          //     style: boldTextStyle(size: 12),
+          //   ),
+          // ),
+          // 16.height,
+          // RepositoryProvider(
+          //   create: (context) => AppRepository(),
+          //   child: BlocProvider(
+          //     create: (context) =>
+          //         TourListBloc(RepositoryProvider.of<AppRepository>(context))
+          //           ..add(LoadTourListEvent()),
+          //     child: BlocBuilder<TourListBloc, TourListState>(
+          //       builder: (context, state) {
+          //         if (state is TourListLoadingState) {
+          //           return const Center(
+          //             child: CircularProgressIndicator(),
+          //           );
+          //         } else if (state is TourListLoadedState) {
+          //           var tourList = state.tourList;
+          //           return SingleChildScrollView(
+          //             // Wrap with SingleChildScrollView
+          //             scrollDirection: Axis.horizontal,
+          //             child: Row(
+          //               children:
+          //                   List.generate(tourList.values!.length, (index) {
+          //                 return PopularTourComponent(
+          //                   tour: tourList.values![index],
+          //                 );
+          //               }),
+          //             ),
+          //           );
+          //         } else {
+          //           return SizedBox.shrink();
+          //         }
+          //       },
+          //     ),
+          //   ),
+          // ),
           // CategoriesWidget(),
         ],
       ).paddingOnly(left: 16, top: 32),
