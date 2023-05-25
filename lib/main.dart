@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ import 'package:room_finder_flutter/provider/chatProvider.dart';
 import 'package:room_finder_flutter/provider/home_provider.dart';
 import 'package:room_finder_flutter/provider/setting_provider.dart';
 
+import 'data/repositories/repositories.dart';
 import 'firebase_options.dart';
 
 AppStore appStore = AppStore();
@@ -82,6 +84,9 @@ class MyApp extends StatelessWidget {
             firebaseStorage: this.firebaseStorage,
           ),
         ),
+        RepositoryProvider(
+          create: (context) => FoursquareRepository(),
+        )
       ],
       child: MaterialApp(
         scrollBehavior: SBehavior(),

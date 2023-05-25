@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
 import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
 import 'package:room_finder_flutter/fragment/inbox_fragment.dart';
@@ -12,16 +13,17 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'dart:math' as math;
 import '../fragment/RFHomeFragment.dart';
 import '../fragment/discovery/discovery_fragment.dart';
+import '../provider/AuthProvider.dart';
 
-class TravelerHomeScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  _TravelerHomeScreenState createState() => _TravelerHomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _TravelerHomeScreenState extends State<TravelerHomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  var _pages = [
+  List<Widget> travelerPages = [
     RFHomeFragment(),
     DiscoveryFragment(),
     ScheduleFragment(),
@@ -31,8 +33,42 @@ class _TravelerHomeScreenState extends State<TravelerHomeScreen> {
     // RFAccountFragment(),
     InboxFragment(),
   ];
+  List<BottomNavigationBarItem> travelerItems = [
+    BottomNavigationBarItem(
+      icon: rf_home.iconImage(),
+      label: 'Home',
+      activeIcon: rf_home.iconImage(iconColor: rf_primaryColor),
+    ),
+    BottomNavigationBarItem(
+      icon: rf_search.iconImage(),
+      label: 'Discovery',
+      activeIcon: rf_search.iconImage(iconColor: rf_primaryColor),
+    ),
+    BottomNavigationBarItem(
+      icon: SizedBox.shrink(),
+      label: '',
+    ),
+    BottomNavigationBarItem(
+      icon: rf_ticket.iconImage(size: 22),
+      label: 'Ticket',
+      activeIcon: rf_ticket.iconImage(iconColor: rf_primaryColor, size: 22),
+    ),
+    BottomNavigationBarItem(
+      icon: rf_message.iconImage(),
+      label: 'Inbox',
+      activeIcon: Icon(Icons.message),
+    ),
+  ];
 
-  Widget _bottomTab() {
+  List<Widget> tourGuidePages = [];
+  List<BottomNavigationBarItem> tourGuideItems =
+      []; //báo lỗi nếu mảng có ít hơn hoặc bằng 2 item
+
+  Widget _bottomTab(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    List<BottomNavigationBarItem> items =
+        authProvider.user.role == 'Traveler' ? travelerItems : tourGuideItems;
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: BottomAppBar(
@@ -52,33 +88,7 @@ class _TravelerHomeScreenState extends State<TravelerHomeScreen> {
           showUnselectedLabels: false,
           elevation: 0,
           type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: rf_home.iconImage(),
-              label: 'Home',
-              activeIcon: rf_home.iconImage(iconColor: rf_primaryColor),
-            ),
-            BottomNavigationBarItem(
-              icon: rf_search.iconImage(),
-              label: 'Discovery',
-              activeIcon: rf_search.iconImage(iconColor: rf_primaryColor),
-            ),
-            BottomNavigationBarItem(
-              icon: SizedBox.shrink(),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: rf_ticket.iconImage(size: 22),
-              label: 'Ticket',
-              activeIcon:
-                  rf_ticket.iconImage(iconColor: rf_primaryColor, size: 22),
-            ),
-            BottomNavigationBarItem(
-              icon: rf_message.iconImage(),
-              label: 'Inbox',
-              activeIcon: Icon(Icons.message),
-            ),
-          ],
+          items: items,
         ),
       ),
     ).paddingOnly(left: 16, bottom: 16, right: 16);
@@ -108,9 +118,12 @@ class _TravelerHomeScreenState extends State<TravelerHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    List<Widget> pages =
+        authProvider.user.role == 'Traveler' ? travelerPages : tourGuidePages;
     return Scaffold(
       extendBody: false,
-      bottomNavigationBar: _bottomTab(),
+      bottomNavigationBar: _bottomTab(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
           elevation: 0,
@@ -129,7 +142,7 @@ class _TravelerHomeScreenState extends State<TravelerHomeScreen> {
           index: _selectedIndex,
           children:
               // [Center(child: _pages.elementAt(_selectedIndex))]
-              _pages),
+              pages),
     );
   }
 }

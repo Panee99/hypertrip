@@ -6,9 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/components/RFConformationDialog.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
-import 'package:room_finder_flutter/screens/TourGuideHomeScreen.dart';
-import 'package:room_finder_flutter/screens/TravelerHomeScreen.dart';
-import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
+import 'package:room_finder_flutter/screens/HomeScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
@@ -129,29 +127,28 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
               elevation: 0,
               onTap: () {
                 authProvider
-                    .handleSignInWithEmail(
-                        emailController.text, passwordController.text)
+                    .handleSignIn(emailController.text, passwordController.text)
                     .then((isSuccess) {
                   if (isSuccess) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            TourGuideHomeScreen(), //Sửa RFHomeScreen() thành home của tourguide
+                            HomeScreen(), //Sửa RFHomeScreen() thành home của tourguide
                       ),
                     );
                   }
                 });
               },
             ),
-            Align(
-              alignment: Alignment.topRight,
-              child: TextButton(
-                  child: Text("Reset Password?", style: primaryTextStyle()),
-                  onPressed: () {
-                    TravelerHomeScreen().launch(context);
-                  }),
-            ),
+            // Align(
+            //   alignment: Alignment.topRight,
+            //   child: TextButton(
+            //       child: Text("Reset Password?", style: primaryTextStyle()),
+            //       onPressed: () {
+            //         TravelerHomeScreen().launch(context);
+            //       }),
+            // ),
           ],
         ),
         // subWidget: socialLoginWidget(context,

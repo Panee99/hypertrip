@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/screens/TravelerHomeScreen.dart';
+import 'package:room_finder_flutter/screens/HomeScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 
@@ -31,7 +31,7 @@ class RFCongratulatedDialog extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 32, vertical: 8),
             text: "Done",
             onTap: () {
-              TravelerHomeScreen().launch(context).then((value) {
+              HomeScreen().launch(context).then((value) {
                 finish(context);
               });
             },
