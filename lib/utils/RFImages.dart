@@ -42,3 +42,4 @@ const minus = 'assets/icons/minus.svg';
 const shoe_prints = 'assets/icons/shoe-prints.svg';
 const angle_left = 'assets/icons/angle-left.svg';
 const angle_right = 'assets/icons/angle-right.svg';
+const add_square = 'assets/icons/add-square.svg';
