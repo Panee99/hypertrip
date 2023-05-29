@@ -15,6 +15,7 @@ import 'package:room_finder_flutter/models/ticket/ticket_list_response.dart';
 import 'package:room_finder_flutter/models/tour/joined_tour_response.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/models/tour/tour_locations_response.dart';
+import 'package:room_finder_flutter/models/tourguide/tourguide_assgined.dart';
 import 'package:room_finder_flutter/models/user/avatar_response.dart';
 
 import '../../models/discovery/nearby_response.dart';
@@ -286,6 +287,18 @@ class AppRepository {
       return parseTour(response.toString());
     }
     return null;
+  }
+
+  Future<TourGuideAssigned> getAssignedTourGuide(
+      String tourguideId, String token) async {
+    var response = await NetworkUtility.fetchUrl(
+        Uri.parse(
+            'https://dotnet-travelers.fly.dev/tour-guides/${tourguideId}/assigned-tours'),
+        headers: {
+          'Authorization': '${token.toString()}',
+          'accept': 'application/json',
+        });
+    return TourGuideAssigned.fromJson(jsonDecode(response!));
   }
 }
 

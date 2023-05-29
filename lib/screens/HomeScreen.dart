@@ -3,10 +3,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
+import 'package:room_finder_flutter/fragment/RFHomeTourGuideFragment.dart';
 import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
 import 'package:room_finder_flutter/fragment/inbox_fragment.dart';
 import 'package:room_finder_flutter/fragment/schedule_fragment.dart';
 import 'package:room_finder_flutter/fragment/ticket/ticket_fragment.dart';
+import 'package:room_finder_flutter/screens/chat/ChatPage.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
@@ -60,9 +62,42 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
-  List<Widget> tourGuidePages = [];
-  List<BottomNavigationBarItem> tourGuideItems =
-      []; //báo lỗi nếu mảng có ít hơn hoặc bằng 2 item
+  List<Widget> tourGuidePages = [
+    RFHomeTourGuideFragment(),
+    DiscoveryFragment(),
+    ScheduleFragment(),
+    // RFSettingsFragment(),
+    TicketFragment(),
+    // RFSettingsFragment(),
+    // RFAccountFragment(),
+    ChatPageScreen(),
+  ];
+  List<BottomNavigationBarItem> tourGuideItems = [
+    BottomNavigationBarItem(
+      icon: rf_home.iconImage(),
+      label: 'Home',
+      activeIcon: rf_home.iconImage(iconColor: rf_primaryColor),
+    ),
+    BottomNavigationBarItem(
+      icon: rf_search.iconImage(),
+      label: 'Discovery',
+      activeIcon: rf_search.iconImage(iconColor: rf_primaryColor),
+    ),
+    BottomNavigationBarItem(
+      icon: SizedBox.shrink(),
+      label: '',
+    ),
+    BottomNavigationBarItem(
+      icon: rf_ticket.iconImage(size: 22),
+      label: 'Ticket',
+      activeIcon: rf_ticket.iconImage(iconColor: rf_primaryColor, size: 22),
+    ),
+    BottomNavigationBarItem(
+      icon: rf_message.iconImage(),
+      label: 'Inbox',
+      activeIcon: Icon(Icons.message),
+    ),
+  ]; //báo lỗi nếu mảng có ít hơn hoặc bằng 2 item
 
   Widget _bottomTab(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
