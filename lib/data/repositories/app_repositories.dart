@@ -1,8 +1,8 @@
 part of 'repositories.dart';
 
-class AppRepository {
-  final mapHeader = {'accept': 'application/json'};
+final mapHeader = {'accept': 'application/json'};
 
+class AppRepository {
   Future<String> getToken(String username, String password) async {
     final token = jsonDecode((await NetworkUtility.post(
       Uri.parse('$baseApiUrl/auth'),
@@ -12,6 +12,8 @@ class AppRepository {
       },
       body: jsonEncode({"username": username, "password": password}),
     ))!)['token'];
+
+    mapHeader.addAll({'Authorization': '${token.toString()}'});
     return token;
   }
 
@@ -44,7 +46,6 @@ class AppRepository {
   }
 
   Future<TourDetailResponse> getTourDetail(String tourId, String token) async {
-    mapHeader.addAll({'Authorization': '${token.toString()}'});
     final response = await NetworkUtility.fetchUrl(
       Uri.parse('$baseApiUrl/tours/${tourId}/details'),
       headers: mapHeader,
@@ -53,8 +54,6 @@ class AppRepository {
   }
 
   Future<AvatarResponse?> getUserAvatar(String token) async {
-    mapHeader.addAll({'Authorization': '${token.toString()}'});
-
     final response = await NetworkUtility.fetchUrl(
       Uri.parse('$baseApiUrl/accounts/avatar'),
       headers: mapHeader,
@@ -66,8 +65,6 @@ class AppRepository {
   }
 
   Future<List<TourLocationsResponse>?> getTourLocations(String id, String token) async {
-    mapHeader.addAll({'Authorization': '${token.toString()}'});
-
     final response = await NetworkUtility.fetchUrl(
       Uri.parse('$baseApiUrl/tours/${id}/locations'),
       headers: mapHeader,
@@ -97,7 +94,6 @@ class AppRepository {
   }
 
   Future<List<JoinedTourResponse>?> getJoinedTour(String travelerId, String token) async {
-    mapHeader.addAll({'Authorization': '${token.toString()}'});
     final response = await NetworkUtility.fetchUrl(
       Uri.parse('$baseApiUrl/travelers/${travelerId}/joined-tours'),
       headers: mapHeader,
@@ -114,10 +110,10 @@ class AppRepository {
   }
 
   Future<TourGuideAssigned> getAssignedTourGuide(String tourGuideId, String token) async {
-    mapHeader.addAll({'Authorization': '${token.toString()}'});
     final response = await NetworkUtility.fetchUrl(
-        Uri.parse('$baseApiUrl/tour-guides/${tourGuideId}/assigned-tours'),
-        headers: mapHeader);
+      Uri.parse('$baseApiUrl/tour-guides/${tourGuideId}/assigned-tours'),
+      headers: mapHeader,
+    );
     return TourGuideAssigned.fromJson(jsonDecode(response!));
   }
 }
