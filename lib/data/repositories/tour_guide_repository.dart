@@ -1,6 +1,7 @@
 part of 'repositories.dart';
 
 class TourGuideRepository {
+  /// Check if a phone number is valid for making a sms, and if it is in the correct phone number format, then make the sms.
   FutureOr<void> onSendingSMS({required String phone}) async {
     if (phone.isNotEmpty) {
       String formatPhoneNumber = AppUtils.formatPhoneNumber(phone);
@@ -17,6 +18,7 @@ class TourGuideRepository {
     }
   }
 
+  /// Check if a phone number is valid for making a call, and if it is in the correct phone number format, then make the call.
   FutureOr<void> onCall({required String phone}) async {
     final url = Uri.parse("tel:$phone");
     if (await canLaunchUrl(url)) {
