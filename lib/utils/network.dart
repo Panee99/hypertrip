@@ -14,4 +14,17 @@ class NetworkUtility {
     }
     return null;
   }
+
+  static Future<String?> post(Uri uri,
+      {Map<String, String>? headers, String? body}) async {
+    try {
+      final response = await http.post(uri, headers: headers, body: body);
+      if (response.statusCode == 200) {
+        return response.body;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return null;
+  }
 }

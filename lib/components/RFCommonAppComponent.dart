@@ -7,6 +7,7 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 class RFCommonAppComponent extends StatefulWidget {
   final String? title;
   final String? subTitle;
+  final String? coverImage;
   final Widget? cardWidget;
   final Widget? subWidget;
   final Widget? accountCircleWidget;
@@ -17,6 +18,7 @@ class RFCommonAppComponent extends StatefulWidget {
   RFCommonAppComponent(
       {this.title,
       this.subTitle,
+      this.coverImage,
       this.cardWidget,
       this.subWidget,
       this.mainWidgetHeight,
@@ -29,56 +31,71 @@ class RFCommonAppComponent extends StatefulWidget {
 }
 
 class _RFCommonAppComponentState extends State<RFCommonAppComponent> {
+  Future<void> _handleRefresh() async {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: widget.scroll
-          ? AlwaysScrollableScrollPhysics()
-          : NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.only(bottom: 24),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            width: context.width(),
-            height: widget.mainWidgetHeight ?? 300,
-            decoration: boxDecorationWithRoundedCorners(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(16),
-                  bottomRight: Radius.circular(16)),
-              backgroundColor: rf_primaryColor,
+    return RefreshIndicator(
+      onRefresh: _handleRefresh,
+      child: SingleChildScrollView(
+        physics: widget.scroll
+            ? AlwaysScrollableScrollPhysics()
+            : NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.only(bottom: 24),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              width: context.width(),
+              height: widget.mainWidgetHeight ?? 300,
+              decoration: widget.coverImage == null
+                  ? boxDecorationWithRoundedCorners(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(16),
+                          bottomRight: Radius.circular(16)),
+                      backgroundColor: rf_primaryColor,
+                    )
+                  : boxDecorationWithRoundedCorners(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(16),
+                          bottomRight: Radius.circular(16)),
+                      decorationImage: DecorationImage(
+                          image: AssetImage(widget.coverImage!),
+                          fit: BoxFit.cover)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(widget.title.validate(),
+                      style: boldTextStyle(color: white, size: 22)),
+                  4.height,
+                  Text(widget.subTitle.validate(),
+                      style: primaryTextStyle(color: white)),
+                ],
+              ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Column(
               children: [
-                Text(widget.title.validate(),
-                    style: boldTextStyle(color: white, size: 22)),
-                4.height,
-                Text(widget.subTitle.validate(),
-                    style: primaryTextStyle(color: white)),
+                widget.accountCircleWidget ??
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: widget.subWidgetHeight ?? 200,
+                          left: 24,
+                          bottom: 24,
+                          right: 24),
+                      padding: EdgeInsets.all(24),
+                      decoration: appStore.isDarkModeOn
+                          ? boxDecorationWithRoundedCorners(
+                              backgroundColor: context.cardColor)
+                          : shadowWidget(context),
+                      child: widget.cardWidget.validate(),
+                    ),
+                widget.subWidget.validate(),
               ],
             ),
-          ),
-          Column(
-            children: [
-              widget.accountCircleWidget ??
-                  Container(
-                    margin: EdgeInsets.only(
-                        top: widget.subWidgetHeight ?? 200,
-                        left: 24,
-                        bottom: 24,
-                        right: 24),
-                    padding: EdgeInsets.all(24),
-                    decoration: appStore.isDarkModeOn
-                        ? boxDecorationWithRoundedCorners(
-                            backgroundColor: context.cardColor)
-                        : shadowWidget(context),
-                    child: widget.cardWidget.validate(),
-                  ),
-              widget.subWidget.validate(),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

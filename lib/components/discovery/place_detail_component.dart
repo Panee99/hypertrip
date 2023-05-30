@@ -12,7 +12,7 @@ import 'package:flutter/material.dart' as Material;
 import '../../data/repositories/repositories.dart';
 
 class PlaceDetailComponent extends StatefulWidget {
-  final Results place;
+  final NearbyResults place;
   final List<PlacesPhotoResponse> photos;
 
   PlaceDetailComponent({required this.place, required this.photos});
@@ -31,7 +31,7 @@ class _PlaceDetailComponentState extends State<PlaceDetailComponent> {
   }
 
   void getTips() {
-    tips = TipRepository().tip(widget.place.fsqId.toString());
+    tips = FoursquareRepository().tip(widget.place.fsqId.toString());
   }
 
   late final PageController _controller;
@@ -150,6 +150,7 @@ class _PlaceDetailComponentState extends State<PlaceDetailComponent> {
                             builder: (BuildContext context) => (MapDialog(
                                   lat: widget.place.geocodes!.main!.latitude,
                                   lng: widget.place.geocodes!.main!.longitude,
+                                  placeNearby: widget.place,
                                 )));
                         setState(() {});
                       },
@@ -205,7 +206,7 @@ class _PlaceDetailComponentState extends State<PlaceDetailComponent> {
               if (!snapshot.hasData) {
                 return SizedBox(
                   height: context.height() * 0.5,
-                  child: Center(child: CircularProgressIndicator()),
+                  child: SizedBox.shrink(),
                 );
               } else {
                 final tips = snapshot.data!;

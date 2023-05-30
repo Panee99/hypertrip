@@ -6,11 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/components/RFConformationDialog.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
-import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
-import 'package:room_finder_flutter/screens/RFSignUpScreen.dart';
+import 'package:room_finder_flutter/screens/HomeScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
+
+import '../models/user/sign_in_model.dart';
 
 // ignore: must_be_immutable
 class RFEmailSignInScreen extends StatefulWidget {
@@ -25,7 +26,7 @@ class RFEmailSignInScreen extends StatefulWidget {
 class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  Future<ProfileResponse>? profile;
   FocusNode emailFocusNode = FocusNode();
   FocusNode passWordFocusNode = FocusNode();
 
@@ -125,36 +126,39 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
               width: context.width(),
               elevation: 0,
               onTap: () {
-                authProvider.handleSignIn().then((isSuccess) {
+                authProvider
+                    .handleSignIn(emailController.text, passwordController.text)
+                    .then((isSuccess) {
                   if (isSuccess) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RFHomeScreen(),
+                        builder: (context) =>
+                            HomeScreen(), //Sửa RFHomeScreen() thành home của tourguide
                       ),
                     );
                   }
-                }).catchError((error, stackTrace) {
-                  Fluttertoast.showToast(msg: error.toString());
-                  authProvider.handleException();
                 });
               },
             ),
-            Align(
-              alignment: Alignment.topRight,
-              child: TextButton(
-                  child: Text("Reset Password?", style: primaryTextStyle()),
-                  onPressed: () {
-                    RFHomeScreen().launch(context);
-                  }),
-            ),
+            // Align(
+            //   alignment: Alignment.topRight,
+            //   child: TextButton(
+            //       child: Text("Reset Password?", style: primaryTextStyle()),
+            //       onPressed: () {
+            //         TravelerHomeScreen().launch(context);
+            //       }),
+            // ),
           ],
         ),
-        subWidget: socialLoginWidget(context,
-            title1: "New Member? ", title2: "Sign up Here", callBack: () {
-          RFSignUpScreen().launch(context);
-        }),
+        // subWidget: socialLoginWidget(context,
+        //     title1: "New Member? ", title2: "Sign up Here", callBack: () {
+        //   RFSignUpScreen().launch(context);
+        // }),
       ),
     );
+    // } else {
+    //   return SizedBox.shrink();
+    // }
   }
 }

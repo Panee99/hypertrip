@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/screens/RFMobileSignInScreen.dart';
+import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
+
+import 'RFMobileSignInScreen.dart';
 
 class RFSplashScreen extends StatefulWidget {
   @override
@@ -16,16 +18,19 @@ class _RFSplashScreenState extends State<RFSplashScreen> {
   }
 
   Future<void> init() async {
-    setStatusBarColor(rf_primaryColor, statusBarIconBrightness: Brightness.light);
+    setStatusBarColor(rf_primaryColor,
+        statusBarIconBrightness: Brightness.light);
 
     await Future.delayed(Duration(seconds: 2));
     finish(context);
     RFMobileSignIn().launch(context);
+    // RFEmailSignInScreen().launch(context);
   }
 
   @override
   void dispose() {
-    setStatusBarColor(rf_primaryColor, statusBarIconBrightness: Brightness.light);
+    setStatusBarColor(rf_primaryColor,
+        statusBarIconBrightness: Brightness.light);
 
     super.dispose();
   }
@@ -43,16 +48,17 @@ class _RFSplashScreenState extends State<RFSplashScreen> {
         alignment: Alignment.center,
         children: [
           Container(
-            decoration: boxDecorationWithRoundedCorners(boxShape: BoxShape.circle, backgroundColor: rf_splashBgColor),
+            decoration: boxDecorationWithRoundedCorners(
+                boxShape: BoxShape.circle, backgroundColor: rf_splashBgColor),
             width: 250,
             height: 250,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Room Finder", style: boldTextStyle(color: white, size: 20)),
+              Text("Travel", style: boldTextStyle(color: white, size: 20)),
               4.height,
-              Text("Ultimate property Finder", style: primaryTextStyle(color: white)),
+              Text("Enjoy your trip", style: primaryTextStyle(color: white)),
             ],
           ),
         ],

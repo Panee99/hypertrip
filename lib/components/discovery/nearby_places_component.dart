@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/discovery/place_list_component.dart';
 import 'package:room_finder_flutter/models/discovery/nearby_response.dart';
 import 'package:room_finder_flutter/models/discovery/place_photo_response.dart';
-import '../../blocs/nearby/nearby_bloc.dart';
-import '../../blocs/nearby/nearby_state.dart';
+
+import '../../bloc/nearby/nearby_bloc.dart';
+import '../../bloc/nearby/nearby_state.dart';
 
 class NearbyPlacesComponent extends StatefulWidget {
   String category;
@@ -17,10 +19,9 @@ class NearbyPlacesComponent extends StatefulWidget {
 class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
   late Future<NearbyPlacesResponse> nearbyPlacesResponse;
   late Future<NearbyPlacesResponse> nearbyPlacesByCategory;
-  Results results = Results();
   PlacesPhotoResponse placePhoto = PlacesPhotoResponse();
   double lat = 0.0, lon = 0.0;
-
+  bool hasResult = false;
   @override
   void initState() {
     super.initState();
@@ -36,60 +37,69 @@ class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
       }
       if (state is PlaceLoadedState) {
         NearbyPlacesResponse places = state.places;
-        print('${places}');
-        return Center(
-          child: ListView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            physics: NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            itemCount: places.results!.length,
-            itemBuilder: (BuildContext context, int index) {
-              try {
-                if (widget.category == 'All') {
-                  if (places.results![index].categories != null &&
-                      !places.results![index].categories!.isEmpty) {
-                    Results results = places.results![index];
+        return Column(
+          children: [
+            !hasResult
+                ? Text(
+                    'There are no locations around',
+                    style: boldTextStyle(),
+                  )
+                : SizedBox.shrink(),
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                itemCount: places.results!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  try {
+                    if (widget.category == 'All') {
+                      if (places.results![index].categories != null &&
+                          !places.results![index].categories!.isEmpty) {
+                        NearbyResults results = places.results![index];
 
-                    return PlaceListComponent(
-                      place: results,
-                      photoIndex: 0,
-                    );
+                        return PlaceListComponent(
+                          place: results,
+                          photoIndex: 0,
+                        );
+                      }
+                    } else {
+                      // for (var i = 0;
+                      //     i < places.results![index].categories!.length;) {
+                      //   if (places.results![index].categories![i].name!
+                      //       .contains(widget.category)) {
+                      //     Results results = places.results![index];
+                      //     return PlaceListComponent(
+                      //       place: results,
+                      //       photoIndex: 0,
+                      //     );
+                      //   } else {
+                      //     return SizedBox.shrink();
+                      //   }
+                      // }
+                      if (places.results![index].categories!
+                          .where((element) =>
+                              element.name!.contains(widget.category))
+                          .toList()
+                          .isNotEmpty) {
+                        NearbyResults results = places.results![index];
+                        setState(() {
+                          hasResult = true;
+                        });
+                        return PlaceListComponent(
+                          place: results,
+                          photoIndex: 0,
+                        );
+                      }
+                    }
+                  } catch (e) {
+                    print(e.toString());
                   }
-                } else {
-                  // for (var i = 0;
-                  //     i < places.results![index].categories!.length;) {
-                  //   if (places.results![index].categories![i].name!
-                  //       .contains(widget.category)) {
-                  //     Results results = places.results![index];
-                  //     return PlaceListComponent(
-                  //       place: results,
-                  //       photoIndex: 0,
-                  //     );
-                  //   } else {
-                  //     return SizedBox.shrink();
-                  //   }
-                  // }
-                  if (places.results![index].categories!
-                      .where(
-                          (element) => element.name!.contains(widget.category))
-                      .toList()
-                      .isNotEmpty) {
-                    Results results = places.results![index];
-                    return PlaceListComponent(
-                      place: results,
-                      photoIndex: 0,
-                    );
-                  } else {
-                    return SizedBox.shrink();
-                  }
-                }
-              } catch (e) {
-                print(e.toString());
-              }
-              return null;
-            },
-          ),
+                },
+              ),
+            ),
+          ],
         );
       } else {
         return SizedBox.shrink();

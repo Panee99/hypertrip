@@ -1,14 +1,14 @@
 class SearchPlaceResponse {
-  List<Results>? results;
+  List<SearchResults>? results;
   Context? context;
 
   SearchPlaceResponse({this.results, this.context});
 
   SearchPlaceResponse.fromJson(Map<String, dynamic> json) {
     if (json['results'] != null) {
-      results = <Results>[];
+      results = <SearchResults>[];
       json['results'].forEach((v) {
-        results!.add(new Results.fromJson(v));
+        results!.add(new SearchResults.fromJson(v));
       });
     }
     context =
@@ -27,7 +27,7 @@ class SearchPlaceResponse {
   }
 }
 
-class Results {
+class SearchResults {
   String? fsqId;
   List<Categories>? categories;
   List<Chains>? chains;
@@ -39,7 +39,7 @@ class Results {
   RelatedPlaces? relatedPlaces;
   String? timezone;
 
-  Results(
+  SearchResults(
       {this.fsqId,
       this.categories,
       this.chains,
@@ -51,7 +51,7 @@ class Results {
       this.relatedPlaces,
       this.timezone});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  SearchResults.fromJson(Map<String, dynamic> json) {
     fsqId = json['fsq_id'];
     if (json['categories'] != null) {
       categories = <Categories>[];

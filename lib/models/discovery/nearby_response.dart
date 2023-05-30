@@ -1,13 +1,13 @@
 class NearbyPlacesResponse {
-  List<Results>? results;
+  List<NearbyResults>? results;
 
   NearbyPlacesResponse({this.results});
 
   NearbyPlacesResponse.fromJson(Map<String, dynamic> json) {
     if (json['results'] != null) {
-      results = <Results>[];
+      results = <NearbyResults>[];
       json['results'].forEach((v) {
-        results!.add(new Results.fromJson(v));
+        results!.add(new NearbyResults.fromJson(v));
       });
     }
   }
@@ -21,7 +21,7 @@ class NearbyPlacesResponse {
   }
 }
 
-class Results {
+class NearbyResults {
   String? fsqId;
   List<Categories>? categories;
   List<Chains>? chains;
@@ -33,7 +33,7 @@ class Results {
   RelatedPlaces? relatedPlaces;
   String? timezone;
 
-  Results(
+  NearbyResults(
       {this.fsqId,
       this.categories,
       this.chains,
@@ -45,7 +45,7 @@ class Results {
       this.relatedPlaces,
       this.timezone});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  NearbyResults.fromJson(Map<String, dynamic> json) {
     fsqId = json['fsq_id'];
     if (json['categories'] != null) {
       categories = <Categories>[];

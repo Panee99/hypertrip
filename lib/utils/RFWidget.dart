@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/commons/images.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
@@ -9,8 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../main.dart';
 
-Widget socialLoginButton(BuildContext context,
-    {String? socialImage, String? socialLoginName}) {
+Widget socialLoginButton(BuildContext context, {String? socialLoginName}) {
   return OutlinedButton(
     onPressed: () {},
     style: OutlinedButton.styleFrom(
@@ -22,8 +23,6 @@ Widget socialLoginButton(BuildContext context,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        commonCacheImageWidget(socialImage!, 20, fit: BoxFit.cover),
-        8.width,
         Text(socialLoginName!, style: primaryTextStyle()),
       ],
     ),
@@ -155,24 +154,24 @@ Widget socialLoginWidget(BuildContext context,
     children: [
       Column(
         children: [
-          28.height,
-          Text('Or Sign Up with', style: primaryTextStyle()),
-          16.height,
-          socialLoginButton(context,
-                  socialImage: rf_facebook_logo,
-                  socialLoginName: "Continue With Facebook")
-              .onTap(() {
-            //
-            log('test button');
-          }),
-          16.height,
-          socialLoginButton(context,
-                  socialImage: rf_google_logo,
-                  socialLoginName: "Continue With Google")
-              .onTap(() {
-            //
-          }),
-          24.height,
+          // 28.height,
+          // Text('Or Sign Up with', style: primaryTextStyle()),
+          // 16.height,
+          // socialLoginButton(context,
+          //         socialImage: rf_facebook_logo,
+          //         socialLoginName: "Continue With Facebook")
+          //     .onTap(() {
+          //   //
+          //   log('test button');
+          // }),
+          // 16.height,
+          // socialLoginButton(context,
+          //         socialImage: rf_google_logo,
+          //         socialLoginName: "Continue With Google")
+          //     .onTap(() {
+          //   //
+          // }),
+          // 24.height,
           rfCommonRichText(title: title1, subTitle: title2)
               .paddingAll(8)
               .onTap(() {
@@ -212,23 +211,23 @@ Decoration shadowWidget(BuildContext context) {
   );
 }
 
-Widget rfCommonCachedNetworkImage(
-  String? url, {
-  double? height,
-  double? width,
-  BoxFit? fit,
-  AlignmentGeometry? alignment,
-  bool usePlaceholderIfUrlEmpty = true,
-  double? radius,
-  Color? color,
-}) {
+Widget rfCommonCachedNetworkImage(String? url,
+    {double? height,
+    double? width,
+    BoxFit? fit,
+    AlignmentGeometry? alignment,
+    bool usePlaceholderIfUrlEmpty = true,
+    double? radius,
+    Color? color,
+    String? type}) {
   if (url!.validate().isEmpty) {
     return placeHolderWidget(
         height: height,
         width: width,
         fit: fit,
         alignment: alignment,
-        radius: radius);
+        radius: radius,
+        type: type);
   } else if (url.validate().startsWith('http')) {
     return CachedNetworkImage(
       imageUrl: url,
@@ -243,7 +242,8 @@ Widget rfCommonCachedNetworkImage(
             width: width,
             fit: fit,
             alignment: alignment,
-            radius: radius);
+            radius: radius,
+            type: type);
       },
       placeholder: (_, s) {
         if (!usePlaceholderIfUrlEmpty) return SizedBox();
@@ -252,9 +252,10 @@ Widget rfCommonCachedNetworkImage(
             width: width,
             fit: fit,
             alignment: alignment,
-            radius: radius);
+            radius: radius,
+            type: type);
       },
-    );
+    ).cornerRadiusWithClipRRect(radius ?? defaultRadius);
   } else {
     return Image.asset(url,
             height: height,
@@ -265,14 +266,65 @@ Widget rfCommonCachedNetworkImage(
         .cornerRadiusWithClipRRect(radius ?? defaultRadius);
   }
 }
+// Widget commonCachedNetworkAvatar(String? url,
+//     {
+//     bool usePlaceholderIfUrlEmpty = true,
+//     AlignmentGeometry? alignment,
+//     double? radius,
+//     String? type}) {
+//   if (url!.validate().isEmpty) {
+//     return placeHolderWidget(
+//         radius: radius,
+//         type: type);
+//   } else if (url.validate().startsWith('http')) {
+//     return CircleAvatar(
+//       child: CachedNetworkImage(
+//         imageUrl: url,
+//         alignment: alignment as Alignment? ?? Alignment.center,
+//         errorWidget: (_, s, d) {
+//           return placeHolderWidget(
+//               height: height,
+//               width: width,
+//               fit: fit,
+//               alignment: alignment,
+//               radius: radius,
+//               type: type);
+//         },
+//         placeholder: (_, s) {
+//           if (!usePlaceholderIfUrlEmpty) return SizedBox();
+//           return placeHolderWidget(
+//               radius: radius,
+//               type: type);
+//         },
+//       ).cornerRadiusWithClipRRect(radius ?? defaultRadius),
+//     );
+//   } else {
+//     return Image.asset(url,
+//             height: height,
+//             width: width,
+//             fit: fit,
+//             color: color,
+//             alignment: alignment ?? Alignment.center)
+//         .cornerRadiusWithClipRRect(radius ?? defaultRadius);
+//   }
+// }
 
 Widget placeHolderWidget(
     {double? height,
     double? width,
     BoxFit? fit,
     AlignmentGeometry? alignment,
-    double? radius}) {
-  return Image.asset('images/roomFinding/placeholder.png',
+    double? radius,
+    String? type}) {
+  if (type == 'avatar') {
+    return Image.asset(avatar_placeholoder,
+            height: height,
+            width: width,
+            fit: fit ?? BoxFit.cover,
+            alignment: alignment ?? Alignment.center)
+        .cornerRadiusWithClipRRect(radius ?? defaultRadius);
+  }
+  return Image.asset(placeholder,
           height: height,
           width: width,
           fit: fit ?? BoxFit.cover,
@@ -294,29 +346,31 @@ Widget viewAllWidget({String? title, String? subTitle, Function? onTap}) {
   );
 }
 
-PreferredSizeWidget commonAppBarWidget(BuildContext context,
-    {String? title,
-    double? appBarHeight,
-    bool? showLeadingIcon,
-    bool? bottomSheet,
-    bool? roundCornerShape}) {
+PreferredSizeWidget commonAppBarWidget(
+  BuildContext context, {
+  String? title,
+  bool? showLeadingIcon,
+  bool? bottomSheet,
+  bool? roundCornerShape,
+  Widget? action,
+}) {
   return PreferredSize(
-    preferredSize: Size.fromHeight(appBarHeight ?? 100.0),
+    preferredSize: Size.fromHeight(40),
     child: AppBar(
-      title: Text(title!, style: boldTextStyle(color: whiteColor, size: 20)),
-      systemOverlayStyle:
-          SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
-      backgroundColor: rf_primaryColor,
+      title: Text(title!, style: boldTextStyle(size: 16)),
+      systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.dark, statusBarColor: whiteSmoke),
+      backgroundColor: whiteSmoke,
       centerTitle: true,
       leading: showLeadingIcon.validate()
-          ? SizedBox()
-          : IconButton(
+          ? IconButton(
               onPressed: () {
                 finish(context);
               },
-              icon: Icon(Icons.arrow_back_ios_new, color: whiteColor, size: 18),
+              icon: Icon(Icons.arrow_back_ios_new, color: blackColor, size: 18),
               color: rf_primaryColor,
-            ),
+            )
+          : SizedBox(),
       elevation: 0,
       shape: roundCornerShape.validate()
           ? RoundedRectangleBorder(
@@ -324,6 +378,7 @@ PreferredSizeWidget commonAppBarWidget(BuildContext context,
           : RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.zero),
             ),
+      actions: [action.validate()],
     ),
   );
 }

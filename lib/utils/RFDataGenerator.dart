@@ -1,120 +1,124 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/models/RoomFinderModel.dart';
+import 'package:room_finder_flutter/models/TourFinderModel.dart';
 import 'package:room_finder_flutter/screens/RFAboutUsScreen.dart';
 import 'package:room_finder_flutter/screens/RFHelpScreen.dart';
 import 'package:room_finder_flutter/screens/RFNotificationScreen.dart';
 import 'package:room_finder_flutter/screens/RFRecentlyViewedScreen.dart';
+import 'package:room_finder_flutter/screens/account/WarningSettingScreen.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 
-List<RoomFinderModel> categoryList() {
-  List<RoomFinderModel> categoryListData = [];
-  categoryListData.add(RoomFinderModel(roomCategoryName: "Flat"));
-  categoryListData.add(RoomFinderModel(roomCategoryName: "Rooms"));
-  categoryListData.add(RoomFinderModel(roomCategoryName: "Hall"));
-  categoryListData.add(RoomFinderModel(roomCategoryName: "Rent"));
-  categoryListData.add(RoomFinderModel(roomCategoryName: "House"));
+List<TourFinderModel> categoryList() {
+  List<TourFinderModel> categoryListData = [];
+  categoryListData.add(TourFinderModel(roomCategoryName: "Hồ Chí Minh"));
+  categoryListData.add(TourFinderModel(roomCategoryName: "Phú Quốc"));
+  categoryListData.add(TourFinderModel(roomCategoryName: "Đà Nẵng"));
+  categoryListData.add(TourFinderModel(roomCategoryName: "Cần Thơ"));
+  categoryListData.add(TourFinderModel(roomCategoryName: "Hà Nội"));
 
   return categoryListData;
 }
 
-List<RoomFinderModel> hotelList() {
-  List<RoomFinderModel> hotelListData = [];
-  hotelListData.add(RoomFinderModel(
+List<TourFinderModel> tourList() {
+  List<TourFinderModel> tourListData = [];
+  tourListData.add(TourFinderModel(
       img: rf_hotel1,
       color: greenColor.withOpacity(0.6),
-      roomCategoryName: "Ho Chi Minh Tour",
-      price: "\$ 400 / ",
-      rentDuration: "per week",
-      location: "Ho Chi Minh city",
-      address: "Joined",
+      roomCategoryName:
+          "DU LỊCH THỤY SĨ [ZURICH – LUCERNE – ISELTWALD – INTERLAKEN – GRINDELWALD - GRUYÈRES – ZERMATT – MATTERHORN - MONTREUX – LAUSANNE - GENEVA]",
+      price: "\ 500.000 đ / ",
+      rentDuration: "tour",
+      location: "Ho Chi Minh",
+      address: "4 ngày 3 đêm",
       description: "9 joined | ",
       views: "20 Views"));
-  hotelListData.add(RoomFinderModel(
+  tourListData.add(TourFinderModel(
       img: rf_hotel2,
       color: redColor,
-      roomCategoryName: "Ha Noi Tour",
-      price: "\$ 500 / ",
-      rentDuration: "per week",
-      location: "Ha Noi",
-      address: "Participating  ",
+      roomCategoryName:
+          "Tour Đà Nẵng – Bà Nà – Hội An – Ngũ Hành Sơn từ Hà Nội 3N2Đ cực HOT",
+      price: "\ 500 đ/ ",
+      rentDuration: "tour",
+      location: "Hà Nội",
+      address: "3 ngày 2 đêm",
       description: "5 joined | ",
       views: "10 Views"));
-  hotelListData.add(RoomFinderModel(
+  tourListData.add(TourFinderModel(
       img: rf_hotel3,
       color: greenColor.withOpacity(0.6),
-      roomCategoryName: "Quang Nam Tour",
-      price: "\$ 60 / ",
+      roomCategoryName:
+          "Tour Đà Nẵng – Bà Nà – Hội An – Ngũ Hành Sơn từ TP.HCM | Giá Cực SHOCK",
+      price: "\ 60 đ/ ",
       rentDuration: "per day",
       location: "Quang Ngai",
-      address: "Participating ",
+      address: "3 ngày 2 đêm",
       description: "10 joined | ",
       views: "06 Views"));
-  hotelListData.add(RoomFinderModel(
+  tourListData.add(TourFinderModel(
       img: rf_hotel4,
       color: redColor,
       roomCategoryName: "Ca Mau Tour",
-      price: "\$ 500 / ",
-      rentDuration: "per week",
+      price: "\ 500 đ/ ",
+      rentDuration: "tour",
       location: "Ca Mau",
       address: "non-participating",
       description: "16 joined | ",
       views: "12 Views"));
-  hotelListData.add(RoomFinderModel(
+  tourListData.add(TourFinderModel(
       img: rf_hotel5,
       color: greenColor.withOpacity(0.6),
       roomCategoryName: "Hoa Ky Tour",
-      price: "\$ 2000 / ",
-      rentDuration: "per week",
+      price: "\ 2000 đ/ ",
+      rentDuration: "tour",
       location: "Hoa Ky",
       address: "non-participating",
       description: "9 joined | ",
       views: "25 Views"));
-  hotelListData.add(RoomFinderModel(
+  tourListData.add(TourFinderModel(
       img: rf_hotel2,
       color: redColor,
       roomCategoryName: "Canada Tour",
-      price: "\$ 5000 / ",
-      rentDuration: "per week",
+      price: "\ 5000 đ/ ",
+      rentDuration: "tour",
       location: "Canada",
       address: "non-participating",
       description: "5 joined | ",
       views: "10 Views"));
 
-  return hotelListData;
+  return tourListData;
 }
 
-List<RoomFinderModel> locationList() {
-  List<RoomFinderModel> locationListData = [];
-  locationListData.add(RoomFinderModel(
-      img: rf_location1, price: "10 Found", location: "Lalitpur"));
-  locationListData.add(
-      RoomFinderModel(img: rf_location2, price: "4 Found", location: "Imadol"));
-  locationListData.add(RoomFinderModel(
-      img: rf_location3, price: "12 Found", location: "Kupondole"));
-  locationListData.add(RoomFinderModel(
-      img: rf_location4, price: "16 Found", location: " Lalitpur"));
-  locationListData.add(RoomFinderModel(
-      img: rf_location5, price: "20 Found", location: "Mahalaxmi"));
-  locationListData.add(RoomFinderModel(
-      img: rf_location6, price: "25 Found", location: "Koteshwor"));
+List<TourFinderModel> locationList() {
+  List<TourFinderModel> locationListData = [];
+  locationListData.add(TourFinderModel(
+      img: rf_location1, price: "10 Found", location: "Phú Quốc"));
+  locationListData.add(TourFinderModel(
+      img: rf_location2, price: "4 Found", location: "Đà Nẵng"));
+  locationListData.add(TourFinderModel(
+      img: rf_location3, price: "12 Found", location: "Hồ Chí Minh"));
+  locationListData.add(TourFinderModel(
+      img: rf_location4, price: "16 Found", location: "Hà Nội"));
+  locationListData.add(TourFinderModel(
+      img: rf_location5, price: "20 Found", location: "Cần Thơ"));
+  locationListData.add(TourFinderModel(
+      img: rf_location6, price: "25 Found", location: "Nha Trang"));
 
   return locationListData;
 }
 
-List<RoomFinderModel> faqList() {
-  List<RoomFinderModel> faqListData = [];
-  faqListData.add(RoomFinderModel(
+List<TourFinderModel> faqList() {
+  List<TourFinderModel> faqListData = [];
+  faqListData.add(TourFinderModel(
       img: rf_faq,
       price: "What do we get here in this app?",
       description:
           "That which doesn't kill you makes you stronger, right? Unless it almost kills you, and renders you weaker. Being strong is pretty rad though, so go ahead."));
-  faqListData.add(RoomFinderModel(
+  faqListData.add(TourFinderModel(
       img: rf_faq,
       price: "What is the use of this App?",
       description:
           "Sometimes, you've just got to say 'the party starts here'. Unless you're not in the place where the aforementioned party is starting. Then, just shut up."));
-  faqListData.add(RoomFinderModel(
+  faqListData.add(TourFinderModel(
       img: rf_faq,
       price: "How to get from location A to B?",
       description:
@@ -123,13 +127,13 @@ List<RoomFinderModel> faqList() {
   return faqListData;
 }
 
-List<RoomFinderModel> notificationList() {
-  List<RoomFinderModel> notificationListData = [];
-  notificationListData.add(RoomFinderModel(
+List<TourFinderModel> notificationList() {
+  List<TourFinderModel> notificationListData = [];
+  notificationListData.add(TourFinderModel(
       price: "Welcome",
       unReadNotification: false,
-      description: "Don’t forget to complete your personal info."));
-  notificationListData.add(RoomFinderModel(
+      description: "Don't forget to complete your personal info."));
+  notificationListData.add(TourFinderModel(
       price: "There are 4 available properties, you recently selected. ",
       unReadNotification: true,
       description: "Click here for more details."));
@@ -137,17 +141,17 @@ List<RoomFinderModel> notificationList() {
   return notificationListData;
 }
 
-List<RoomFinderModel> yesterdayNotificationList() {
-  List<RoomFinderModel> yesterdayNotificationListData = [];
-  yesterdayNotificationListData.add(RoomFinderModel(
+List<TourFinderModel> yesterdayNotificationList() {
+  List<TourFinderModel> yesterdayNotificationListData = [];
+  yesterdayNotificationListData.add(TourFinderModel(
       price: "There are 4 available properties, you recently selected. ",
       unReadNotification: false,
       description: "Click here for more details."));
-  yesterdayNotificationListData.add(RoomFinderModel(
+  yesterdayNotificationListData.add(TourFinderModel(
       price: "There are 4 available properties, you recently selected. ",
       unReadNotification: true,
       description: "Click here for more details."));
-  yesterdayNotificationListData.add(RoomFinderModel(
+  yesterdayNotificationListData.add(TourFinderModel(
       price: "There are 4 available properties, you recently selected. ",
       unReadNotification: true,
       description: "Click here for more details."));
@@ -155,25 +159,29 @@ List<RoomFinderModel> yesterdayNotificationList() {
   return yesterdayNotificationListData;
 }
 
-List<RoomFinderModel> settingList() {
-  List<RoomFinderModel> settingListData = [];
-  settingListData.add(RoomFinderModel(
+List<TourFinderModel> settingList() {
+  List<TourFinderModel> settingListData = [];
+  settingListData.add(TourFinderModel(
       img: rf_notification,
       roomCategoryName: "Notifications",
       newScreenWidget: RFNotificationScreen()));
-  settingListData.add(RoomFinderModel(
+  settingListData.add(TourFinderModel(
+      img: settings,
+      roomCategoryName: "Warning Setting",
+      newScreenWidget: WarningSettingScreen()));
+  settingListData.add(TourFinderModel(
       img: rf_recent_view,
       roomCategoryName: "Recent Viewed",
       newScreenWidget: RFRecentlyViewedScreen()));
-  settingListData.add(RoomFinderModel(
+  settingListData.add(TourFinderModel(
       img: rf_faq,
       roomCategoryName: "Get Help",
       newScreenWidget: RFHelpScreen()));
-  settingListData.add(RoomFinderModel(
+  settingListData.add(TourFinderModel(
       img: rf_about_us,
       roomCategoryName: "About us",
       newScreenWidget: RFAboutUsScreen()));
-  settingListData.add(RoomFinderModel(
+  settingListData.add(TourFinderModel(
       img: rf_sign_out,
       roomCategoryName: "Sign Out",
       newScreenWidget: SizedBox()));
@@ -181,26 +189,26 @@ List<RoomFinderModel> settingList() {
   return settingListData;
 }
 
-List<RoomFinderModel> applyHotelList() {
-  List<RoomFinderModel> applyHotelListData = [];
-  applyHotelListData.add(RoomFinderModel(roomCategoryName: "Applied (5)"));
-  applyHotelListData.add(RoomFinderModel(roomCategoryName: "Liked"));
+List<TourFinderModel> applyHotelList() {
+  List<TourFinderModel> applytourListData = [];
+  applytourListData.add(TourFinderModel(roomCategoryName: "Applied (5)"));
+  applytourListData.add(TourFinderModel(roomCategoryName: "Liked"));
 
-  return applyHotelListData;
+  return applytourListData;
 }
 
-List<RoomFinderModel> availableHotelList() {
-  List<RoomFinderModel> availableHotelListData = [];
-  availableHotelListData
-      .add(RoomFinderModel(roomCategoryName: "All Available(14)"));
-  availableHotelListData.add(RoomFinderModel(roomCategoryName: "Booked"));
+List<TourFinderModel> availableHotelList() {
+  List<TourFinderModel> availabletourListData = [];
+  availabletourListData
+      .add(TourFinderModel(roomCategoryName: "All Available(14)"));
+  availabletourListData.add(TourFinderModel(roomCategoryName: "Booked"));
 
-  return availableHotelListData;
+  return availabletourListData;
 }
 
-List<RoomFinderModel> appliedHotelList() {
-  List<RoomFinderModel> appliedHotelData = [];
-  appliedHotelData.add(RoomFinderModel(
+List<TourFinderModel> appliedHotelList() {
+  List<TourFinderModel> appliedHotelData = [];
+  appliedHotelData.add(TourFinderModel(
       img: rf_hotel1,
       roomCategoryName: "1 BHK at Lalitpur",
       price: "RS 8000 ",
@@ -208,7 +216,7 @@ List<RoomFinderModel> appliedHotelList() {
       location: "Mahalaxmi Lalitpur",
       address: "Booked",
       views: "3.0"));
-  appliedHotelData.add(RoomFinderModel(
+  appliedHotelData.add(TourFinderModel(
       img: rf_hotel2,
       roomCategoryName: "Big Room",
       price: "RS 5000 ",
@@ -216,7 +224,7 @@ List<RoomFinderModel> appliedHotelList() {
       location: "Imadol",
       address: "Booked",
       views: "4.0"));
-  appliedHotelData.add(RoomFinderModel(
+  appliedHotelData.add(TourFinderModel(
       img: rf_hotel3,
       roomCategoryName: "4 Room for Student",
       price: "RS 6000 ",
@@ -224,7 +232,7 @@ List<RoomFinderModel> appliedHotelList() {
       location: "Kupondole",
       address: "Booked",
       views: "2.5"));
-  appliedHotelData.add(RoomFinderModel(
+  appliedHotelData.add(TourFinderModel(
       img: rf_hotel4,
       roomCategoryName: "Hall and Room",
       price: "RS 5000 ",
@@ -232,7 +240,7 @@ List<RoomFinderModel> appliedHotelList() {
       location: "Koteshwor Lalitpur",
       address: "Booked",
       views: "4.5"));
-  appliedHotelData.add(RoomFinderModel(
+  appliedHotelData.add(TourFinderModel(
       img: rf_hotel5,
       roomCategoryName: "Big Room",
       price: "RS 2000 ",
@@ -244,12 +252,12 @@ List<RoomFinderModel> appliedHotelList() {
   return appliedHotelData;
 }
 
-List<RoomFinderModel> hotelImageList() {
-  List<RoomFinderModel> hotelImageListData = [];
-  hotelImageListData.add(RoomFinderModel(img: rf_hotel1));
-  hotelImageListData.add(RoomFinderModel(img: rf_hotel2));
-  hotelImageListData.add(RoomFinderModel(img: rf_hotel3));
-  hotelImageListData.add(RoomFinderModel(img: rf_hotel4));
+List<TourFinderModel> hotelImageList() {
+  List<TourFinderModel> hotelImageListData = [];
+  hotelImageListData.add(TourFinderModel(img: rf_hotel1));
+  hotelImageListData.add(TourFinderModel(img: rf_hotel2));
+  hotelImageListData.add(TourFinderModel(img: rf_hotel3));
+  hotelImageListData.add(TourFinderModel(img: rf_hotel4));
 
   return hotelImageListData;
 }
