@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
@@ -14,6 +16,8 @@ import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/models/tour/tour_locations_response.dart';
 import 'package:room_finder_flutter/models/tourguide/tourguide_assgined.dart';
 import 'package:room_finder_flutter/models/user/avatar_response.dart';
+import 'package:room_finder_flutter/utils/app_utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/discovery/nearby_response.dart';
 import '../../models/discovery/place_details_response.dart';
@@ -53,6 +57,7 @@ import '../../utils/network.dart';
 part 'app_repositories.dart';
 part 'foursquare_repository.dart';
 part 'google_repository.dart';
+part 'tour_guide_repository.dart';
 
 const String API_PROD_URL = "https://dotnet-travelers.fly.dev";
 String get baseApiUrl => '$API_PROD_URL';
