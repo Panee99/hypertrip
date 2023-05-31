@@ -116,4 +116,13 @@ class AppRepository {
     );
     return TourGuideAssigned.fromJson(jsonDecode(response!));
   }
+
+  // TODO: Waiting BE update data response
+  Future<dynamic> getAttendances(String travelerId) async {
+    final response = await NetworkUtility.fetchUrl(
+      Uri.parse('$baseApiUrl//attendance-events/$travelerId/attendances'),
+      headers: mapHeader,
+    );
+    return response;
+  }
 }
