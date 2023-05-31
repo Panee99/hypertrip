@@ -15,7 +15,7 @@ import 'package:room_finder_flutter/models/popup_choices.dart';
 import 'package:room_finder_flutter/models/user_chat.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/provider/home_provider.dart';
-import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
+import 'package:room_finder_flutter/screens/EmailSignInScreen.dart';
 import 'package:room_finder_flutter/screens/chat_page.dart';
 import 'package:room_finder_flutter/screens/settings_page.dart';
 import 'package:room_finder_flutter/utils/debouncer.dart';

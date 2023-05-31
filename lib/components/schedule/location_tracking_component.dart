@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'dart:ui' as ui;
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -144,10 +146,39 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
     ;
   }
 
-  void setCustomMarkerIcon() {
-    BitmapDescriptor.fromAssetImage(
-            ImageConfiguration.empty, 'assets/images/airplane_marker.png')
-        .then((icon) => currentLocationIcon = icon);
+  void setCustomMarkerIcon() async {
+    final String imagePath = 'assets/images/airplane_marker.png';
+    final Color iconColor = secondaryColor; // Set your desired color here
+
+    final ByteData imageData = await rootBundle.load(imagePath);
+    final Uint8List bytes = imageData.buffer.asUint8List();
+
+    final ui.Codec codec = await ui.instantiateImageCodec(bytes);
+    final ui.FrameInfo frameInfo = await codec.getNextFrame();
+
+    final ui.Image image = frameInfo.image;
+    final Size imageSize =
+        Size(image.width.toDouble(), image.height.toDouble());
+
+    final PictureRecorder pictureRecorder = PictureRecorder();
+    final Canvas canvas = Canvas(pictureRecorder);
+
+    final Paint paint = Paint()
+      ..colorFilter = ColorFilter.mode(iconColor, BlendMode.srcIn);
+    canvas.drawImage(image, Offset.zero, paint);
+
+    final Picture picture = pictureRecorder.endRecording();
+    final ui.Image coloredImage = await picture.toImage(
+        imageSize.width.toInt(), imageSize.height.toInt());
+
+    final ByteData? coloredImageData =
+        await coloredImage.toByteData(format: ui.ImageByteFormat.png);
+    final Uint8List coloredBytes = coloredImageData!.buffer.asUint8List();
+
+    currentLocationIcon = BitmapDescriptor.fromBytes(coloredBytes);
+    // BitmapDescriptor.fromAssetImage(
+    //         ImageConfiguration.empty, 'assets/images/airplane_marker.png')
+    //     .then((icon) => currentLocationIcon = icon);
   }
 
   Future<Uint8List> getBytesFromCanvas(int number) async {

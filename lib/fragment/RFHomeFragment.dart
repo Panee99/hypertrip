@@ -48,59 +48,33 @@ class RFHomeFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     List<Widget> travelBody = [
-      // Container(
-      //   padding: EdgeInsets.only(top: 8, left: 30, right: 30, bottom: 8),
-      //   decoration: BoxDecoration(
-      //     color: Color(0xFF3E99C9),
-      //     // borderRadius: BorderRadius.only(
-      //     //   bottomLeft: Radius.circular(20),
-      //     //   bottomRight: Radius.circular(20),
-      //     // ),
-      //   ),
-      //   child: Column(
-      //     children: [
-      //       Row(
-      //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //           children: [
-      //             Column(
-      //               crossAxisAlignment: CrossAxisAlignment.start,
-      //               children: [
-      //                 Text(
-      //                   'Hi Pannie',
-      //                   style: TextStyle(
-      //                       fontSize: 12,
-      //                       color: Colors.black,
-      //                       fontWeight: FontWeight.bold),
-      //                 ),
-      //                 // SizedBox(
-      //                 //   height: 8,
-      //                 // ),
-      //                 Row(
-      //                   children: [
-      //                     Icon(
-      //                       Icons.location_on_sharp,
-      //                       color: Colors.black,
-      //                       size: 12,
-      //                     ),
-      //                     Text('Ho Chi Minh City')
-      //                   ],
-      //                 ),
-      //               ],
-      //             ),
-      //             Icon(
-      //               Icons.notifications,
-      //               size: 24,
-      //               color: Colors.black,
-      //             ),
-      //             // Icon(
-      //             //   Icons.account_circle,
-      //             //   size: 30,
-      //             //   color: Colors.white,
-      //             // ),
-      //           ]),
-      //     ],
-      //   ),
-      // ),
+      Row(
+        children: [
+          Expanded(
+            //     child: ElevatedButton(
+            //   child: Text(
+            //     'Booking Now',
+            //     style: boldTextStyle(color: whiteColor),
+            //   ),
+            //   style: ElevatedButton.styleFrom(
+            //       primary: rf_primaryColor, elevation: 0),
+
+            //   onPressed: () {},
+            // )
+            child: AppButton(
+              color: rf_primaryColor,
+              child: Text(
+                'Booking Now',
+                style: boldTextStyle(color: whiteColor),
+              ),
+              elevation: 0,
+              width: 30,
+              onTap: () {},
+            ),
+          ),
+        ],
+      ).paddingRight(16),
+      32.height,
       Container(
         child: Text(
           "Nearby you",

@@ -12,6 +12,7 @@ const textBlurColor = Color(0xFFBDC1C6);
 const starRateColor = Color(0xFFF99D00);
 const starUnrateColor = Color(0xFFCDCDCD);
 const disableButtonColor = Color(0xFFBDC1C6);
+const secondaryColor = Color(0xFFFF9900);
 
 // Dark Theme Colors
 const appBackgroundColorDark = Color(0xFF121212);
