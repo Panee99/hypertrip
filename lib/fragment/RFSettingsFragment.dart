@@ -5,7 +5,7 @@ import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/models/TourFinderModel.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
-import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
+import 'package:room_finder_flutter/screens/EmailSignInScreen.dart';
 import 'package:room_finder_flutter/screens/account/EditProfileScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFDataGenerator.dart';

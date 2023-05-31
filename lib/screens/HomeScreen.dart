@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -26,21 +27,11 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   List<Widget> travelerPages = [
-    RFHomeFragment(),
     DiscoveryFragment(),
     ScheduleFragment(),
-    // RFSettingsFragment(),
-    TicketFragment(),
-    // RFSettingsFragment(),
-    // RFAccountFragment(),
     InboxFragment(),
   ];
   List<BottomNavigationBarItem> travelerItems = [
-    BottomNavigationBarItem(
-      icon: rf_home.iconImage(),
-      label: 'Home',
-      activeIcon: rf_home.iconImage(iconColor: rf_primaryColor),
-    ),
     BottomNavigationBarItem(
       icon: rf_search.iconImage(),
       label: 'Discovery',
@@ -51,13 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
       label: '',
     ),
     BottomNavigationBarItem(
-      icon: rf_ticket.iconImage(size: 22),
-      label: 'Ticket',
-      activeIcon: rf_ticket.iconImage(iconColor: rf_primaryColor, size: 22),
-    ),
-    BottomNavigationBarItem(
       icon: rf_message.iconImage(),
-      label: 'Inbox',
+      label: 'Chat',
       activeIcon: Icon(Icons.message),
     ),
   ];
@@ -104,29 +90,58 @@ class _HomeScreenState extends State<HomeScreen> {
     List<BottomNavigationBarItem> items =
         authProvider.user.role == 'Traveler' ? travelerItems : tourGuideItems;
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: BottomAppBar(
-        clipBehavior: Clip.antiAlias,
-        shape: CustomCircularNotchedRectangle(
-          notchOffset: Offset(-16, 0),
-        ),
-        notchMargin: 8.0,
-        elevation: 0,
-        child: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          selectedLabelStyle: boldTextStyle(size: 14, color: rf_primaryColor),
-          selectedFontSize: 14,
-          unselectedFontSize: 14,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
+    if (Theme.of(context).platform == TargetPlatform.android) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: BottomAppBar(
+          clipBehavior: Clip.antiAlias,
+          shape: CustomCircularNotchedRectangle(
+            notchOffset: Offset(-16, 0),
+          ),
+          notchMargin: 8.0,
           elevation: 0,
-          type: BottomNavigationBarType.fixed,
-          items: items,
+          child: Container(
+            child: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+              selectedLabelStyle:
+                  boldTextStyle(size: 14, color: rf_primaryColor),
+              selectedFontSize: 14,
+              unselectedFontSize: 14,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              elevation: 0,
+              type: BottomNavigationBarType.fixed,
+              items: items,
+            ),
+          ),
         ),
-      ),
-    ).paddingOnly(left: 16, bottom: 16, right: 16);
+      ).paddingOnly(left: 16, right: 16, top: 16);
+    } else {
+      return SafeArea(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: BottomAppBar(
+            clipBehavior: Clip.antiAlias,
+            shape: CustomCircularNotchedRectangle(
+              notchOffset: Offset(-16, 0),
+            ),
+            notchMargin: 8.0,
+            elevation: 0,
+            child: CupertinoTabBar(
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+              backgroundColor:
+                  Colors.white, // Set your desired background color
+              activeColor: rf_primaryColor, // Set your desired active color
+              inactiveColor: Colors.grey, // Set your desired inactive color
+              border: null,
+              items: items,
+            ).paddingAll(8),
+          ),
+        ).paddingOnly(left: 16, right: 16),
+      );
+    }
   }
 
   void _onItemTapped(int index) {
@@ -170,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           onPressed: () {
             setState(() {
-              _selectedIndex = 2;
+              _selectedIndex = 1;
             });
           }),
       body: IndexedStack(

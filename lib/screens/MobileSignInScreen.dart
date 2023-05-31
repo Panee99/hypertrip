@@ -5,7 +5,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
-// import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
+import 'package:room_finder_flutter/screens/EmailSignInScreen.dart';
 import 'package:room_finder_flutter/screens/RFResetPasswordScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
@@ -284,7 +284,7 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
                 'For Tour Guide',
                 style: primaryTextStyle(color: rf_primaryColor, size: 14),
               ).onTap(() {
-                // RFEmailSignInScreen().launch(context);
+                RFEmailSignInScreen().launch(context);
               })
             ],
           ),

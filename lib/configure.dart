@@ -5,7 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/firebase_options.dart';
-import 'package:room_finder_flutter/get_it.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 
 Future<void> configure() async {
@@ -23,6 +22,4 @@ Future<void> configure() async {
       googleSignIn: GoogleSignIn(),
       prefs: prefs,
       firebaseFirestore: firebaseFirestore);
-
-  getIt.registerSingleton<AuthProvider>(authProvider);
 }

@@ -14,7 +14,7 @@ import 'package:room_finder_flutter/constants/firestore_constants.dart.dart';
 import 'package:room_finder_flutter/models/message_chat.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/provider/chatProvider.dart';
-import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
+import 'package:room_finder_flutter/screens/EmailSignInScreen.dart';
 import 'package:room_finder_flutter/screens/full_photo_page.dart';
 import 'package:room_finder_flutter/widget/loading_view.dart';
 
