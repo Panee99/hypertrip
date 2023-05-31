@@ -10,14 +10,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
-import 'package:room_finder_flutter/store/AppStore.dart';
-import 'package:room_finder_flutter/utils/AppTheme.dart';
-import 'package:room_finder_flutter/utils/RFConstant.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/provider/chatProvider.dart';
 import 'package:room_finder_flutter/provider/home_provider.dart';
 import 'package:room_finder_flutter/provider/setting_provider.dart';
+import 'package:room_finder_flutter/routers.dart';
+import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
+import 'package:room_finder_flutter/store/AppStore.dart';
+import 'package:room_finder_flutter/utils/AppTheme.dart';
+import 'package:room_finder_flutter/utils/RFConstant.dart';
 
 import 'data/repositories/repositories.dart';
 import 'firebase_options.dart';
@@ -42,8 +43,7 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -97,6 +97,7 @@ class MyApp extends StatelessWidget {
         darkTheme: AppThemeData.darkTheme,
         themeMode: appStore.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
         home: RFSplashScreen(),
+        onGenerateRoute: Routers.generateRoute,
       ),
     );
   }

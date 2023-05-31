@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:room_finder_flutter/domain/entities/user_entity.dart';
 import 'package:room_finder_flutter/widget/profile_widget.dart';
 
