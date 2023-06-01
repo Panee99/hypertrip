@@ -1,11 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Material;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
+
 import '../../bloc/nearby/nearby_bloc.dart';
 import '../../bloc/nearby/nearby_event.dart';
 import '../../bloc/nearby/nearby_state.dart';
@@ -53,20 +53,17 @@ class _MapFragmentState extends State<DiscoveryFragment> {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission != LocationPermission.whileInUse &&
-          permission != LocationPermission.always) {
+      if (permission != LocationPermission.whileInUse && permission != LocationPermission.always) {
         return null;
       }
     }
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     setState(() {
       latLngPosition = LatLng(position.latitude, position.longitude);
     });
 
     // Move camera to the current location
-    mapController
-        .animateCamera(CameraUpdate.newLatLngZoom(latLngPosition, 2.0));
+    mapController.animateCamera(CameraUpdate.newLatLngZoom(latLngPosition, 2.0));
   }
 
   @override
@@ -75,8 +72,7 @@ class _MapFragmentState extends State<DiscoveryFragment> {
     final screenHeight = MediaQuery.of(context).size.height;
     return BlocProvider(
         create: (context) =>
-            PlaceBloc(RepositoryProvider.of<FoursquareRepository>(context))
-              ..add(LoadPlaceEvent()),
+            PlaceBloc(RepositoryProvider.of<FoursquareRepository>(context))..add(LoadPlaceEvent()),
         child: Scaffold(
             body: RFCommonAppComponent(
               scroll: true,
@@ -97,8 +93,7 @@ class _MapFragmentState extends State<DiscoveryFragment> {
                       lableText: "What do you need...",
                       showLableText: true,
                       showPreFixIcon: true,
-                      prefixIcon: Material.Icon(Icons.search,
-                          color: rf_primaryColor, size: 16),
+                      prefixIcon: Material.Icon(Icons.search, color: rf_primaryColor, size: 16),
                     ),
                     onChanged: (value) {
                       setState(() {
@@ -112,8 +107,7 @@ class _MapFragmentState extends State<DiscoveryFragment> {
                       Expanded(
                         child: AppButton(
                           color: rf_primaryColor,
-                          child:
-                              Text('Find', style: boldTextStyle(color: white)),
+                          child: Text('Find', style: boldTextStyle(color: white)),
                           elevation: 0,
                           onTap: searchQuery != ''
                               ? () {
@@ -151,9 +145,7 @@ class _MapFragmentState extends State<DiscoveryFragment> {
                           padding: EdgeInsets.symmetric(horizontal: 16.0),
                           child: Row(
                             children: [
-                              Expanded(
-                                  child: Text('Nearby you',
-                                      style: boldTextStyle())),
+                              Expanded(child: Text('Nearby you', style: boldTextStyle())),
                               DropdownButton<String>(
                                 value: dropdownValue,
                                 style: primaryTextStyle(),
@@ -194,9 +186,7 @@ class _MapFragmentState extends State<DiscoveryFragment> {
                           padding: EdgeInsets.symmetric(horizontal: 16.0),
                           child: Row(
                             children: [
-                              Expanded(
-                                  child: Text('Search results',
-                                      style: boldTextStyle())),
+                              Expanded(child: Text('Search results', style: boldTextStyle())),
                             ],
                           ),
                         ),

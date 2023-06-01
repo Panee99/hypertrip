@@ -1,20 +1,19 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
-import 'package:room_finder_flutter/fragment/RFHomeTourGuideFragment.dart';
-import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
 import 'package:room_finder_flutter/fragment/inbox_fragment.dart';
 import 'package:room_finder_flutter/fragment/schedule_fragment.dart';
 import 'package:room_finder_flutter/fragment/ticket/ticket_fragment.dart';
+import 'package:room_finder_flutter/fragment/tourguide/home/rf_home_tourguide_fragment.dart';
 import 'package:room_finder_flutter/screens/chat/ChatPage.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
-import 'dart:math' as math;
-import '../fragment/RFHomeFragment.dart';
+
 import '../fragment/discovery/discovery_fragment.dart';
 import '../provider/AuthProvider.dart';
 
@@ -104,8 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: BottomNavigationBar(
               currentIndex: _selectedIndex,
               onTap: _onItemTapped,
-              selectedLabelStyle:
-                  boldTextStyle(size: 14, color: rf_primaryColor),
+              selectedLabelStyle: boldTextStyle(size: 14, color: rf_primaryColor),
               selectedFontSize: 14,
               unselectedFontSize: 14,
               showSelectedLabels: false,
@@ -131,8 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: CupertinoTabBar(
               currentIndex: _selectedIndex,
               onTap: _onItemTapped,
-              backgroundColor:
-                  Colors.white, // Set your desired background color
+              backgroundColor: Colors.white, // Set your desired background color
               activeColor: rf_primaryColor, // Set your desired active color
               inactiveColor: Colors.grey, // Set your desired inactive color
               border: null,
@@ -157,8 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void init() async {
-    setStatusBarColor(rf_primaryColor,
-        statusBarIconBrightness: Brightness.light);
+    setStatusBarColor(rf_primaryColor, statusBarIconBrightness: Brightness.light);
   }
 
   @override
@@ -169,8 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    List<Widget> pages =
-        authProvider.user.role == 'Traveler' ? travelerPages : tourGuidePages;
+    List<Widget> pages = authProvider.user.role == 'Traveler' ? travelerPages : tourGuidePages;
     return Scaffold(
       extendBody: false,
       bottomNavigationBar: _bottomTab(context),

@@ -43,3 +43,10 @@ const shoe_prints = 'assets/icons/shoe-prints.svg';
 const angle_left = 'assets/icons/angle-left.svg';
 const angle_right = 'assets/icons/angle-right.svg';
 const add_square = 'assets/icons/add-square.svg';
+
+// TourGuide
+const rf_food = 'assets/icons/pizza.svg';
+const rf_coffee = 'assets/icons/coffee.svg';
+const rf_nightlife = 'assets/icons/nightlife.svg';
+const rf_fun = 'assets/icons/fun.svg';
+const rf_shopping = 'assets/icons/shopping.svg';

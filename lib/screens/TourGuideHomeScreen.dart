@@ -2,7 +2,7 @@
 // import 'package:flutter_svg/svg.dart';
 // import 'package:nb_utils/nb_utils.dart';
 // import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
-// import 'package:room_finder_flutter/fragment/RFHomeTourGuideFragment.dart';
+// import 'package:room_finder_flutter/fragment/rf_home_tourguide_fragment.dart';
 // import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
 // import 'package:room_finder_flutter/fragment/inbox_fragment.dart';
 // import 'package:room_finder_flutter/fragment/schedule_fragment.dart';
