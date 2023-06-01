@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/fragment/inbox_fragment.dart';
 import 'package:room_finder_flutter/fragment/schedule_fragment.dart';
 import 'package:room_finder_flutter/fragment/tourguide/home/rf_home_tourguide_fragment.dart';
+import 'package:room_finder_flutter/fragment/tourguide/map/rf_map_page.dart';
 import 'package:room_finder_flutter/fragment/tourguide/warning_incident/warning_incident_page.dart';
 import 'package:room_finder_flutter/screens/chat/ChatPage.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
@@ -50,11 +51,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> tourGuidePages = [
     RFHomeTourGuideFragment(),
     DiscoveryFragment(),
-    ScheduleFragment(),
-    // RFSettingsFragment(),
+    RFMapPage(),
     WarningIncidentPage(),
-    // RFSettingsFragment(),
-    // RFAccountFragment(),
     ChatPageScreen(),
   ];
   List<BottomNavigationBarItem> tourGuideItems = [
@@ -180,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           onPressed: () {
             setState(() {
-              _selectedIndex = 1;
+              _selectedIndex = 2;
             });
           }),
       body: IndexedStack(
