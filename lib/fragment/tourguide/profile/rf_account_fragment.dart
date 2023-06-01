@@ -37,6 +37,12 @@ class _RFAccountFragmentState extends State<RFAccountFragment> {
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        backgroundColor: rf_primaryColor,
+        elevation: 0,
+      ),
       body: RFCommonAppComponent(
         title: "Account",
         mainWidgetHeight: 200,
@@ -52,8 +58,7 @@ class _RFAccountFragmentState extends State<RFAccountFragment> {
                 width: 100,
                 height: 100,
                 decoration: boxDecorationWithRoundedCorners(
-                    boxShape: BoxShape.circle,
-                    border: Border.all(color: white, width: 4)),
+                    boxShape: BoxShape.circle, border: Border.all(color: white, width: 4)),
                 child: rfCommonCachedNetworkImage(rf_user,
                     fit: BoxFit.cover, width: 100, height: 100, radius: 150),
               ),
@@ -75,8 +80,7 @@ class _RFAccountFragmentState extends State<RFAccountFragment> {
                     ],
                   ),
                   child: Icon(Icons.add,
-                      color: appStore.isDarkModeOn ? white : rf_primaryColor,
-                      size: 16),
+                      color: appStore.isDarkModeOn ? white : rf_primaryColor, size: 16),
                 ),
               ),
             ],
@@ -86,10 +90,7 @@ class _RFAccountFragmentState extends State<RFAccountFragment> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             16.height,
-            Text(
-                    authProvider.user.firstName! +
-                        ' ' +
-                        authProvider.user.lastName!,
+            Text(authProvider.user.firstName! + ' ' + authProvider.user.lastName!,
                     style: boldTextStyle(size: 18))
                 .center(),
             8.height,
@@ -101,8 +102,7 @@ class _RFAccountFragmentState extends State<RFAccountFragment> {
                 Container(
                     height: 10,
                     width: 1,
-                    color:
-                        appStore.isDarkModeOn ? white : gray.withOpacity(0.4)),
+                    color: appStore.isDarkModeOn ? white : gray.withOpacity(0.4)),
                 8.width,
                 Text('Kathmandu', style: secondaryTextStyle()),
               ],
@@ -118,21 +118,16 @@ class _RFAccountFragmentState extends State<RFAccountFragment> {
                     backgroundColor: context.scaffoldBackgroundColor,
                     side: BorderSide(color: context.dividerColor, width: 1),
                     padding: EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      rf_call.iconImage(
-                          iconColor:
-                              appStore.isDarkModeOn ? white : rf_primaryColor),
+                      rf_call.iconImage(iconColor: appStore.isDarkModeOn ? white : rf_primaryColor),
                       8.width,
                       Text('Call Me',
                           style: boldTextStyle(
-                              color: appStore.isDarkModeOn
-                                  ? white
-                                  : rf_primaryColor)),
+                              color: appStore.isDarkModeOn ? white : rf_primaryColor)),
                     ],
                   ),
                 ).expand(),
@@ -140,8 +135,7 @@ class _RFAccountFragmentState extends State<RFAccountFragment> {
                 AppButton(
                   color: rf_primaryColor,
                   elevation: 0.0,
-                  shapeBorder: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16)),
+                  shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   width: context.width(),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -161,9 +155,8 @@ class _RFAccountFragmentState extends State<RFAccountFragment> {
             Container(
               decoration: boxDecorationWithRoundedCorners(
                 border: Border.all(
-                    color: appStore.isDarkModeOn
-                        ? gray.withOpacity(0.3)
-                        : rf_selectedCategoryBgColor),
+                    color:
+                        appStore.isDarkModeOn ? gray.withOpacity(0.3) : rf_selectedCategoryBgColor),
                 backgroundColor: context.cardColor,
               ),
               margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -190,8 +183,7 @@ class _RFAccountFragmentState extends State<RFAccountFragment> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Phone No', style: boldTextStyle()),
-                      Text(authProvider.user.phone!,
-                          style: secondaryTextStyle()),
+                      Text(authProvider.user.phone!, style: secondaryTextStyle()),
                     ],
                   ).paddingSymmetric(horizontal: 24, vertical: 16),
                 ],
@@ -207,16 +199,13 @@ class _RFAccountFragmentState extends State<RFAccountFragment> {
                 return Container(
                   padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   decoration: boxDecorationWithRoundedCorners(
-                    backgroundColor: selectedIndex == index
-                        ? rf_selectedCategoryBgColor
-                        : Colors.transparent,
+                    backgroundColor:
+                        selectedIndex == index ? rf_selectedCategoryBgColor : Colors.transparent,
                   ),
                   child: Text(
                     data.roomCategoryName.validate(),
                     style: boldTextStyle(
-                        color: selectedIndex == index
-                            ? rf_primaryColor
-                            : gray.withOpacity(0.4)),
+                        color: selectedIndex == index ? rf_primaryColor : gray.withOpacity(0.4)),
                   ),
                 ).onTap(() {
                   selectedIndex = index;

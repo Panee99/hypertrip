@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/fragment/tourguide/home/components/rf_current_tour_item.dart';
+import 'package:room_finder_flutter/routers.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/app_languages.dart';
+import 'package:room_finder_flutter/widget/rf_tour_item.dart';
 
 class RFCurrentTour extends StatelessWidget {
   const RFCurrentTour({Key? key}) : super(key: key);
@@ -22,14 +23,17 @@ class RFCurrentTour extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            Text(
-              rf_lang_see_all,
-              style: TextStyle(color: rf_primaryColor),
+            GestureDetector(
+              onTap: () => Navigator.of(context).pushNamed(Routers.TOUR_LIST),
+              child: Text(
+                rf_lang_see_all,
+                style: TextStyle(color: rf_primaryColor),
+              ),
             ),
           ],
         ),
         16.height,
-        RFCurrentTourItem(),
+        RFTourItem(),
       ],
     ).paddingRight(16);
   }
