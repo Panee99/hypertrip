@@ -3,6 +3,10 @@ import 'package:room_finder_flutter/models/tourguide/serializable.dart';
 
 part 'weather_condition.g.dart';
 
+///"condition": Điều kiện thời tiết hiện tại.
+// "text": Mô tả văn bản về điều kiện thời tiết.
+// "icon": URL đến biểu tượng biểu thị điều kiện thời tiết.
+
 @JsonSerializable()
 class WeatherCondition implements Serializable {
   String text;
