@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
 import 'package:room_finder_flutter/fragment/RFHomeTourGuideFragment.dart';
-import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
 import 'package:room_finder_flutter/fragment/inbox_fragment.dart';
 import 'package:room_finder_flutter/fragment/schedule_fragment.dart';
 import 'package:room_finder_flutter/fragment/ticket/ticket_fragment.dart';
@@ -14,7 +12,6 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'dart:math' as math;
-import '../fragment/RFHomeFragment.dart';
 import '../fragment/discovery/discovery_fragment.dart';
 import '../provider/AuthProvider.dart';
 

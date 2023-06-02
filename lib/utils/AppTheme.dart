@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 
@@ -15,7 +14,6 @@ class AppThemeData {
     errorColor: Colors.red,
     hoverColor: Colors.white54,
     dividerColor: viewLineColor,
-    fontFamily: GoogleFonts.openSans().fontFamily,
     appBarTheme: AppBarTheme(
       //color: whiteColor,
       iconTheme: IconThemeData(color: textPrimaryColor),
@@ -62,7 +60,6 @@ class AppThemeData {
     primaryColorDark: color_primary_black,
     textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.white),
     hoverColor: Colors.black12,
-    fontFamily: GoogleFonts.openSans().fontFamily,
     bottomSheetTheme:
         BottomSheetThemeData(backgroundColor: appBackgroundColorDark),
     primaryTextTheme: TextTheme(

@@ -6,16 +6,10 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/bloc/location/location_bloc.dart';
 import 'package:room_finder_flutter/bloc/location/location_state.dart';
-import 'package:room_finder_flutter/bloc/nearby/nearby_bloc.dart';
-import 'package:room_finder_flutter/bloc/nearby/nearby_event.dart';
 import 'package:room_finder_flutter/bloc/tour/tour_detail_event.dart';
-import 'package:room_finder_flutter/fragment/discovery/discovery_fragment.dart';
 import 'package:room_finder_flutter/screens/home/nearby_you.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
-import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
-import 'package:flutter/material.dart' as Material;
-import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 import '../bloc/location/location_event.dart';
 import '../bloc/tour/tour_detail_bloc.dart';

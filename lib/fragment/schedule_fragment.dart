@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/components/schedule/location_tracking_component.dart';
-import 'package:room_finder_flutter/components/schedule/recent_tour_component.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
 // import 'package:room_finder_flutter/models/RoomFinderModel.dart';
 import 'package:room_finder_flutter/models/tour/joined_tour_response.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
+import 'package:room_finder_flutter/screens/tour/TourDetailScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
+import 'package:room_finder_flutter/utils/RFImages.dart';
 
 class ScheduleFragment extends StatefulWidget {
   @override
@@ -83,10 +84,42 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
             );
           } else {
             final tour = snapshot.data!;
-            print('Schedule fragment: ' + tour.id.toString());
             return Scaffold(
-              body: LocationTrackingComponent(
-                tour: tour,
+              body: Stack(
+                children: [
+                  LocationTrackingComponent(
+                    tour: tour,
+                  ),
+                  Positioned(
+                    bottom: 32, // Adjust the position of the button as needed
+                    right: context.width() / 2 -
+                        50, // Adjust the position of the button as needed
+                    child: AppButton(
+                      width: 100,
+                      color: secondaryColor,
+                      elevation: 0,
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      text: "Detail",
+                      onTap: () {
+                        TourDetailScreen(tourId: tour.id.validate())
+                            .launch(context);
+                      },
+                      textStyle: boldTextStyle(color: Colors.white),
+                      child: Row(children: [
+                        SvgPicture.asset(
+                          info,
+                          width: 20,
+                          color: whiteColor,
+                        ),
+                        8.width,
+                        Text(
+                          'Detail',
+                          style: primaryTextStyle(color: whiteColor),
+                        )
+                      ]),
+                    ),
+                  ),
+                ],
               ),
             );
           }

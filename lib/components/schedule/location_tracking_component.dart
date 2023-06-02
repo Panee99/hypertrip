@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:typed_data';
 import 'dart:ui';
 import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
@@ -12,10 +9,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_routes/google_maps_routes.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
+import 'package:room_finder_flutter/utils/RFImages.dart';
 
 class LocationTrackingComponent extends StatefulWidget {
   final TourDetailResponse tour;
@@ -40,7 +37,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   // Set<Polyline> polylines = {};
   MapsRoutes route = new MapsRoutes();
   DistanceCalculator distanceCalculator = new DistanceCalculator();
-  String googleApiKey = 'AIzaSyAvMnrp-xOiyWA0rMaxLFNgqLQiP7ZtKiQ';
+  String googleApiKey = 'AIzaSyAPZiYIlR-ztOa6maus6urUhs1Z-6spyj4';
 
   @override
   void initState() {
@@ -108,14 +105,16 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   void getDirection() async {
     PolylinePoints polylinePoints = PolylinePoints();
     if (tourFlow != null) {
-      tourFlow!.reversed.toList().asMap().forEach((index, place) async {
+      tourFlow!.toList().asMap().forEach((index, place) async {
         PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
             googleApiKey,
             PointLatLng(tourFlow!.elementAt(index).latitude!,
                 tourFlow!.elementAt(index).longitude!),
             PointLatLng(tourFlow!.elementAt(index + 1).latitude!,
                 tourFlow!.elementAt(index + 1).longitude!),
-            travelMode: TravelMode.bicycling);
+            travelMode: TravelMode.walking);
+        print('Status: ' + result.status.toString());
+        print('Points: ' + result.points.toString());
         if (result.points.isNotEmpty) {
           setState(() {
             result.points.forEach((PointLatLng point) => _polylineCoordinate
@@ -147,7 +146,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   }
 
   void setCustomMarkerIcon() async {
-    final String imagePath = 'assets/images/airplane_marker.png';
+    final String imagePath = location;
     final Color iconColor = secondaryColor; // Set your desired color here
 
     final ByteData imageData = await rootBundle.load(imagePath);
@@ -176,8 +175,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
     final Uint8List coloredBytes = coloredImageData!.buffer.asUint8List();
 
     currentLocationIcon = BitmapDescriptor.fromBytes(coloredBytes);
-    // BitmapDescriptor.fromAssetImage(
-    //         ImageConfiguration.empty, 'assets/images/airplane_marker.png')
+    // BitmapDescriptor.fromAssetImage(ImageConfiguration.empty, location)
     //     .then((icon) => currentLocationIcon = icon);
   }
 
@@ -271,7 +269,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
                       color: rf_primaryColor,
                       width: 6)
                 },
-                // myLocationEnabled: true,
+                myLocationEnabled: true,
                 myLocationButtonEnabled: true,
                 zoomControlsEnabled: true,
                 zoomGesturesEnabled: true,
