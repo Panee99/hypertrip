@@ -10,6 +10,7 @@ import 'package:room_finder_flutter/cubit/user/user_cubit.dart';
 import 'package:room_finder_flutter/data/remote/data_sources/firebase_remote_data_source.dart';
 import 'package:room_finder_flutter/data/remote/data_sources/firebase_remote_data_source_impl.dart';
 import 'package:room_finder_flutter/data/repositories/firebase_repository_impl.dart';
+import 'package:room_finder_flutter/data/repositories/warning_incident_repository.dart';
 import 'package:room_finder_flutter/domain/repositories/firebase_repository.dart';
 import 'package:room_finder_flutter/domain/use_cases/create_group_usecase.dart';
 import 'package:room_finder_flutter/domain/use_cases/forgot_password_usecase.dart';
@@ -27,6 +28,7 @@ import 'package:room_finder_flutter/domain/use_cases/sign_in_usecase.dart';
 import 'package:room_finder_flutter/domain/use_cases/sign_out_usecase.dart';
 import 'package:room_finder_flutter/domain/use_cases/sign_up_usecase.dart';
 import 'package:room_finder_flutter/domain/use_cases/update_group_usecase.dart';
+import 'package:room_finder_flutter/fragment/tourguide/warning_incident/interactor/warning_incident_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -60,36 +62,24 @@ Future<void> init() async {
       ));
 
   //UseCases
-  sl.registerLazySingleton<GoogleSignInUseCase>(
-      () => GoogleSignInUseCase(repository: sl.call()));
+  sl.registerLazySingleton<GoogleSignInUseCase>(() => GoogleSignInUseCase(repository: sl.call()));
   sl.registerLazySingleton<ForgotPasswordUseCase>(
       () => ForgotPasswordUseCase(repository: sl.call()));
   sl.registerLazySingleton<GetCreateCurrentUserUseCase>(
       () => GetCreateCurrentUserUseCase(repository: sl.call()));
-  sl.registerLazySingleton<GetCurrentUIDUseCase>(
-      () => GetCurrentUIDUseCase(repository: sl.call()));
-  sl.registerLazySingleton<IsSignInUseCase>(
-      () => IsSignInUseCase(repository: sl.call()));
-  sl.registerLazySingleton<SignInUseCase>(
-      () => SignInUseCase(repository: sl.call()));
-  sl.registerLazySingleton<SignUpUseCase>(
-      () => SignUpUseCase(repository: sl.call()));
-  sl.registerLazySingleton<SignOutUseCase>(
-      () => SignOutUseCase(repository: sl.call()));
-  sl.registerLazySingleton<GetAllUsersUseCase>(
-      () => GetAllUsersUseCase(repository: sl.call()));
-  sl.registerLazySingleton<GetUpdateUserUseCase>(
-      () => GetUpdateUserUseCase(repository: sl.call()));
+  sl.registerLazySingleton<GetCurrentUIDUseCase>(() => GetCurrentUIDUseCase(repository: sl.call()));
+  sl.registerLazySingleton<IsSignInUseCase>(() => IsSignInUseCase(repository: sl.call()));
+  sl.registerLazySingleton<SignInUseCase>(() => SignInUseCase(repository: sl.call()));
+  sl.registerLazySingleton<SignUpUseCase>(() => SignUpUseCase(repository: sl.call()));
+  sl.registerLazySingleton<SignOutUseCase>(() => SignOutUseCase(repository: sl.call()));
+  sl.registerLazySingleton<GetAllUsersUseCase>(() => GetAllUsersUseCase(repository: sl.call()));
+  sl.registerLazySingleton<GetUpdateUserUseCase>(() => GetUpdateUserUseCase(repository: sl.call()));
   sl.registerLazySingleton<GetCreateGroupUseCase>(
       () => GetCreateGroupUseCase(repository: sl.call()));
-  sl.registerLazySingleton<GetAllGroupsUseCase>(
-      () => GetAllGroupsUseCase(repository: sl.call()));
-  sl.registerLazySingleton<JoinGroupUseCase>(
-      () => JoinGroupUseCase(repository: sl.call()));
-  sl.registerLazySingleton<UpdateGroupUseCase>(
-      () => UpdateGroupUseCase(repository: sl.call()));
-  sl.registerLazySingleton<GetMessageUseCase>(
-      () => GetMessageUseCase(repository: sl.call()));
+  sl.registerLazySingleton<GetAllGroupsUseCase>(() => GetAllGroupsUseCase(repository: sl.call()));
+  sl.registerLazySingleton<JoinGroupUseCase>(() => JoinGroupUseCase(repository: sl.call()));
+  sl.registerLazySingleton<UpdateGroupUseCase>(() => UpdateGroupUseCase(repository: sl.call()));
+  sl.registerLazySingleton<GetMessageUseCase>(() => GetMessageUseCase(repository: sl.call()));
   sl.registerLazySingleton<SendTextMessageUseCase>(
       () => SendTextMessageUseCase(repository: sl.call()));
 
@@ -109,4 +99,22 @@ Future<void> init() async {
   sl.registerLazySingleton(() => auth);
   sl.registerLazySingleton(() => fireStore);
   sl.registerLazySingleton(() => googleSignIn);
+}
+
+Future<void> setupDependencies() async {
+  _registerRepositoriesModule();
+  _registerBlocsModule();
+}
+
+// Get It Library wrappers
+void _registerFactory<T extends Object>(FactoryFunc<T> factoryFunc) =>
+    sl.registerFactory<T>(factoryFunc);
+
+_registerRepositoriesModule() {
+  _registerFactory(() => WarningIncidentRepository());
+}
+
+_registerBlocsModule() {
+  //Bloc
+  _registerFactory(() => WarningIncidentBloc(sl<WarningIncidentRepository>()));
 }

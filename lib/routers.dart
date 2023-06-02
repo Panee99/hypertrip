@@ -3,6 +3,7 @@ import 'package:room_finder_flutter/fragment/tourguide/notification/rf_notificat
 import 'package:room_finder_flutter/fragment/tourguide/profile/rf_account_fragment.dart';
 import 'package:room_finder_flutter/fragment/tourguide/tour_detail/rf_tour_detail.dart';
 import 'package:room_finder_flutter/fragment/tourguide/tour_list/rf_tour_list.dart';
+import 'package:room_finder_flutter/screens/home/nearby_you.dart';
 
 class Routers {
   static const String ROOT = "/";
@@ -10,6 +11,7 @@ class Routers {
   static const String TOUR_DETAIL = "/tour-detail";
   static const String TOUR_LIST = "/tour-list";
   static const String NOTIFICATION = "/notify-list";
+  static const String NEAR_BY_YOU = "/near-by-you";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var arguments = settings.arguments;
@@ -23,6 +25,8 @@ class Routers {
         return _animRoute(RFTourList(), beginOffset: right);
       case NOTIFICATION:
         return _animRoute(RFNotificationPage(), beginOffset: right);
+      case NEAR_BY_YOU:
+        return _animRoute(NearbyYou(category: arguments.toString()), beginOffset: bottom);
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

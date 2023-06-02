@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:room_finder_flutter/injection_container.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/provider/chatProvider.dart';
 import 'package:room_finder_flutter/provider/home_provider.dart';
@@ -29,6 +30,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await initialize();
+
+  await setupDependencies();
 
   appStore.toggleDarkMode(value: getBoolAsync(isDarkModeOnPref));
   await Firebase.initializeApp(
