@@ -14,6 +14,8 @@ import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 
+import '../../utils/RFDataGenerator.dart';
+
 class LocationTrackingComponent extends StatefulWidget {
   final TourDetailResponse tour;
   const LocationTrackingComponent({super.key, required this.tour});
@@ -104,25 +106,55 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
 
   void getDirection() async {
     PolylinePoints polylinePoints = PolylinePoints();
+    List<PolylineWayPoint> wayPoints = [];
     if (tourFlow != null) {
-      tourFlow!.toList().asMap().forEach((index, place) async {
-        PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-            googleApiKey,
-            PointLatLng(tourFlow!.elementAt(index).latitude!,
-                tourFlow!.elementAt(index).longitude!),
-            PointLatLng(tourFlow!.elementAt(index + 1).latitude!,
-                tourFlow!.elementAt(index + 1).longitude!),
-            travelMode: TravelMode.walking);
-        print('Status: ' + result.status.toString());
-        print('Points: ' + result.points.toString());
-        if (result.points.isNotEmpty) {
-          setState(() {
-            result.points.forEach((PointLatLng point) => _polylineCoordinate
-                .add(LatLng(point.latitude, point.longitude)));
-          });
-        }
+      List<TourFlows> tourSubList =
+          tourFlow!.toList().sublist(1, tourFlow!.toList().length - 1);
+      tourSubList.toList().asMap().forEach((index, value) {
+        PolylineWayPoint wayPoint = PolylineWayPoint(
+          location: '${value.latitude},${value.longitude}',
+          stopOver: true, // Specify if this waypoint is a stopover or not
+        );
+
+        // Add the waypoint to the list
+        wayPoints.add(wayPoint);
       });
+      PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+          googleApiKey,
+          PointLatLng(tourFlow!.first.latitude!, tourFlow!.first.longitude!),
+          PointLatLng(tourFlow!.last.latitude!, tourFlow!.last.longitude!),
+          travelMode: TravelMode.walking,
+          wayPoints: wayPoints);
+      print('Status: ' + result.status.toString());
+      print('Points: ' + result.points.toString());
+      if (result.points.isNotEmpty) {
+        setState(() {
+          result.points.forEach((PointLatLng point) =>
+              _polylineCoordinate.add(LatLng(point.latitude, point.longitude)));
+        });
+      }
+      ;
     }
+    // PolylinePoints polylinePoints = PolylinePoints();
+    // if (tourFlow != null) {
+    //   tourFlow!.toList().asMap().forEach((index, place) async {
+    //     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+    //         googleApiKey,
+    //         PointLatLng(tourFlow!.elementAt(index).latitude!,
+    //             tourFlow!.elementAt(index).longitude!),
+    //         PointLatLng(tourFlow!.elementAt(index + 1).latitude!,
+    //             tourFlow!.elementAt(index + 1).longitude!),
+    //         travelMode: TravelMode.walking);
+    //     print('Status: ' + result.status.toString());
+    //     print('Points: ' + result.points.toString());
+    //     if (result.points.isNotEmpty) {
+    //       setState(() {
+    //         result.points.forEach((PointLatLng point) => _polylineCoordinate
+    //             .add(LatLng(point.latitude, point.longitude)));
+    //       });
+    //     }
+    //   });
+    // }
   }
 
   void getPolypoints() async {

@@ -45,6 +45,7 @@ dependencies:
   google_places_flutter: ^2.0.5
   google_maps_webservice: ^0.0.19
   google_maps_routes: ^1.1.2
+  google_directions_api: ^0.9.1
   geolocator: ^9.0.2
   location: ^4.4.0
   flutter_polyline_points: ^1.0.0
