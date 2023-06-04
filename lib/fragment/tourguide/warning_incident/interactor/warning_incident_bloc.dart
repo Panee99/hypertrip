@@ -7,13 +7,32 @@ import 'package:room_finder_flutter/fragment/tourguide/warning_incident/interact
 
 class WarningIncidentBloc extends Bloc<WarningIncidentEvent, WarningIncidentState> {
   final WarningIncidentRepository _warningIncidentRepository;
-  WarningIncidentBloc(this._warningIncidentRepository) : super(WarningIncidentLoadingState()) {
+
+  WarningIncidentBloc(this._warningIncidentRepository)
+      : super(WeatherLoadingState(weatherResponse: null, earthquakesResponse: null, error: '')) {
     on<FetchDataWeather>(_fetchDataWeather);
+    on<FetchDataEarthQuakes>(_fetchDataEarthQuakes);
   }
 
   FutureOr<void> _fetchDataWeather(
       FetchDataWeather event, Emitter<WarningIncidentState> emit) async {
-    final result = await _warningIncidentRepository.fetchDataWeather();
-    print("result ${result}");
+    try {
+      final result = await _warningIncidentRepository.fetchDataWeather();
+
+      emit(state.copyWith(weatherResponse: result));
+    } catch (e) {
+      emit(state.copyWith(error: e.toString()));
+    }
+  }
+
+  FutureOr<void> _fetchDataEarthQuakes(
+      FetchDataEarthQuakes event, Emitter<WarningIncidentState> emit) async {
+    try {
+      final result = await _warningIncidentRepository.fetchDataEarthQuakes();
+
+      emit(state.copyWith(earthquakesResponse: result));
+    } catch (e) {
+      emit(state.copyWith(error: e.toString()));
+    }
   }
 }
