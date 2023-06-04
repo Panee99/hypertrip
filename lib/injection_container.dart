@@ -10,6 +10,7 @@ import 'package:room_finder_flutter/cubit/user/user_cubit.dart';
 import 'package:room_finder_flutter/data/remote/data_sources/firebase_remote_data_source.dart';
 import 'package:room_finder_flutter/data/remote/data_sources/firebase_remote_data_source_impl.dart';
 import 'package:room_finder_flutter/data/repositories/firebase_repository_impl.dart';
+import 'package:room_finder_flutter/data/repositories/firestore_repository.dart';
 import 'package:room_finder_flutter/data/repositories/warning_incident_repository.dart';
 import 'package:room_finder_flutter/domain/repositories/firebase_repository.dart';
 import 'package:room_finder_flutter/domain/use_cases/create_group_usecase.dart';
@@ -112,6 +113,8 @@ void _registerFactory<T extends Object>(FactoryFunc<T> factoryFunc) =>
 
 _registerRepositoriesModule() {
   _registerFactory(() => WarningIncidentRepository());
+
+  _registerFactory(() => FirestoreRepository());
 }
 
 _registerBlocsModule() {
