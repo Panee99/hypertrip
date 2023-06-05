@@ -215,4 +215,19 @@ class FirestoreRepository {
       }
     }
   }
+
+  Future<FirestoreUser> getUserByUserID(String userId) async {
+    final QuerySnapshot query =
+        await _db.collection(COLLECTION_USER).where('uid', isEqualTo: userId).get();
+
+    FirestoreUser user = FirestoreUser();
+
+    if (query.docs.isNotEmpty) {
+      final data = query.docs.first.data() as Map<String, dynamic>?;
+      if (data != null) {
+        user = FirestoreUser.fromJson(data);
+      }
+    }
+    return user;
+  }
 }

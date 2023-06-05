@@ -29,3 +29,11 @@ class UpdateMessage extends ChatDetailEvent {
   @override
   List<Object> get props => [];
 }
+
+class GetUserFirestore extends ChatDetailEvent {
+  final String userId;
+  const GetUserFirestore(this.userId);
+
+  @override
+  List<Object> get props => [];
+}
