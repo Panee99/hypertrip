@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:room_finder_flutter/cubit/auth/auth_cubit.dart';
-import 'package:room_finder_flutter/cubit/chat/chat_cubit.dart';
 import 'package:room_finder_flutter/cubit/credential/credential_cubit.dart';
 import 'package:room_finder_flutter/cubit/group/group_cubit.dart';
 import 'package:room_finder_flutter/cubit/user/user_cubit.dart';
@@ -30,6 +29,8 @@ import 'package:room_finder_flutter/domain/use_cases/sign_out_usecase.dart';
 import 'package:room_finder_flutter/domain/use_cases/sign_up_usecase.dart';
 import 'package:room_finder_flutter/domain/use_cases/update_group_usecase.dart';
 import 'package:room_finder_flutter/fragment/tourguide/warning_incident/interactor/warning_incident_bloc.dart';
+import 'package:room_finder_flutter/screens/chat/interactor/chat_bloc.dart';
+import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -57,10 +58,10 @@ Future<void> init() async {
         joinGroupUseCase: sl.call(),
         groupUseCase: sl.call(),
       ));
-  sl.registerFactory<ChatCubit>(() => ChatCubit(
-        getMessageUseCase: sl.call(),
-        sendTextMessageUseCase: sl.call(),
-      ));
+  // sl.registerFactory<ChatCubit>(() => ChatCubit(
+  //       getMessageUseCase: sl.call(),
+  //       sendTextMessageUseCase: sl.call(),
+  //     ));
 
   //UseCases
   sl.registerLazySingleton<GoogleSignInUseCase>(() => GoogleSignInUseCase(repository: sl.call()));
@@ -120,4 +121,8 @@ _registerRepositoriesModule() {
 _registerBlocsModule() {
   //Bloc
   _registerFactory(() => WarningIncidentBloc(sl<WarningIncidentRepository>()));
+
+  _registerFactory(() => ChatBloc(sl<FirestoreRepository>()));
+
+  _registerFactory(() => ChatDetailBloc(sl<FirestoreRepository>()));
 }

@@ -11,6 +11,8 @@ class FirestoreMessage implements Serializable {
   String messageText;
   @JsonKey(name: 'sent_at')
   DateTime sentAt;
+
+  /// UID người gửi
   @JsonKey(name: 'sent_by')
   String sentBy;
 

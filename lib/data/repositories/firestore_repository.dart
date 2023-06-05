@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:room_finder_flutter/models/chat/firestore_group_chat.dart';
 import 'package:room_finder_flutter/models/chat/firestore_message.dart';
 import 'package:room_finder_flutter/models/chat/firestore_user.dart';
+import 'package:room_finder_flutter/models/chat/recent_message.dart';
 import 'package:room_finder_flutter/models/user/sign_in_model.dart';
 
 class FirestoreRepository {
@@ -103,19 +104,17 @@ class FirestoreRepository {
   }
 
   /// Lấy tất cả danh sách các nhóm từ Firestore dựa trên uid của người dùng.
-  Future<List<FirestoreGroupChat>> fetchGroupByUserID(String uid) async {
-    CollectionReference groupRef = _db.collection(COLLECTION_GROUP);
-
-    QuerySnapshot querySnapshot = await groupRef.where('members', arrayContains: uid).get();
-
-    List<FirestoreGroupChat> allGroups = [];
-    querySnapshot.docs.forEach((doc) {
-      FirestoreGroupChat group = FirestoreGroupChat.fromJson(doc.data() as Map<String, dynamic>);
-      group.id = doc.id;
-      allGroups.add(group);
-    });
-
-    return allGroups;
+  Stream<List<FirestoreGroupChat>> fetchGroupByUserID(String uid) {
+    return _db.collection(COLLECTION_GROUP).where('members', arrayContains: uid).snapshots().map(
+      (querySnapshot) {
+        List<FirestoreGroupChat> allGroups = [];
+        querySnapshot.docs.forEach((doc) {
+          FirestoreGroupChat group = FirestoreGroupChat.fromJson(doc.data());
+          allGroups.add(group);
+        });
+        return allGroups;
+      },
+    );
   }
 
   Future<Map<String, dynamic>?> filterGroup(List<String> users) async {
@@ -150,15 +149,20 @@ class FirestoreRepository {
         .collection(COLLECTION_MESSAGE)
         .doc(groupId.trim())
         .collection(COLLECTION_MESSAGES)
-        .orderBy('sentAt')
+        .orderBy('sent_at')
         .snapshots()
-        .map((querySnapshot) => querySnapshot.docs
-            .map((e) => FirestoreMessage.fromJson(e as Map<String, dynamic>))
-            .toList());
+        .map((querySnapshot) {
+      List<FirestoreMessage> messages = [];
+      querySnapshot.docs.forEach((doc) {
+        FirestoreMessage message = FirestoreMessage.fromJson(doc.data());
+        messages.add(message);
+      });
+      return messages;
+    });
   }
 
   /// Send message lên Firestore
-  Future<FirestoreMessage> saveMessage(
+  Future<FirestoreMessage?> saveMessage(
       String uid, String messageText, DateTime sentAt, String currentGroupId) async {
     if (messageText.trim().isNotEmpty) {
       final data = FirestoreMessage(messageText: messageText, sentAt: sentAt, sentBy: uid);
@@ -169,14 +173,46 @@ class FirestoreRepository {
 
         DocumentReference docRef = await messageCollection.add(data.toJson());
 
-        data.docId = docRef.id;
+        // Save message cuối cùng vào group
+        updateCurrentMessageByGroupId(uid, messageText, sentAt, currentGroupId);
 
         return data;
       } catch (error) {
-        throw error;
+        print("error saveMessage ${error.toString()}");
+        return null;
       }
     } else {
-      throw 'Empty message';
+      return null;
+    }
+  }
+
+  Future<void> updateCurrentMessageByGroupId(
+      String uid, String messageText, DateTime sentAt, String currentGroupId) async {
+    final QuerySnapshot query =
+        await _db.collection(COLLECTION_GROUP).where('id', isEqualTo: currentGroupId).get();
+
+    if (query.docs.isNotEmpty) {
+      final data = RecentMessage(sendAt: sentAt, message: messageText, readBy: [uid]).toJson();
+      await query.docs.first.reference.update({
+        'recent_message': data,
+      });
+    }
+  }
+
+  Future<void> updateReadByGroupId(String currentGroupId, String uid) async {
+    final QuerySnapshot query =
+        await _db.collection(COLLECTION_GROUP).where('id', isEqualTo: currentGroupId).get();
+
+    if (query.docs.isNotEmpty) {
+      final data = query.docs.first.data() as Map<String, dynamic>?;
+      if (data != null) {
+        FirestoreGroupChat group = FirestoreGroupChat.fromJson(data);
+        group.recentMessage?.readBy.add(uid);
+
+        await query.docs.first.reference.update({
+          'recent_message': group.recentMessage?.toJson(),
+        });
+      }
     }
   }
 }

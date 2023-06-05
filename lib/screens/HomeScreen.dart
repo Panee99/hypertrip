@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/fragment/inbox_fragment.dart';
 import 'package:room_finder_flutter/fragment/schedule_fragment.dart';
 import 'package:room_finder_flutter/fragment/tourguide/home/rf_home_tourguide_fragment.dart';
 import 'package:room_finder_flutter/fragment/tourguide/map/rf_map_page.dart';
 import 'package:room_finder_flutter/fragment/tourguide/warning_incident/warning_incident_page.dart';
-import 'package:room_finder_flutter/screens/chat/ChatPage.dart';
+import 'package:room_finder_flutter/screens/chat/chat_page.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
@@ -29,7 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> travelerPages = [
     DiscoveryFragment(),
     ScheduleFragment(),
-    InboxFragment(),
+    // InboxFragment(),
+    ChatPageScreen(),
   ];
   List<BottomNavigationBarItem> travelerItems = [
     BottomNavigationBarItem(

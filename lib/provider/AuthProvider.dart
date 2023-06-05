@@ -172,8 +172,6 @@ class AuthProvider extends ChangeNotifier {
 
     firebaseFirestore.saveUserToFirestore(user);
 
-    if (user.id != null) firebaseFirestore.fetchGroupByUserID(user.id!);
-
     firebaseFirestore.saveGroupToFirestore(
       users: [
         '21751a9c-fcd9-4fcc-93ed-7a4349a34bc7',

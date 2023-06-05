@@ -18,6 +18,11 @@ FirestoreGroupChat _$FirestoreGroupChatFromJson(Map<String, dynamic> json) =>
       type: json['type'] as int? ?? 1,
       createAt: DateTime.parse(json['create_at'] as String),
       modifiedAt: DateTime.parse(json['modified_at'] as String),
+      recentMessage: json['recent_message'] == null
+          ? null
+          : RecentMessage.fromJson(
+              json['recent_message'] as Map<String, dynamic>),
+      urlPhotoGroup: json['url_photo_group'] as String? ?? '',
     );
 
 Map<String, dynamic> _$FirestoreGroupChatToJson(FirestoreGroupChat instance) =>
@@ -28,5 +33,7 @@ Map<String, dynamic> _$FirestoreGroupChatToJson(FirestoreGroupChat instance) =>
       'create_at': instance.createAt.toIso8601String(),
       'modified_at': instance.modifiedAt.toIso8601String(),
       'title_group': instance.titleGroup,
+      'recent_message': instance.recentMessage,
+      'url_photo_group': instance.urlPhotoGroup,
       'type': instance.type,
     };
