@@ -1,29 +1,55 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:room_finder_flutter/data/repositories/firestore_repository.dart';
-import 'package:room_finder_flutter/models/chat/firestore_group_chat.dart';
+import 'package:room_finder_flutter/data/repositories/repositories.dart';
+import 'package:room_finder_flutter/models/tourguide/assign_group_response.dart';
 import 'package:room_finder_flutter/screens/chat/interactor/chat_event.dart';
 import 'package:room_finder_flutter/screens/chat/interactor/chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
-  final FirestoreRepository _firestoreRepository;
+  final TourGuideRepository _tourGuideRepository;
 
-  ChatBloc(this._firestoreRepository) : super(ChatLoadingState(groupChat: const [], error: '')) {
+  List<AssignGroupResponse> _originList = [];
+
+  ChatBloc(this._tourGuideRepository) : super(ChatLoadingState(groupChat: [], error: '')) {
     on<FetchGroupChat>(_fetchGroupChat);
+    on<SearchGroupEvent>(_searchGroupEvent);
   }
 
-  FutureOr<void> _fetchGroupChat(FetchGroupChat event, Emitter<ChatState> emit) async {
-    if (event.userid != null) {
-      await emit.forEach<List<FirestoreGroupChat>>(
-        _firestoreRepository.fetchGroupByUserID(event.userid!),
-        onError: (error, StackTrace stackTrace) {
-          return state;
-        },
-        onData: (List<FirestoreGroupChat> result) {
-          return state.copyWith(groupChat: result);
-        },
-      );
+  Future<void> _fetchGroupChat(FetchGroupChat event, Emitter<ChatState> emit) async {
+    try {
+      if (event.userid != null && event.userid!.isNotEmpty) {
+        final result = await _tourGuideRepository.getAllAssignedGroups(event.userid!);
+
+        _originList = result;
+        emit(state.copyWith(groupChat: result));
+      }
+    } catch (ex) {
+      emit(ChatErrorState(error: ex.toString(), groupChat: state.groupChat));
+    }
+  }
+
+  Future<void> _searchGroupEvent(SearchGroupEvent event, Emitter<ChatState> emit) async {
+    try {
+      final lstAfterSearch = event.key.isNotEmpty
+          ? _originList.where((assignGroupResponse) {
+              if (assignGroupResponse.groupName.toLowerCase().contains(event.key.toLowerCase()))
+                return true;
+              if ((assignGroupResponse.tourVariant?.tour?.destination
+                      .toLowerCase()
+                      .contains(event.key.toLowerCase()) ??
+                  false)) return true;
+              if ((assignGroupResponse.tourVariant?.tour?.description
+                      .toLowerCase()
+                      .contains(event.key.toLowerCase()) ??
+                  false)) return true;
+
+              return false;
+            }).toList()
+          : _originList;
+      emit(state.copyWith(groupChat: lstAfterSearch));
+    } catch (ex) {
+      emit(ChatErrorState(error: ex.toString(), groupChat: state.groupChat));
     }
   }
 }

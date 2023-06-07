@@ -27,4 +27,22 @@ class TourGuideRepository {
       throw 'Could not launch $url';
     }
   }
+
+  Future<List<AssignGroupResponse>> getAllAssignedGroups(String id) async {
+    final response = await NetworkUtility.fetchUrl(
+      Uri.parse('$baseApiUrl/tour-guides/${id}/assigned-groups'),
+      headers: mapHeader,
+    );
+    return (jsonDecode(response!) as List<dynamic>)
+        .map((assignGroup) => AssignGroupResponse.fromJson(assignGroup))
+        .toList();
+  }
+
+  Future<TourGuideAssigned> getAssignedTourGuide(String tourGuideId, String token) async {
+    final response = await NetworkUtility.fetchUrl(
+      Uri.parse('$baseApiUrl/tour-guides/${tourGuideId}/assigned-tours'),
+      headers: mapHeader,
+    );
+    return TourGuideAssigned.fromJson(jsonDecode(response!));
+  }
 }

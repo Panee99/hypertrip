@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:room_finder_flutter/models/chat/firestore_group_chat.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/models/tourguide/assign_group_response.dart';
 import 'package:room_finder_flutter/routers.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
-import 'package:room_finder_flutter/utils/date_time_utils.dart';
 
 class ConversationList extends StatelessWidget {
-  final FirestoreGroupChat data;
+  final AssignGroupResponse data;
   final String userID;
 
   const ConversationList({required this.data, required this.userID});
   @override
   Widget build(BuildContext context) {
-    bool isMessageRead = data.recentMessage?.readBy.contains(userID) ?? false;
+    // bool isMessageRead = data.recentMessage?.readBy.contains(userID) ?? false;
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, Routers.CHAT_DETAIL, arguments: data),
       child: Container(
@@ -21,17 +21,13 @@ class ConversationList extends StatelessWidget {
             Expanded(
               child: Row(
                 children: <Widget>[
-                  CircleAvatar(
-                    child: rfCommonCachedNetworkImage(
-                      data.urlPhotoGroup,
-                      height: 70,
-                      width: 70,
-                      fit: BoxFit.cover,
-                    ),
+                  commonCachedNetworkAvatar(
+                    url: data.tourVariant?.tour?.thumbnailUrl ?? '',
+                    width: 56,
+                    height: 56,
+                    radius: 80,
                   ),
-                  SizedBox(
-                    width: 16,
-                  ),
+                  16.width,
                   Expanded(
                     child: Container(
                       color: Colors.transparent,
@@ -39,19 +35,19 @@ class ConversationList extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            data.titleGroup,
+                            data.groupName,
                             style: TextStyle(fontSize: 16),
                           ),
                           SizedBox(
                             height: 6,
                           ),
-                          Text(
-                            data.recentMessage?.message ?? '',
-                            style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.grey.shade600,
-                                fontWeight: isMessageRead ? FontWeight.normal : FontWeight.bold),
-                          ),
+                          // Text(
+                          //   data.recentMessage?.message ?? '',
+                          //   style: TextStyle(
+                          //       fontSize: 13,
+                          //       color: Colors.grey.shade600,
+                          //       fontWeight: isMessageRead ? FontWeight.normal : FontWeight.bold),
+                          // ),
                         ],
                       ),
                     ),
@@ -59,11 +55,11 @@ class ConversationList extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
-              DateTimeUtils.formatDateTimeToShortDate(data.recentMessage?.sendAt),
-              style: TextStyle(
-                  fontSize: 12, fontWeight: isMessageRead ? FontWeight.bold : FontWeight.normal),
-            ),
+            // Text(
+            //   DateTimeUtils.formatDateTimeToShortDate(data.recentMessage?.sendAt),
+            //   style: TextStyle(
+            //       fontSize: 12, fontWeight: isMessageRead ? FontWeight.bold : FontWeight.normal),
+            // ),
           ],
         ),
       ),

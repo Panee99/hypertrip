@@ -109,14 +109,6 @@ class AppRepository {
     return null;
   }
 
-  Future<TourGuideAssigned> getAssignedTourGuide(String tourGuideId, String token) async {
-    final response = await NetworkUtility.fetchUrl(
-      Uri.parse('$baseApiUrl/tour-guides/${tourGuideId}/assigned-tours'),
-      headers: mapHeader,
-    );
-    return TourGuideAssigned.fromJson(jsonDecode(response!));
-  }
-
   // TODO: Waiting BE update data response
   Future<dynamic> getAttendances(String travelerId) async {
     final response = await NetworkUtility.fetchUrl(
@@ -124,5 +116,21 @@ class AppRepository {
       headers: mapHeader,
     );
     return response;
+  }
+
+  Future<dynamic> getProfileUser(String uID) async {
+    final response = await NetworkUtility.fetchUrl(
+      Uri.parse('$baseApiUrl/users/$uID'),
+      headers: mapHeader,
+    );
+    return response;
+  }
+
+  Future<AttachmentFile> attachmentsFile(File file) async {
+    mapHeader.addAll({'Content-Type': 'multipart/form-data'});
+
+    final response = await NetworkUtility.uploadFile(Uri.parse('$baseApiUrl/attachments'),
+        headers: mapHeader, path: file.path);
+    return response == null ? AttachmentFile() : AttachmentFile.fromJson(jsonDecode(response));
   }
 }
