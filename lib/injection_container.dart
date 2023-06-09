@@ -12,6 +12,7 @@ import 'package:room_finder_flutter/data/repositories/firebase_repository_impl.d
 import 'package:room_finder_flutter/data/repositories/firestore_repository.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/data/repositories/tour_group_repository.dart';
+import 'package:room_finder_flutter/data/repositories/traveler_respository.dart';
 import 'package:room_finder_flutter/data/repositories/warning_incident_repository.dart';
 import 'package:room_finder_flutter/domain/repositories/firebase_repository.dart';
 import 'package:room_finder_flutter/domain/use_cases/create_group_usecase.dart';
@@ -123,6 +124,8 @@ _registerRepositoriesModule() {
 
   _registerFactory(() => TourGroupRepository());
 
+  _registerFactory(() => TravelerRepository());
+
   _registerFactory(() => WarningIncidentRepository());
 
   _registerFactory(() => FirestoreRepository());
@@ -132,7 +135,7 @@ _registerBlocsModule() {
   //Bloc
   _registerFactory(() => WarningIncidentBloc(sl<WarningIncidentRepository>()));
 
-  _registerFactory(() => ChatBloc(sl<TourGuideRepository>()));
+  _registerFactory(() => ChatBloc(sl<TourGuideRepository>(), sl<TravelerRepository>()));
 
   _registerFactory(() => ChatDetailBloc(sl<FirestoreRepository>(), sl<AppRepository>(),
       sl<TourGroupRepository>(), sl<FoursquareRepository>()));

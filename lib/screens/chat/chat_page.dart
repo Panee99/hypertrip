@@ -24,8 +24,8 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     return BlocProvider(
-      create: (BuildContext context) =>
-          GetIt.I.get<ChatBloc>()..add(FetchGroupChat(authProvider.user.id)),
+      create: (BuildContext context) => GetIt.I.get<ChatBloc>()
+        ..add(FetchGroupChat(authProvider.user.id, authProvider.user.role)),
       child: BasePage(
         unFocusWhenTouchOutsideInput: true,
         child: Scaffold(
@@ -52,7 +52,9 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
             builder: (context, state) {
               return RefreshIndicator(
                 onRefresh: () async {
-                  context.read<ChatBloc>().add(FetchGroupChat(authProvider.user.id));
+                  context
+                      .read<ChatBloc>()
+                      .add(FetchGroupChat(authProvider.user.id, authProvider.user.role));
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

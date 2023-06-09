@@ -15,3 +15,4 @@ const rf_lang_notSendFile = 'Lỗi không gửi được file';
 const rf_lang_currentNotSendFile = 'Hiện tại không thể gửi message';
 const rf_lang_requestPermissionGeo = 'Bật truy cập vị trí';
 const rf_lang_sendCurrentPosition = 'Chia sẻ vị trí hiện tại';
+const rf_lang_code = 'Code: ';
