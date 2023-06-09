@@ -9,7 +9,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_routes/google_maps_routes.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
+import 'package:room_finder_flutter/models/tour/tour_flow_response.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
@@ -17,8 +19,8 @@ import 'package:room_finder_flutter/utils/RFImages.dart';
 import '../../utils/RFDataGenerator.dart';
 
 class LocationTrackingComponent extends StatefulWidget {
-  final TourDetailResponse tour;
-  const LocationTrackingComponent({super.key, required this.tour});
+  final String tourId;
+  const LocationTrackingComponent({super.key, required this.tourId});
 
   @override
   State<LocationTrackingComponent> createState() =>
@@ -28,7 +30,7 @@ class LocationTrackingComponent extends StatefulWidget {
 class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   late GoogleMapController mapController;
   late Future<Position> latLngPosition;
-  late List<TourFlows>? tourFlow;
+  late Future<List<TourFlowResponse>> tourFlow;
   late AuthProvider authProvider;
   late StreamSubscription<Position>? _positionStreamSubscription;
   late Timer _timer;
@@ -45,7 +47,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   void initState() {
     authProvider = context.read<AuthProvider>();
     latLngPosition = _getCurrentLocation();
-    tourFlow = widget.tour.tourFlows;
+    tourFlow = getTourFlow(widget.tourId);
     setCustomMarkerIcon();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (_position != null) {
@@ -68,6 +70,11 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
     _stopLocationUpdates();
     _timer.cancel();
     super.dispose();
+  }
+
+  Future<List<TourFlowResponse>> getTourFlow(String tourId) async {
+    final tourFlow = await AppRepository().getTourFlow(tourId);
+    return tourFlow;
   }
 
   Future<Position> _getCurrentLocation() async {
@@ -107,9 +114,10 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   void getDirection() async {
     PolylinePoints polylinePoints = PolylinePoints();
     List<PolylineWayPoint> wayPoints = [];
-    if (tourFlow != null) {
-      List<TourFlows> tourSubList =
-          tourFlow!.toList().sublist(1, tourFlow!.toList().length - 1);
+    var _tourFlow = await tourFlow;
+    if (_tourFlow != null) {
+      List<TourFlowResponse> tourSubList =
+          _tourFlow.toList().sublist(1, _tourFlow.toList().length - 1);
       tourSubList.toList().asMap().forEach((index, value) {
         PolylineWayPoint wayPoint = PolylineWayPoint(
           location: '${value.latitude},${value.longitude}',
@@ -121,8 +129,8 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
       });
       PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
           googleApiKey,
-          PointLatLng(tourFlow!.first.latitude!, tourFlow!.first.longitude!),
-          PointLatLng(tourFlow!.last.latitude!, tourFlow!.last.longitude!),
+          PointLatLng(_tourFlow.first.latitude!, _tourFlow.first.longitude!),
+          PointLatLng(_tourFlow.last.latitude!, _tourFlow.last.longitude!),
           travelMode: TravelMode.walking,
           wayPoints: wayPoints);
       print('Status: ' + result.status.toString());
@@ -135,32 +143,13 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
       }
       ;
     }
-    // PolylinePoints polylinePoints = PolylinePoints();
-    // if (tourFlow != null) {
-    //   tourFlow!.toList().asMap().forEach((index, place) async {
-    //     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-    //         googleApiKey,
-    //         PointLatLng(tourFlow!.elementAt(index).latitude!,
-    //             tourFlow!.elementAt(index).longitude!),
-    //         PointLatLng(tourFlow!.elementAt(index + 1).latitude!,
-    //             tourFlow!.elementAt(index + 1).longitude!),
-    //         travelMode: TravelMode.walking);
-    //     print('Status: ' + result.status.toString());
-    //     print('Points: ' + result.points.toString());
-    //     if (result.points.isNotEmpty) {
-    //       setState(() {
-    //         result.points.forEach((PointLatLng point) => _polylineCoordinate
-    //             .add(LatLng(point.latitude, point.longitude)));
-    //       });
-    //     }
-    //   });
-    // }
   }
 
   void getPolypoints() async {
+    var _tourFlow = await tourFlow;
     if (tourFlow != null) {
-      tourFlow!.reversed.toList().asMap().forEach((index, position) async {
-        Uint8List canvas = await getBytesFromCanvas(tourFlow!.length - index);
+      _tourFlow.reversed.toList().asMap().forEach((index, position) async {
+        Uint8List canvas = await getBytesFromCanvas(_tourFlow.length - index);
         setState(() {
           LatLng latLng = LatLng(
               position.latitude!.toDouble(), position.longitude!.toDouble());
@@ -298,8 +287,8 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
                   Polyline(
                       polylineId: PolylineId('route'),
                       points: _polylineCoordinate,
-                      color: rf_primaryColor,
-                      width: 6)
+                      color: secondaryColor,
+                      width: 5)
                 },
                 myLocationEnabled: true,
                 myLocationButtonEnabled: true,

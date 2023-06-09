@@ -47,13 +47,13 @@ class _RecentTourComponentState extends State<RecentTourComponent> {
                   .paddingOnly(left: 4),
               Row(
                 children: [
-                  Text(
-                      NumberFormat('#,###')
-                              .format(widget.recentTour.adultPrice!.toInt())
-                              .toString()
-                              .validate() +
-                          ' VND',
-                      style: boldTextStyle(color: rf_primaryColor)),
+                  // Text(
+                  //     NumberFormat('#,###')
+                  //             .format(widget.recentTour.adultPrice!.toInt())
+                  //             .toString()
+                  //             .validate() +
+                  //         ' VND',
+                  //     style: boldTextStyle(color: rf_primaryColor)),
                   // Text("${widget.recentTour.rentDuration.validate()}",
                   //     style: secondaryTextStyle()),
                 ],

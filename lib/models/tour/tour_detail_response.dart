@@ -1,59 +1,34 @@
 class TourDetailResponse {
-  String? id;
-  String? title;
-  double? adultPrice;
-  double? childrenPrice;
-  double? infantPrice;
-  String? code;
-  String? departure;
-  String? destination;
-  String? endTime;
-  int? maxOccupancy;
-  String? startTime;
-  String? description;
-  String? thumbnailUrl;
-  String? type;
-  String? status;
   List<Schedules>? schedules;
   List<TourFlows>? tourFlows;
   List<Carousel>? carousel;
+  String? id;
+  String? title;
+  String? departure;
+  String? destination;
+  String? description;
+  Null policy;
+  String? thumbnailUrl;
+  int? maxOccupancy;
+  String? type;
+  String? status;
 
   TourDetailResponse(
-      {this.id,
+      {this.schedules,
+      this.tourFlows,
+      this.carousel,
+      this.id,
       this.title,
-      this.adultPrice,
-      this.childrenPrice,
-      this.infantPrice,
-      this.code,
       this.departure,
       this.destination,
-      this.endTime,
-      this.maxOccupancy,
-      this.startTime,
       this.description,
+      this.policy,
       this.thumbnailUrl,
+      this.maxOccupancy,
       this.type,
-      this.status,
-      this.schedules,
-      this.tourFlows,
-      this.carousel});
+      this.status});
 
   TourDetailResponse.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    adultPrice = json['adultPrice'];
-    childrenPrice = json['childrenPrice'];
-    infantPrice = json['infantPrice'];
-    code = json['code'];
-    departure = json['departure'];
-    destination = json['destination'];
-    endTime = json['endTime'];
-    maxOccupancy = json['maxOccupancy'];
-    startTime = json['startTime'];
-    description = json['description'];
-    thumbnailUrl = json['thumbnailUrl'];
-    type = json['type'];
-    status = json['status'];
     if (json['schedules'] != null) {
       schedules = <Schedules>[];
       json['schedules'].forEach((v) {
@@ -72,25 +47,20 @@ class TourDetailResponse {
         carousel!.add(new Carousel.fromJson(v));
       });
     }
+    id = json['id'];
+    title = json['title'];
+    departure = json['departure'];
+    destination = json['destination'];
+    description = json['description'];
+    policy = json['policy'];
+    thumbnailUrl = json['thumbnailUrl'];
+    maxOccupancy = json['maxOccupancy'];
+    type = json['type'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['adultPrice'] = this.adultPrice;
-    data['childrenPrice'] = this.childrenPrice;
-    data['infantPrice'] = this.infantPrice;
-    data['code'] = this.code;
-    data['departure'] = this.departure;
-    data['destination'] = this.destination;
-    data['endTime'] = this.endTime;
-    data['maxOccupancy'] = this.maxOccupancy;
-    data['startTime'] = this.startTime;
-    data['description'] = this.description;
-    data['thumbnailUrl'] = this.thumbnailUrl;
-    data['type'] = this.type;
-    data['status'] = this.status;
     if (this.schedules != null) {
       data['schedules'] = this.schedules!.map((v) => v.toJson()).toList();
     }
@@ -100,6 +70,16 @@ class TourDetailResponse {
     if (this.carousel != null) {
       data['carousel'] = this.carousel!.map((v) => v.toJson()).toList();
     }
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['departure'] = this.departure;
+    data['destination'] = this.destination;
+    data['description'] = this.description;
+    data['policy'] = this.policy;
+    data['thumbnailUrl'] = this.thumbnailUrl;
+    data['maxOccupancy'] = this.maxOccupancy;
+    data['type'] = this.type;
+    data['status'] = this.status;
     return data;
   }
 }

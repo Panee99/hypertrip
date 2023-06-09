@@ -134,12 +134,12 @@ class TicketDetailScreen extends StatelessWidget {
                                       'Start',
                                       style: secondaryTextStyle(),
                                     ),
-                                    Text(
-                                      DateFormat('dd/MM/yyyy').format(
-                                          DateTime.parse(
-                                              tourDetail.startTime.toString())),
-                                      style: primaryTextStyle(),
-                                    )
+                                    // Text(
+                                    //   DateFormat('dd/MM/yyyy').format(
+                                    //       DateTime.parse(
+                                    //           tourDetail.startTime.toString())),
+                                    //   style: primaryTextStyle(),
+                                    // )
                                   ],
                                 ),
                                 10.height,
@@ -170,10 +170,10 @@ class TicketDetailScreen extends StatelessWidget {
                                     children: [
                                       Text('Price',
                                           style: secondaryTextStyle()),
-                                      Text(
-                                        '${tourDetail.adultPrice!.toInt()} VND',
-                                        style: primaryTextStyle(),
-                                      )
+                                      // Text(
+                                      //   '${tourDetail.adultPrice!.toInt()} VND',
+                                      //   style: primaryTextStyle(),
+                                      // )
                                     ],
                                   ),
                                   10.height,
@@ -185,12 +185,12 @@ class TicketDetailScreen extends StatelessWidget {
                                         'End',
                                         style: secondaryTextStyle(),
                                       ),
-                                      Text(
-                                        DateFormat('dd/MM/yyyy').format(
-                                            DateTime.parse(
-                                                tourDetail.endTime.toString())),
-                                        style: primaryTextStyle(),
-                                      )
+                                      // Text(
+                                      //   DateFormat('dd/MM/yyyy').format(
+                                      //       DateTime.parse(
+                                      //           tourDetail.endTime.toString())),
+                                      //   style: primaryTextStyle(),
+                                      // )
                                     ],
                                   ),
                                   10.height,

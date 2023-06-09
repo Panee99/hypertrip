@@ -45,3 +45,4 @@ const angle_right = 'assets/icons/angle-right.svg';
 const add_square = 'assets/icons/add-square.svg';
 const info = 'assets/icons/circle-info.svg';
 const location = 'assets/images/location.png';
+const ticket = 'assets/images/ticket.png';
