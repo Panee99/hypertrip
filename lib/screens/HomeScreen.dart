@@ -9,6 +9,7 @@ import 'package:room_finder_flutter/fragment/schedule_fragment.dart';
 import 'package:room_finder_flutter/fragment/tourguide/home/rf_home_tourguide_fragment.dart';
 import 'package:room_finder_flutter/fragment/tourguide/map/rf_map_page.dart';
 import 'package:room_finder_flutter/fragment/tourguide/warning_incident/warning_incident_page.dart';
+import 'package:room_finder_flutter/models/user/profile_response.dart';
 import 'package:room_finder_flutter/screens/chat/chat_page.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _bottomTab(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     List<BottomNavigationBarItem> items =
-        authProvider.user.role == 'Traveler' ? travelerItems : tourGuideItems;
+        authProvider.user.role == RoleStatus.Traveler ? travelerItems : tourGuideItems;
 
     if (Theme.of(context).platform == TargetPlatform.android) {
       return ClipRRect(
@@ -163,7 +164,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    List<Widget> pages = authProvider.user.role == 'Traveler' ? travelerPages : tourGuidePages;
+    List<Widget> pages =
+        authProvider.user.role == RoleStatus.Traveler ? travelerPages : tourGuidePages;
     return Scaffold(
       extendBody: false,
       bottomNavigationBar: _bottomTab(context),

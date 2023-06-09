@@ -261,12 +261,8 @@ Widget commonCachedNetworkAvatar({
       color: rf_primaryColor,
       borderRadius: BorderRadius.circular(80),
     ),
-    child: rfCommonCachedNetworkImage(
-      url,
-      width: width,
-      height: height,
-      radius: radius,
-    ),
+    child: rfCommonCachedNetworkImage(url,
+        width: width, height: height, radius: radius, fit: BoxFit.cover),
   );
 }
 

@@ -4,16 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/models/chat/firestore_message.dart';
 import 'package:room_finder_flutter/models/tourguide/assign_group_response.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
+import 'package:room_finder_flutter/screens/chat_detail/components/chat_list.dart';
+import 'package:room_finder_flutter/screens/chat_detail/components/share_map.dart';
 import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_bloc.dart';
 import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_event.dart';
 import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_state.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:room_finder_flutter/utils/base_page.dart';
-import 'package:room_finder_flutter/utils/page_states.dart';
+import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
 class ChatDetailPage extends StatefulWidget {
   final AssignGroupResponse assignGroupResponse;
@@ -25,24 +26,21 @@ class ChatDetailPage extends StatefulWidget {
 }
 
 class _ChatDetailPageState extends State<ChatDetailPage> {
-  ScrollController _scrollController = ScrollController();
-  ChatController? _chatController;
+  PanelController _panelController = PanelController();
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
   }
 
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    print(
-        'widget.assignGroupResponse.tourVariant?.id ${widget.assignGroupResponse.tourVariant?.tour?.id}');
 
     return BlocProvider(
       create: (BuildContext context) => GetIt.I.get<ChatDetailBloc>()
-        ..add(FetchMessageGroupChat(widget.assignGroupResponse.tourVariant?.tour?.id ?? '')),
+        ..add(GetMembersTourGroup(widget.assignGroupResponse.id, authProvider.user.id ?? ''))
+        ..add(FetchMessageGroupChat(widget.assignGroupResponse.id)),
       child: BasePage(
         unFocusWhenTouchOutsideInput: true,
         child: Scaffold(
@@ -89,124 +87,45 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
               ),
             ),
           ),
+          extendBodyBehindAppBar: true,
           body: BlocBuilder<ChatDetailBloc, ChatDetailState>(
             builder: (context, state) {
-              if (state.status == PageState.loading) {
-                return Center(child: CircularProgressIndicator());
-              } else {
-                if (state.messages.isNotEmpty) {
-                  _processData(state.messages);
-                }
-                return _chatController != null
-                    ? ChatView(
-                        chatController: _chatController!,
-                        currentUser: ChatUser(
-                          id: '1',
-                          name: '${authProvider.user.firstName} ${authProvider.user.lastName}',
-                          profilePhoto: authProvider.user.avatarUrl,
-                        ),
-                        chatViewState: ChatViewState.hasMessages,
-                        chatViewStateConfig: ChatViewStateConfiguration(
-                          loadingWidgetConfig: ChatViewStateWidgetConfiguration(
-                            loadingIndicatorColor: repliedMessageColor,
-                          ),
-                          onReloadButtonTap: () {},
-                        ),
-                        chatBackgroundConfig: ChatBackgroundConfiguration(
-                          messageTimeIconColor: Colors.white,
-                          messageTimeTextStyle: TextStyle(color: Colors.white),
-                          defaultGroupSeparatorConfig: DefaultGroupSeparatorConfiguration(
-                            textStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17,
-                            ),
-                          ),
-                          backgroundColor: rf_primaryColor,
-                        ),
-                        sendMessageConfig: SendMessageConfiguration(
-                          imagePickerIconsConfig: ImagePickerIconsConfiguration(
-                            cameraIconColor: Color(0xff757575),
-                            galleryIconColor: Color(0xff757575),
-                          ),
-                          replyMessageColor: Colors.grey,
-                          replyDialogColor: Color(0xffFCD8DC),
-                          replyTitleColor: Color(0xffEE5366),
-                          textFieldBackgroundColor: Colors.white,
-                          closeIconColor: appTextColorPrimary,
-                          textFieldConfig: TextFieldConfiguration(
-                            textStyle: TextStyle(color: appTextColorPrimary),
-                          ),
-                          allowRecordingVoice: true,
-                          micIconColor: Colors.white,
-                          voiceRecordingConfiguration: VoiceRecordingConfiguration(
-                            backgroundColor: Color(0xff383152),
-                            recorderIconColor: Color(0xff757575),
-                            waveStyle: WaveStyle(
-                              showMiddleLine: false,
-                              waveColor: Colors.white,
-                              extendWaveform: true,
-                            ),
-                          ),
-                        ),
-                        swipeToReplyConfig: SwipeToReplyConfiguration(
-                          replyIconColor: Colors.transparent,
-                        ),
-                        profileCircleConfig: ProfileCircleConfiguration(
-                          profileImageUrl: authProvider.user.avatarUrl,
-                        ),
-                        replyPopupConfig: ReplyPopupConfiguration(
-                          onReplyTap: (message) {},
-                          replyPopupBuilder: (message, sendByCurrentUser) => SizedBox(),
-                        ),
-                        onPressedMap: () {
-                          print("onPressedMap");
-                        },
-                        onSendTap: (message, replyMessage, messageType) {
-                          print("onSendTap ${message} - messageType ${messageType}");
-                          context.read<ChatDetailBloc>().add(SendMessageGroupChat(
-                                userId: authProvider.user.id ?? '',
-                                message: message,
-                                type: messageType,
-                                groupId: widget.assignGroupResponse.tourVariant?.tour?.id ?? '',
-                              ));
-                          FocusScope.of(context).unfocus();
-                        },
-                      )
-                    : Center(child: CircularProgressIndicator());
-              }
+              print("state.isCanDrag ${state.isCanDrag}");
+              return SlidingUpPanel(
+                defaultPanelState: PanelState.CLOSED,
+                controller: _panelController,
+                minHeight: 0.0,
+                maxHeight: 500.0,
+                disableDraggableOnScrolling: !state.isCanDrag,
+                panelBuilder: () {
+                  return ShareMap(
+                    onSharePosition: (position) {
+                      context.read<ChatDetailBloc>().add(SendMessageGroupChat(
+                            userId: authProvider.user.id ?? '',
+                            // message:
+                            //     'https://www.google.com/maps/search/?api=1&query=${position.latitude},${position.longitude}',
+                            message:
+                                "http://maps.google.com/maps?q=${position.latitude},${position.longitude}&iwloc=A",
+                            type: MessageType.custom,
+                            groupId: widget.assignGroupResponse.id,
+                          ));
+
+                      _panelController.close();
+                    },
+                  );
+                },
+                body: ChatList(
+                  tourGroupId: widget.assignGroupResponse.id,
+                  onPressedMap: () {
+                    context.read<ChatDetailBloc>()..add(StatusMapEvent(state.isOpenMap));
+                    _panelController.open();
+                  },
+                ),
+              );
             },
           ),
         ),
       ),
     );
-  }
-
-  void _processData(List<FirestoreMessage> msg) async {
-    if (_chatController == null) {
-      List<Message> messages = [];
-      List<ChatUser> chatUsers = [];
-      for (final message in msg) {
-        messages.add(message.toMessage());
-
-        chatUsers.add(ChatUser(id: message.senderId ?? '', name: '1111'));
-      }
-      _chatController = ChatController(
-        initialMessageList: messages,
-        scrollController: _scrollController,
-        chatUsers: chatUsers,
-      );
-    } else {
-      List<Message> messages = [];
-      List<ChatUser> chatUsers = [];
-      for (final message in msg) {
-        messages.add(message.toMessage());
-
-        chatUsers.add(ChatUser(id: message.senderId ?? '', name: '1111'));
-      }
-      _chatController?.chatUsers.clear();
-
-      _chatController?.messageStreamController.add(messages);
-      _chatController?.chatUsers = chatUsers;
-    }
   }
 }

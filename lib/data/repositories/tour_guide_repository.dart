@@ -38,7 +38,7 @@ class TourGuideRepository {
         .toList();
   }
 
-  Future<TourGuideAssigned> getAssignedTourGuide(String tourGuideId, String token) async {
+  Future<TourGuideAssigned> getAssignedTourGuide(String tourGuideId) async {
     final response = await NetworkUtility.fetchUrl(
       Uri.parse('$baseApiUrl/tour-guides/${tourGuideId}/assigned-tours'),
       headers: mapHeader,

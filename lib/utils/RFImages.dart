@@ -50,3 +50,6 @@ const rf_coffee = 'assets/icons/coffee.svg';
 const rf_nightlife = 'assets/icons/nightlife.svg';
 const rf_fun = 'assets/icons/fun.svg';
 const rf_shopping = 'assets/icons/shopping.svg';
+
+// Tour
+const rf_location_marker = 'assets/images/ic_location_marker.png';
