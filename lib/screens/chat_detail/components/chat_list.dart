@@ -70,6 +70,20 @@ class _ChatListState extends State<ChatList> {
                     ),
                     backgroundColor: rf_primaryColor,
                   ),
+                  chatBubbleConfig: ChatBubbleConfiguration(
+                    inComingChatBubbleConfig: ChatBubble(
+                      linkPreviewConfig: LinkPreviewConfiguration(
+                          titleStyle: TextStyle(color: Colors.transparent),
+                          bodyStyle: TextStyle(color: Colors.transparent)),
+                    ),
+                    outgoingChatBubbleConfig: ChatBubble(
+                      linkPreviewConfig: LinkPreviewConfiguration(
+                        titleStyle: TextStyle(color: Colors.transparent),
+                        bodyStyle: TextStyle(color: Colors.transparent),
+                        linkStyle: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
                   sendMessageConfig: SendMessageConfiguration(
                     imagePickerIconsConfig: ImagePickerIconsConfiguration(
                       cameraIconColor: Color(0xff757575),
