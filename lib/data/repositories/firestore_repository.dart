@@ -31,6 +31,21 @@ class FirestoreRepository {
     });
   }
 
+  Stream<FirestoreMessage> fetchLastedMessage(String groupId) {
+    return _db
+        .collection(COLLECTION_GROUP)
+        .doc(groupId.trim())
+        .collection(COLLECTION_MESSAGES)
+        .orderBy('Timestamp', descending: true)
+        .limit(1)
+        .snapshots()
+        .map((querySnapshot) {
+      final lastedMessage = querySnapshot.docs.first;
+      final message = FirestoreMessage.fromJson(lastedMessage.data());
+      return message;
+    });
+  }
+
   /// Send message lên Firestore
   Future<FirestoreMessage?> saveMessage(String uid, MessageType type, String messageText,
       DateTime sentAt, String currentGroupId) async {

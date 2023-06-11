@@ -21,3 +21,11 @@ class SearchGroupEvent extends ChatEvent {
   @override
   List<Object> get props => [key];
 }
+
+class FetchLastedMessage extends ChatEvent {
+  final String groupId;
+  const FetchLastedMessage(this.groupId);
+
+  @override
+  List<Object> get props => [groupId];
+}

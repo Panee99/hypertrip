@@ -44,6 +44,9 @@ const angle_left = 'assets/icons/angle-left.svg';
 const angle_right = 'assets/icons/angle-right.svg';
 const add_square = 'assets/icons/add-square.svg';
 
+// Icon Common
+const rf_icon_arrow_back = 'assets/images/icon_arrow_back.png';
+
 // TourGuide
 const rf_food = 'assets/icons/pizza.svg';
 const rf_coffee = 'assets/icons/coffee.svg';

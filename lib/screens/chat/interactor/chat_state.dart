@@ -1,65 +1,30 @@
 import 'package:equatable/equatable.dart';
+import 'package:room_finder_flutter/models/chat/firestore_message.dart';
 import 'package:room_finder_flutter/models/tourguide/assign_group_response.dart';
+import 'package:room_finder_flutter/utils/page_states.dart';
 
-abstract class ChatState extends Equatable {
+class ChatState extends Equatable {
+  final PageState status;
   final List<AssignGroupResponse> groupChat;
   final String error;
+  final FirestoreMessage? message;
 
-  ChatState({required this.error, required this.groupChat});
+  ChatState({required this.status, required this.error, required this.groupChat, this.message});
 
   ChatState copyWith({
-    String? error,
+    PageState? status,
     List<AssignGroupResponse>? groupChat,
-  });
-
-  @override
-  List<Object?> get props => [groupChat, error];
-}
-
-class ChatLoadingState extends ChatState {
-  ChatLoadingState({required List<AssignGroupResponse> groupChat, required String error})
-      : super(groupChat: groupChat, error: error);
-
-  @override
-  ChatState copyWith({
     String? error,
-    List<AssignGroupResponse>? groupChat,
+    FirestoreMessage? message,
   }) {
-    return ChatLoadingState(
+    return ChatState(
+      status: status ?? this.status,
       groupChat: groupChat ?? this.groupChat,
       error: error ?? this.error,
+      message: message ?? this.message,
     );
   }
-}
-
-class ChatLoadedState extends ChatState {
-  ChatLoadedState({required List<AssignGroupResponse> groupChat, required String error})
-      : super(groupChat: groupChat, error: error);
 
   @override
-  ChatState copyWith({
-    String? error,
-    List<AssignGroupResponse>? groupChat,
-  }) {
-    return ChatLoadedState(
-      groupChat: groupChat ?? this.groupChat,
-      error: error ?? this.error,
-    );
-  }
-}
-
-class ChatErrorState extends ChatState {
-  ChatErrorState({required List<AssignGroupResponse> groupChat, required String error})
-      : super(groupChat: groupChat, error: error);
-
-  @override
-  ChatState copyWith({
-    String? error,
-    List<AssignGroupResponse>? groupChat,
-  }) {
-    return ChatErrorState(
-      groupChat: groupChat ?? this.groupChat,
-      error: error ?? this.error,
-    );
-  }
+  List<Object?> get props => [error, groupChat, message, status];
 }
