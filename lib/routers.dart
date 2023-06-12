@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:room_finder_flutter/fragment/tourguide/notification/rf_notification_page.dart';
+import 'package:room_finder_flutter/fragment/tourguide/profile/rf_account_fragment.dart';
+import 'package:room_finder_flutter/fragment/tourguide/tour_detail/rf_tour_detail.dart';
+import 'package:room_finder_flutter/fragment/tourguide/tour_list/rf_tour_list.dart';
 
 class Routers {
   static const String ROOT = "/";
-  static const String SPLASH = "/splash";
+  static const String SETTING = "/setting";
+  static const String TOUR_DETAIL = "/tour-detail";
+  static const String TOUR_LIST = "/tour-list";
+  static const String NOTIFICATION = "/notify-list";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var arguments = settings.arguments;
     print("SCREEN: " + (settings.name ?? ''));
     switch (settings.name) {
-      case SPLASH:
-      // return _animRoute(SplashPage());
+      case SETTING:
+        return _animRoute(RFAccountFragment(), beginOffset: right);
+      case TOUR_DETAIL:
+        return _animRoute(RFTourDetail(), beginOffset: right);
+      case TOUR_LIST:
+        return _animRoute(RFTourList(), beginOffset: right);
+      case NOTIFICATION:
+        return _animRoute(RFNotificationPage(), beginOffset: right);
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
