@@ -89,9 +89,8 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
               children: <Widget>[
                 ListView.builder(
                   itemCount: state.messages.length,
+                  padding: EdgeInsets.only(bottom: 100),
                   shrinkWrap: true,
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                  physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return ChatItem(data: state.messages[index]);
                   },
