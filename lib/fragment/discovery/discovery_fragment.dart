@@ -63,7 +63,7 @@ class _MapFragmentState extends State<DiscoveryFragment> {
     });
 
     // Move camera to the current location
-    mapController.animateCamera(CameraUpdate.newLatLngZoom(latLngPosition, 2.0));
+    // mapController.animateCamera(CameraUpdate.newLatLngZoom(latLngPosition, 2.0));
   }
 
   @override
