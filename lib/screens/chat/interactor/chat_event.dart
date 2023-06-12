@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:room_finder_flutter/models/user/profile_response.dart';
 
 abstract class ChatEvent extends Equatable {
   const ChatEvent();
@@ -6,7 +7,8 @@ abstract class ChatEvent extends Equatable {
 
 class FetchGroupChat extends ChatEvent {
   final String? userid;
-  const FetchGroupChat(this.userid);
+  final RoleStatus role;
+  const FetchGroupChat(this.userid, this.role);
 
   @override
   List<Object> get props => [userid ?? ''];

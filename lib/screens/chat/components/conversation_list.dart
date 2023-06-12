@@ -3,6 +3,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/models/tourguide/assign_group_response.dart';
 import 'package:room_finder_flutter/routers.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
+import 'package:room_finder_flutter/utils/app_languages.dart';
 
 class ConversationList extends StatelessWidget {
   final AssignGroupResponse data;
@@ -41,13 +42,15 @@ class ConversationList extends StatelessWidget {
                           SizedBox(
                             height: 6,
                           ),
-                          // Text(
-                          //   data.recentMessage?.message ?? '',
-                          //   style: TextStyle(
-                          //       fontSize: 13,
-                          //       color: Colors.grey.shade600,
-                          //       fontWeight: isMessageRead ? FontWeight.normal : FontWeight.bold),
-                          // ),
+                          if (data.tourVariant != null)
+                            Text(
+                              '$rf_lang_code ${data.tourVariant!.code}',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.grey.shade600,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
                         ],
                       ),
                     ),
