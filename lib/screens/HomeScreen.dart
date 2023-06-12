@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,11 +9,13 @@ import 'package:room_finder_flutter/fragment/RFHomeTourGuideFragment.dart';
 import 'package:room_finder_flutter/fragment/inbox_fragment.dart';
 import 'package:room_finder_flutter/fragment/schedule_fragment.dart';
 import 'package:room_finder_flutter/fragment/ticket/ticket_fragment.dart';
+import 'package:room_finder_flutter/fragment/tourguide/home/rf_home_tourguide_fragment.dart';
 import 'package:room_finder_flutter/screens/chat/ChatPage.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'dart:math' as math;
+
 import '../fragment/discovery/discovery_fragment.dart';
 import '../provider/AuthProvider.dart';
 
@@ -46,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   List<Widget> tourGuidePages = [
-    RFHomeTourGuideFragment(),
+    //RFHomeTourGuideFragment(),
     DiscoveryFragment(),
     ScheduleFragment(),
     // RFSettingsFragment(),

@@ -46,3 +46,10 @@ const add_square = 'assets/icons/add-square.svg';
 const info = 'assets/icons/circle-info.svg';
 const location = 'assets/images/location.png';
 const ticket = 'assets/images/ticket.png';
+
+// TourGuide
+const rf_food = 'assets/icons/pizza.svg';
+const rf_coffee = 'assets/icons/coffee.svg';
+const rf_nightlife = 'assets/icons/nightlife.svg';
+const rf_fun = 'assets/icons/fun.svg';
+const rf_shopping = 'assets/icons/shopping.svg';
