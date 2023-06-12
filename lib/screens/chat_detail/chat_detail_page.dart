@@ -46,6 +46,9 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
         unFocusWhenTouchOutsideInput: true,
         child: BlocBuilder<ChatDetailBloc, ChatDetailState>(
           builder: (context, state) => Scaffold(
+            endDrawer: MemberList(
+              members: state.members,
+            ),
             appBar: AppBar(
               elevation: 0,
               automaticallyImplyLeading: false,
@@ -54,7 +57,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 child: Container(
                   padding: EdgeInsets.only(right: 16),
                   child: Row(
-                    children: <Widget>[
+                    children: [
                       IconButton(
                         onPressed: () {
                           Navigator.pop(context);
@@ -90,15 +93,6 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                   ),
                 ),
               ),
-              actions: [
-                IconButton(
-                  icon: Icon(
-                    Icons.settings,
-                    color: Colors.black54,
-                  ),
-                  onPressed: () => _showMemberList(context, state.members),
-                ),
-              ],
             ),
             extendBodyBehindAppBar: true,
             body: BlocBuilder<ChatDetailBloc, ChatDetailState>(
