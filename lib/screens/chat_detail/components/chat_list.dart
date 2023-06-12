@@ -70,7 +70,7 @@ class _ChatListState extends State<ChatList> {
                         fontSize: 17,
                       ),
                     ),
-                    backgroundColor: rf_background_chat,
+                    backgroundColor: rf_primaryColor,
                   ),
                   chatBubbleConfig: ChatBubbleConfiguration(
                     inComingChatBubbleConfig: ChatBubble(
@@ -88,16 +88,14 @@ class _ChatListState extends State<ChatList> {
                   ),
                   sendMessageConfig: SendMessageConfiguration(
                     imagePickerIconsConfig: ImagePickerIconsConfiguration(
-                      cameraIconColor: Color(0xff757575),
-                      galleryIconColor: Color(0xff757575),
-                      mapIconColor: Color(0xff757575),
-                      cameraImagePickerIcon: SvgPicture.asset(rf_icon_camera),
-                      galleryImagePickerIcon: SvgPicture.asset(rf_icon_picture),
-                      mapIcon: SvgPicture.asset(
-                        rf_icon_map,
-                        width: 24,
-                        height: 24,
-                      ),
+                      cameraIconColor: rf_IconColor,
+                      galleryIconColor: rf_IconColor,
+                      mapIconColor: rf_IconColor,
+                      cameraImagePickerIcon: SvgPicture.asset(rf_icon_camera, color: rf_IconColor),
+                      galleryImagePickerIcon:
+                          SvgPicture.asset(rf_icon_picture, color: rf_IconColor),
+                      mapIcon:
+                          SvgPicture.asset(rf_icon_map, width: 24, height: 24, color: rf_IconColor),
                     ),
                     replyMessageColor: Colors.grey,
                     replyDialogColor: Color(0xffFCD8DC),

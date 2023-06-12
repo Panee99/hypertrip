@@ -13,6 +13,9 @@ const starRateColor = Color(0xFFF99D00);
 const starUnrateColor = Color(0xFFCDCDCD);
 const disableButtonColor = Color(0xFFBDC1C6);
 const secondaryColor = Color(0xFFFF9900);
+const rf_IconColor = Color(0xFF8E8E93);
+const repliedMessageColor = Color(0xff9f85ff);
+const rf_background_chat = Color(0xfff5f5f5);
 
 // Dark Theme Colors
 const appBackgroundColorDark = Color(0xFF121212);
@@ -39,18 +42,3 @@ const Color black8 = Color(0x14000000);
 
 const Color white72 = Color(0xB8FFFFFF);
 const Color black72 = Color(0xB8000000);
-
-const Color repliedMessageColor = Color(0xff9f85ff);
-const Color rf_background_chat = Color(0xfff5f5f5);
-
-Color chatsSeparatorLineColor(BuildContext context) =>
-    Theme.of(context).brightness == Brightness.dark ? white18 : black18;
-
-Color chatsAttachmentIconColor(BuildContext context) =>
-    Theme.of(context).brightness == Brightness.dark ? white72 : black72;
-
-Color chatMessageInputBGColor(BuildContext context) =>
-    Theme.of(context).brightness == Brightness.dark ? white8 : black8;
-
-Color chatMessageOverlayBGColor(BuildContext context) =>
-    Theme.of(context).brightness == Brightness.dark ? white8 : black8;
