@@ -13,25 +13,33 @@ class MemberList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    members.removeLast();
     return BlocProvider.value(
       value: GetIt.I.get<ChatDetailBloc>(),
       child: BlocBuilder<ChatDetailBloc, ChatDetailState>(
         builder: (context, state) {
-          return Container(
-            height: 500,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                20.height,
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Text(
-                    "Danh sách thành viên",
-                    style: boldTextStyle(size: 24),
+          return SafeArea(
+            child: Container(
+              color: Colors.white,
+              height: MediaQuery.of(context).size.height,
+              margin: EdgeInsets.only(left: 100),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  20.height,
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Text(
+                      "Danh sách thành viên",
+                      style: boldTextStyle(size: 24),
+                    ),
                   ),
-                ),
-              ]..addAll(members.map((member) => MemberItem(data: member)).toList()),
+                  Expanded(
+                    child: ListView(
+                      children: members.map((member) => MemberItem(data: member)).toList(),
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         },
