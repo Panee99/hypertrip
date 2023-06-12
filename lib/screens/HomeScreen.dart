@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/fragment/RFHomeTourGuideFragment.dart';
+// import 'package:room_finder_flutter/fragment/RFHomeTourGuideFragment.dart';
 import 'package:room_finder_flutter/fragment/inbox_fragment.dart';
 import 'package:room_finder_flutter/fragment/schedule_fragment.dart';
 import 'package:room_finder_flutter/fragment/ticket/ticket_fragment.dart';
