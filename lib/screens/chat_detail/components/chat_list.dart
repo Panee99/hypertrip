@@ -70,7 +70,7 @@ class _ChatListState extends State<ChatList> {
                         fontSize: 17,
                       ),
                     ),
-                    backgroundColor: rf_primaryColor,
+                    backgroundColor: rf_background_chat,
                   ),
                   chatBubbleConfig: ChatBubbleConfiguration(
                     inComingChatBubbleConfig: ChatBubble(
