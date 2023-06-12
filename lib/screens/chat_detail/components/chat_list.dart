@@ -77,12 +77,12 @@ class _ChatListState extends State<ChatList> {
                           bodyStyle: TextStyle(color: Colors.transparent)),
                     ),
                     outgoingChatBubbleConfig: ChatBubble(
-                      linkPreviewConfig: LinkPreviewConfiguration(
-                        titleStyle: TextStyle(color: Colors.transparent),
-                        bodyStyle: TextStyle(color: Colors.transparent),
-                        linkStyle: TextStyle(color: Colors.black),
-                      ),
-                    ),
+                        linkPreviewConfig: LinkPreviewConfiguration(
+                          titleStyle: TextStyle(color: Colors.transparent),
+                          bodyStyle: TextStyle(color: Colors.transparent),
+                          linkStyle: TextStyle(color: Colors.black),
+                        ),
+                        textStyle: TextStyle(color: Colors.black)),
                   ),
                   sendMessageConfig: SendMessageConfiguration(
                     imagePickerIconsConfig: ImagePickerIconsConfiguration(
