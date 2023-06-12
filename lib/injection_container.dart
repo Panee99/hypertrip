@@ -135,7 +135,8 @@ _registerBlocsModule() {
   //Bloc
   _registerFactory(() => WarningIncidentBloc(sl<WarningIncidentRepository>()));
 
-  _registerFactory(() => ChatBloc(sl<TourGuideRepository>(), sl<TravelerRepository>()));
+  _registerFactory(() =>
+      ChatBloc(sl<TourGuideRepository>(), sl<TravelerRepository>(), sl<FirestoreRepository>()));
 
   _registerFactory(() => ChatDetailBloc(sl<FirestoreRepository>(), sl<AppRepository>(),
       sl<TourGroupRepository>(), sl<FoursquareRepository>()));

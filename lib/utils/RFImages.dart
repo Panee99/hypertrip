@@ -47,6 +47,9 @@ const info = 'assets/icons/circle-info.svg';
 const location = 'assets/images/location.png';
 const ticket = 'assets/images/ticket.png';
 
+// Icon Common
+const rf_icon_arrow_back = 'assets/images/icon_arrow_back.png';
+
 // TourGuide
 const rf_food = 'assets/icons/pizza.svg';
 const rf_coffee = 'assets/icons/coffee.svg';

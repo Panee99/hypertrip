@@ -41,6 +41,7 @@ const Color white72 = Color(0xB8FFFFFF);
 const Color black72 = Color(0xB8000000);
 
 const Color repliedMessageColor = Color(0xff9f85ff);
+const Color rf_background_chat = Color(0xfff5f5f5);
 
 Color chatsSeparatorLineColor(BuildContext context) =>
     Theme.of(context).brightness == Brightness.dark ? white18 : black18;
