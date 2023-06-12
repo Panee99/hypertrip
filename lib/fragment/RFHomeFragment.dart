@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/bloc/location/location_bloc.dart';
 import 'package:room_finder_flutter/bloc/location/location_state.dart';
 import 'package:room_finder_flutter/bloc/tour/tour_detail_event.dart';
+import 'package:room_finder_flutter/models/user/profile_response.dart';
 import 'package:room_finder_flutter/screens/home/nearby_you.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
@@ -162,7 +163,7 @@ class RFHomeFragment extends StatelessWidget {
       // CategoriesWidget(),
     ];
     List<Widget> tourGuideBody = [];
-    List<Widget> body = authProvider.user.role.toString() == 'Traveler'
+    List<Widget> body = authProvider.user.role == RoleStatus.Traveler
         ? travelBody
         : tourGuideBody;
     return Scaffold(

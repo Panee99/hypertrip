@@ -8,7 +8,7 @@ import 'package:room_finder_flutter/constants/user_constants.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/models/user/avatar_response.dart';
 
-import '../models/user/sign_in_model.dart';
+import '../models/user/profile_response.dart';
 
 enum Status {
   uninitialized,

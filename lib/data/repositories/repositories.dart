@@ -27,7 +27,7 @@ import '../../models/discovery/nearby_response.dart';
 import '../../models/discovery/place_details_response.dart';
 import '../../models/discovery/place_photo_response.dart';
 import '../../models/tour/tour_list_response.dart';
-import '../../models/user/sign_in_model.dart';
+import '../../models/user/profile_response.dart';
 import '../../utils/QueryString.dart';
 import '../../utils/network.dart';
 

@@ -13,6 +13,16 @@ class FetchMessageGroupChat extends ChatDetailEvent {
   List<Object> get props => [];
 }
 
+class GetMembersTourGroup extends ChatDetailEvent {
+  final String groupId;
+  final String userId;
+
+  const GetMembersTourGroup(this.groupId, this.userId);
+
+  @override
+  List<Object> get props => [groupId, userId];
+}
+
 class SendMessageGroupChat extends ChatDetailEvent {
   final String message;
   final MessageType type;
@@ -25,18 +35,33 @@ class SendMessageGroupChat extends ChatDetailEvent {
   List<Object> get props => [];
 }
 
-class UpdateMessage extends ChatDetailEvent {
-  final String message;
-  const UpdateMessage(this.message);
-
-  @override
-  List<Object> get props => [];
-}
-
 class GetProfileUser extends ChatDetailEvent {
   final String userId;
   const GetProfileUser(this.userId);
 
   @override
   List<Object> get props => [];
+}
+
+class StatusMapEvent extends ChatDetailEvent {
+  final bool isOpenMap;
+  const StatusMapEvent(this.isOpenMap);
+
+  @override
+  List<Object> get props => [isOpenMap];
+}
+
+class RequestPermissionLocationEvent extends ChatDetailEvent {
+  const RequestPermissionLocationEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class DragPanelEvent extends ChatDetailEvent {
+  final bool isTap;
+  const DragPanelEvent(this.isTap);
+
+  @override
+  List<Object> get props => [isTap];
 }

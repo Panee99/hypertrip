@@ -1,10 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:room_finder_flutter/models/tourguide/serializable.dart';
 import 'package:room_finder_flutter/models/tourguide/tour_variant.dart';
 
 part 'assign_group_response.g.dart';
 
 @JsonSerializable()
-class AssignGroupResponse {
+class AssignGroupResponse implements Serializable {
   String id;
   DateTime? createdAt;
   String groupName;

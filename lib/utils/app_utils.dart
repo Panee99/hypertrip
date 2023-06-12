@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class AppUtils {
   static String formatPhoneNumber(
     String phoneNumber, {
@@ -34,5 +36,16 @@ class AppUtils {
         return str;
       }
     }
+  }
+
+  /// Size is MB
+  static bool isMaxFileSize(File file, {int size = 100}) {
+    int bytes = file.lengthSync();
+    int maxFileSize = size * 1024 * 1024;
+
+    if (bytes > maxFileSize + 1) {
+      return true;
+    }
+    return false;
   }
 }
