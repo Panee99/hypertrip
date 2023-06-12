@@ -1,6 +1,7 @@
 import 'package:chatview/chatview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/models/chat/firestore_message.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
@@ -8,6 +9,7 @@ import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_b
 import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_event.dart';
 import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_state.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
+import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/page_states.dart';
 
 class ChatList extends StatefulWidget {
@@ -88,6 +90,14 @@ class _ChatListState extends State<ChatList> {
                     imagePickerIconsConfig: ImagePickerIconsConfiguration(
                       cameraIconColor: Color(0xff757575),
                       galleryIconColor: Color(0xff757575),
+                      mapIconColor: Color(0xff757575),
+                      cameraImagePickerIcon: SvgPicture.asset(rf_icon_camera),
+                      galleryImagePickerIcon: SvgPicture.asset(rf_icon_picture),
+                      mapIcon: SvgPicture.asset(
+                        rf_icon_map,
+                        width: 24,
+                        height: 24,
+                      ),
                     ),
                     replyMessageColor: Colors.grey,
                     replyDialogColor: Color(0xffFCD8DC),
