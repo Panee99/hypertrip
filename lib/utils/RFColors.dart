@@ -15,7 +15,7 @@ const disableButtonColor = Color(0xFFBDC1C6);
 const secondaryColor = Color(0xFFFF9900);
 const rf_IconColor = Color(0xFF8E8E93);
 const repliedMessageColor = Color(0xff9f85ff);
-const rf_background_chat = Color(0xfff5f5f5);
+const rf_background_chat = Color(0xFFF1FBFF);
 
 // Dark Theme Colors
 const appBackgroundColorDark = Color(0xFF121212);
