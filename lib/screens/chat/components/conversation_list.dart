@@ -1,31 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:room_finder_flutter/screens/chat/chatDetailPage.dart';
+import 'package:room_finder_flutter/models/chat/firestore_group_chat.dart';
+import 'package:room_finder_flutter/routers.dart';
+import 'package:room_finder_flutter/utils/RFWidget.dart';
+import 'package:room_finder_flutter/utils/date_time_utils.dart';
 
-class ConversationList extends StatefulWidget {
-  String name;
-  String messageText;
-  String imageUrl;
-  String time;
-  bool isMessageRead;
-  ConversationList(
-      {required this.name,
-      required this.messageText,
-      required this.imageUrl,
-      required this.time,
-      required this.isMessageRead});
-  @override
-  _ConversationListState createState() => _ConversationListState();
-}
+class ConversationList extends StatelessWidget {
+  final FirestoreGroupChat data;
+  final String userID;
 
-class _ConversationListState extends State<ConversationList> {
+  const ConversationList({required this.data, required this.userID});
   @override
   Widget build(BuildContext context) {
+    bool isMessageRead = data.recentMessage?.readBy.contains(userID) ?? false;
     return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return ChatDetailPage();
-        }));
-      },
+      onTap: () => Navigator.pushNamed(context, Routers.CHAT_DETAIL, arguments: data),
       child: Container(
         padding: EdgeInsets.only(left: 8, right: 32, top: 10, bottom: 10),
         child: Row(
@@ -34,8 +22,12 @@ class _ConversationListState extends State<ConversationList> {
               child: Row(
                 children: <Widget>[
                   CircleAvatar(
-                    backgroundImage: NetworkImage(widget.imageUrl),
-                    maxRadius: 30,
+                    child: rfCommonCachedNetworkImage(
+                      data.urlPhotoGroup,
+                      height: 70,
+                      width: 70,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   SizedBox(
                     width: 16,
@@ -47,20 +39,18 @@ class _ConversationListState extends State<ConversationList> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            widget.name,
+                            data.titleGroup,
                             style: TextStyle(fontSize: 16),
                           ),
                           SizedBox(
                             height: 6,
                           ),
                           Text(
-                            widget.messageText,
+                            data.recentMessage?.message ?? '',
                             style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey.shade600,
-                                fontWeight: widget.isMessageRead
-                                    ? FontWeight.bold
-                                    : FontWeight.normal),
+                                fontWeight: isMessageRead ? FontWeight.normal : FontWeight.bold),
                           ),
                         ],
                       ),
@@ -70,12 +60,9 @@ class _ConversationListState extends State<ConversationList> {
               ),
             ),
             Text(
-              widget.time,
+              DateTimeUtils.formatDateTimeToShortDate(data.recentMessage?.sendAt),
               style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: widget.isMessageRead
-                      ? FontWeight.bold
-                      : FontWeight.normal),
+                  fontSize: 12, fontWeight: isMessageRead ? FontWeight.bold : FontWeight.normal),
             ),
           ],
         ),

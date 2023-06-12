@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/constants/firestore_constants.dart.dart';
 import 'package:room_finder_flutter/constants/user_constants.dart';
+import 'package:room_finder_flutter/data/repositories/firestore_repository.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/models/user/avatar_response.dart';
-import 'package:room_finder_flutter/models/user_chat.dart';
 
 import '../models/user/sign_in_model.dart';
 
@@ -54,8 +55,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<bool> isLoggedIn() async {
     bool isLoggedIn = await googleSignIn.isSignedIn();
-    if (isLoggedIn &&
-        prefs.getString(FirestoreConstants.id)?.isNotEmpty == true) {
+    if (isLoggedIn && prefs.getString(FirestoreConstants.id)?.isNotEmpty == true) {
       return true;
     } else {
       return false;
@@ -68,6 +68,8 @@ class AuthProvider extends ChangeNotifier {
     _token = await AppRepository().getToken(username, password);
     notifyListeners();
     _user = (await AppRepository().getUserProfile(_token))!;
+
+    _sendToFirestore();
     if (await AppRepository().getUserAvatar(_token) != null) {
       _avt = (await AppRepository().getUserAvatar(_token))!;
       notifyListeners();
@@ -163,5 +165,21 @@ class AuthProvider extends ChangeNotifier {
     await firebaseAuth.signOut();
     await googleSignIn.disconnect();
     await googleSignIn.signOut();
+  }
+
+  void _sendToFirestore() {
+    final firebaseFirestore = GetIt.I.get<FirestoreRepository>();
+
+    firebaseFirestore.saveUserToFirestore(user);
+
+    firebaseFirestore.saveGroupToFirestore(
+      users: [
+        '21751a9c-fcd9-4fcc-93ed-7a4349a34bc7',
+        'e6618130-62e9-4053-4047-08db269c26be',
+        'e5c799e2-0c1a-44ca-3502-08db64c09903'
+      ],
+      titleGroup: 'Tour-1',
+      tourId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    );
   }
 }

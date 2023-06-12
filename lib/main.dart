@@ -22,7 +22,6 @@ import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 
 import 'data/repositories/repositories.dart';
-import 'firebase_options.dart';
 
 AppStore appStore = AppStore();
 
@@ -35,8 +34,27 @@ void main() async {
 
   appStore.toggleDarkMode(value: getBoolAsync(isDarkModeOnPref));
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+      // options: DefaultFirebaseOptions.currentPlatform,
+      );
+
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  // Setup firebase listener for permission changes
+  firebaseAuth.authStateChanges().listen((user) async {
+    if (user == null) {
+      try {
+        debugPrint('User is currently signed out!');
+        final UserCredential user = await firebaseAuth.signInAnonymously();
+        final User? currentUser = firebaseAuth.currentUser;
+
+        assert(user.user?.uid == currentUser?.uid);
+      } catch (error, stacktrace) {
+        debugPrint('ex ${error}');
+      }
+    } else {
+      debugPrint('User is signed in!');
+    }
+  });
+
   SharedPreferences prefs = await SharedPreferences.getInstance();
   HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp(prefs: prefs));
