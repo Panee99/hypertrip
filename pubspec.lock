@@ -188,10 +188,11 @@ packages:
   chatview:
     dependency: "direct main"
     description:
-      name: chatview
-      sha256: "4d9fc78d7cb5a7d8d01751b3f96e1e2a4543752eb00d49d5be9188fdf8c69559"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: cb69bec9946ec2ee9add95345947c0fd73c7115e
+      url: "https://github.com/DokhaiTrinh/flutter_chatview.git"
+    source: git
     version: "1.2.1"
   checked_yaml:
     dependency: transitive
@@ -1413,6 +1414,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.16"
+  timeago:
+    dependency: transitive
+    description:
+      name: timeago
+      sha256: a415b9a05ef64b845c859a91161fc9f689f88eaaa4c04759517d201891b99e90
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.0"
   timezone:
     dependency: transitive
     description:
