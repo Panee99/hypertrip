@@ -16,7 +16,8 @@ class ChatList extends StatefulWidget {
   final String tourGroupId;
   final VoidCallBack? onPressedMap;
 
-  ChatList({Key? key, required this.tourGroupId, this.onPressedMap}) : super(key: key);
+  ChatList({Key? key, required this.tourGroupId, this.onPressedMap})
+      : super(key: key);
 
   @override
   State<ChatList> createState() => _ChatListState();
@@ -64,7 +65,8 @@ class _ChatListState extends State<ChatList> {
                   chatBackgroundConfig: ChatBackgroundConfiguration(
                     messageTimeIconColor: Colors.white,
                     messageTimeTextStyle: TextStyle(color: Colors.white),
-                    defaultGroupSeparatorConfig: DefaultGroupSeparatorConfiguration(
+                    defaultGroupSeparatorConfig:
+                        DefaultGroupSeparatorConfiguration(
                       textStyle: TextStyle(
                         color: Colors.white,
                         fontSize: 17,
@@ -91,11 +93,12 @@ class _ChatListState extends State<ChatList> {
                       cameraIconColor: rf_IconColor,
                       galleryIconColor: rf_IconColor,
                       mapIconColor: rf_IconColor,
-                      cameraImagePickerIcon: SvgPicture.asset(rf_icon_camera, color: rf_IconColor),
-                      galleryImagePickerIcon:
-                          SvgPicture.asset(rf_icon_picture, color: rf_IconColor),
-                      mapIcon:
-                          SvgPicture.asset(rf_icon_map, width: 24, height: 24, color: rf_IconColor),
+                      cameraImagePickerIcon:
+                          SvgPicture.asset(rf_icon_camera, color: rf_IconColor),
+                      galleryImagePickerIcon: SvgPicture.asset(rf_icon_picture,
+                          color: rf_IconColor),
+                      mapIcon: SvgPicture.asset(rf_icon_map,
+                          width: 24, height: 24, color: rf_IconColor),
                     ),
                     replyMessageColor: Colors.grey,
                     replyDialogColor: Color(0xffFCD8DC),
@@ -125,7 +128,8 @@ class _ChatListState extends State<ChatList> {
                   ),
                   replyPopupConfig: ReplyPopupConfiguration(
                     onReplyTap: (message) {},
-                    replyPopupBuilder: (message, sendByCurrentUser) => SizedBox(),
+                    replyPopupBuilder: (message, sendByCurrentUser) =>
+                        SizedBox(),
                   ),
                   onPressedMap: widget.onPressedMap,
                   onSendTap: (message, replyMessage, messageType) {
