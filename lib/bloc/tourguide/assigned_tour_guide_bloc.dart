@@ -9,11 +9,11 @@ class TourDetailBloc extends Bloc<dynamic, AssignedTourGuideState> {
     on<LoadAssignedTourGuide>((event, emit) async {
       emit(AssignedTourGuideLoadingState());
       try {
-        final assignedTour = await appRepository.getAssignedTourGuide(
-            event.assignedTourId, event.token);
-        emit(AssignedTourGuideLoadedState(assignedTour));
+        // final assignedTour = await appRepository.getAssignedTourGuide(
+        //     event.assignedTourId, event.token);
+        // emit(AssignedTourGuideLoadedState(assignedTour));
       } catch (e) {
-        emit(AssignedTourGuideErrorState(e.toString()));
+        // emit(AssignedTourGuideErrorState(e.toString()));
       }
     });
   }

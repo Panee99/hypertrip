@@ -6,3 +6,5 @@ const rf_lang_list_comming_tour = 'Upcoming Tours';
 const rf_lang_weather = 'Weather';
 const rf_lang_earthquakes = 'Earthquakes';
 const rf_lang_doan_chat = 'Đoạn chat';
+const rf_lang_searchHint = 'Search...';
+const rf_lang_writeMessageHint = 'Write message...';

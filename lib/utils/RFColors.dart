@@ -30,3 +30,26 @@ const appColorPrimaryLight = Color(0xFFF9FAFF);
 const appTextColorPrimary = Color(0xFF212121);
 const appTextColorSecondary = Color(0xFF5A5C5E);
 const appShadowColor = Color(0x95E9EBF0);
+
+const Color white18 = Color(0x2EFFFFFF);
+const Color black18 = Color(0x2E000000);
+
+const Color white8 = Color(0x14FFFFFF);
+const Color black8 = Color(0x14000000);
+
+const Color white72 = Color(0xB8FFFFFF);
+const Color black72 = Color(0xB8000000);
+
+const Color repliedMessageColor = Color(0xff9f85ff);
+
+Color chatsSeparatorLineColor(BuildContext context) =>
+    Theme.of(context).brightness == Brightness.dark ? white18 : black18;
+
+Color chatsAttachmentIconColor(BuildContext context) =>
+    Theme.of(context).brightness == Brightness.dark ? white72 : black72;
+
+Color chatMessageInputBGColor(BuildContext context) =>
+    Theme.of(context).brightness == Brightness.dark ? white8 : black8;
+
+Color chatMessageOverlayBGColor(BuildContext context) =>
+    Theme.of(context).brightness == Brightness.dark ? white8 : black8;

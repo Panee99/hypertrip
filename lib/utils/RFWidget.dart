@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/commons/images.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
@@ -266,6 +264,29 @@ Widget rfCommonCachedNetworkImage(String? url,
         .cornerRadiusWithClipRRect(radius ?? defaultRadius);
   }
 }
+
+Widget commonCachedNetworkAvatar({
+  String? url,
+  double width = 56,
+  double height = 56,
+  double radius = 80,
+  double paddingBorder = 1,
+}) {
+  return Container(
+    padding: EdgeInsets.all(paddingBorder),
+    decoration: BoxDecoration(
+      color: rf_primaryColor,
+      borderRadius: BorderRadius.circular(80),
+    ),
+    child: rfCommonCachedNetworkImage(
+      url,
+      width: width,
+      height: height,
+      radius: radius,
+    ),
+  );
+}
+
 // Widget commonCachedNetworkAvatar(String? url,
 //     {
 //     bool usePlaceholderIfUrlEmpty = true,

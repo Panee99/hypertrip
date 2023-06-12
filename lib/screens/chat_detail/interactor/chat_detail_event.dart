@@ -1,3 +1,4 @@
+import 'package:chatview/chatview.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class ChatDetailEvent extends Equatable {
@@ -14,9 +15,11 @@ class FetchMessageGroupChat extends ChatDetailEvent {
 
 class SendMessageGroupChat extends ChatDetailEvent {
   final String message;
+  final MessageType type;
   final String groupId;
   final String userId;
-  const SendMessageGroupChat({required this.message, required this.groupId, required this.userId});
+  const SendMessageGroupChat(
+      {required this.message, required this.groupId, required this.userId, required this.type});
 
   @override
   List<Object> get props => [];
@@ -30,9 +33,9 @@ class UpdateMessage extends ChatDetailEvent {
   List<Object> get props => [];
 }
 
-class GetUserFirestore extends ChatDetailEvent {
+class GetProfileUser extends ChatDetailEvent {
   final String userId;
-  const GetUserFirestore(this.userId);
+  const GetProfileUser(this.userId);
 
   @override
   List<Object> get props => [];

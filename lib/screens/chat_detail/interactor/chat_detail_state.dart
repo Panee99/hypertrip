@@ -1,25 +1,30 @@
 import 'package:equatable/equatable.dart';
 import 'package:room_finder_flutter/models/chat/firestore_message.dart';
 import 'package:room_finder_flutter/models/chat/firestore_user.dart';
+import 'package:room_finder_flutter/utils/page_states.dart';
 
 abstract class ChatDetailState extends Equatable {
+  final PageState status;
   final List<FirestoreMessage> messages;
   final String message;
   final String error;
   final FirestoreUser firestoreUser;
 
   ChatDetailState(
-      {required this.error,
+      {required this.status,
+      required this.error,
       required this.messages,
       required this.message,
       required this.firestoreUser});
 
   ChatDetailState copyWith(
-      {String? error,
+      {PageState? status,
+      String? error,
       List<FirestoreMessage>? messages,
       String? message,
       FirestoreUser? firestoreUser}) {
     return ChatDetailLoadedState(
+      status: status ?? this.status,
       error: error ?? this.error,
       messages: messages ?? this.messages,
       message: message ?? this.message,
@@ -30,7 +35,8 @@ abstract class ChatDetailState extends Equatable {
 
 class ChatDetailLoadingState extends ChatDetailState {
   ChatDetailLoadingState(
-      {required super.error,
+      {required super.status,
+      required super.error,
       required super.messages,
       required super.message,
       required super.firestoreUser});
@@ -41,7 +47,8 @@ class ChatDetailLoadingState extends ChatDetailState {
 
 class ChatDetailLoadedState extends ChatDetailState {
   ChatDetailLoadedState(
-      {required super.error,
+      {required super.status,
+      required super.error,
       required super.messages,
       required super.message,
       required super.firestoreUser});
@@ -52,7 +59,8 @@ class ChatDetailLoadedState extends ChatDetailState {
 
 class ChatDetailErrorState extends ChatDetailState {
   ChatDetailErrorState(
-      {required super.error,
+      {required super.status,
+      required super.error,
       required super.messages,
       required super.message,
       required super.firestoreUser});
