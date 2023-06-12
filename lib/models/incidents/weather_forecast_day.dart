@@ -6,9 +6,11 @@ part 'weather_forecast_day.g.dart';
 
 @JsonSerializable()
 class WeatherForecastDay implements Serializable {
-  List<WeatherHour> hour;
+  /// Dữ liệu dự báo từng giờ
+  @JsonKey(name: 'hour')
+  List<WeatherHour> hours;
 
-  WeatherForecastDay({this.hour = const []});
+  WeatherForecastDay({this.hours = const []});
 
   factory WeatherForecastDay.fromJson(Map<String, dynamic> json) =>
       _$WeatherForecastDayFromJson(json);

@@ -8,7 +8,7 @@ part of 'weather_forecast_day.dart';
 
 WeatherForecastDay _$WeatherForecastDayFromJson(Map<String, dynamic> json) =>
     WeatherForecastDay(
-      hour: (json['hour'] as List<dynamic>?)
+      hours: (json['hour'] as List<dynamic>?)
               ?.map((e) => WeatherHour.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
@@ -16,5 +16,5 @@ WeatherForecastDay _$WeatherForecastDayFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$WeatherForecastDayToJson(WeatherForecastDay instance) =>
     <String, dynamic>{
-      'hour': instance.hour,
+      'hour': instance.hours,
     };

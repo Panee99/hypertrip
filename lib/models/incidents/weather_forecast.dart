@@ -4,10 +4,6 @@ import 'package:room_finder_flutter/models/tourguide/serializable.dart';
 
 part 'weather_forecast.g.dart';
 
-///"forecast": Chứa thông tin về dự báo thời tiết.
-//
-// "forecastday": Mảng các ngày dự báo.
-
 @JsonSerializable()
 class WeatherForecast implements Serializable {
   @JsonKey(name: 'forecastday')

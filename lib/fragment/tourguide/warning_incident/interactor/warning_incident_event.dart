@@ -10,3 +10,10 @@ class FetchDataWeather extends WarningIncidentEvent {
   @override
   List<Object> get props => [];
 }
+
+class FetchDataEarthQuakes extends WarningIncidentEvent {
+  const FetchDataEarthQuakes();
+
+  @override
+  List<Object> get props => [];
+}

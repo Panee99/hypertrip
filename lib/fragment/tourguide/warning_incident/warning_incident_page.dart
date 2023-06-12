@@ -7,6 +7,7 @@ import 'package:room_finder_flutter/fragment/tourguide/warning_incident/interact
 import 'package:room_finder_flutter/fragment/tourguide/warning_incident/interactor/warning_incident_event.dart';
 import 'package:room_finder_flutter/fragment/tourguide/warning_incident/interactor/warning_incident_state.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
+import 'package:room_finder_flutter/utils/app_languages.dart';
 
 class WarningIncidentPage extends StatelessWidget {
   const WarningIncidentPage({Key? key}) : super(key: key);
@@ -14,7 +15,9 @@ class WarningIncidentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => GetIt.I.get<WarningIncidentBloc>()..add(FetchDataWeather()),
+      create: (BuildContext context) => GetIt.I.get<WarningIncidentBloc>()
+        ..add(FetchDataWeather())
+        ..add(FetchDataEarthQuakes()),
       child: Scaffold(
         appBar: AppBar(
           title: Text('Warning for incident'),
@@ -27,13 +30,22 @@ class WarningIncidentPage extends StatelessWidget {
             return ListView(
               padding: EdgeInsets.all(16),
               children: [
-                Text('Wearther', style: boldTextStyle(size: 18)),
-                8.height,
-                RFWarningIncidentItem(),
-                16.height,
-                Text('Earthquakes', style: boldTextStyle(size: 18)),
-                8.height,
-                RFWarningIncidentItem(),
+                if (state.weatherResponse != null) ...[
+                  Text(rf_lang_weather, style: boldTextStyle(size: 18)),
+                  8.height,
+                  WeatherIncidentItem(
+                    data: state.weatherResponse!,
+                  ),
+                  16.height,
+                ],
+                if (state is WeatherLoadingState) Center(child: CircularProgressIndicator()),
+                if (state.earthquakesResponse != null) ...[
+                  Text(rf_lang_earthquakes, style: boldTextStyle(size: 18)),
+                  8.height,
+                  // RFWarningIncidentItem(
+                  //   callback: () {},
+                  // ),
+                ]
               ],
             );
           },
