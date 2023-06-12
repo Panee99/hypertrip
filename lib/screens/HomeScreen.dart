@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   List<Widget> tourGuidePages = [
-    //RFHomeTourGuideFragment(),
+    RFHomeTourGuideFragment(),
     DiscoveryFragment(),
     RFMapPage(),
     WarningIncidentPage(),

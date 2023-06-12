@@ -11,8 +11,8 @@ class TourDetailBloc extends Bloc<dynamic, TourDetailState> {
     on<LoadTourDetailEvent>((event, emit) async {
       emit(TourDetailLoadingState());
       try {
-        final tourDetail = await appRepository.getTourDetail(event.tourId);
-        emit(TourDetailLoadedState(tourDetail));
+        //final tourDetail = await appRepository.getTourDetail(event.tourId);
+        // emit(TourDetailLoadedState(tourDetail));
       } catch (e) {
         emit(TourDetailErrorState(e.toString()));
       }

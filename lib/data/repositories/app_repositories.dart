@@ -50,7 +50,7 @@ class AppRepository {
     return parseTicket(response.toString());
   }
 
-  Future<TourDetailResponse> getTourDetail(String tourId) async {
+  Future<TourDetailResponse> getTourDetail(String tourId, String token) async {
     final response = await NetworkUtility.fetchUrl(
       Uri.parse('$baseApiUrl/tours/${tourId}/details'),
       headers: mapHeader,
@@ -121,15 +121,6 @@ class AppRepository {
     return null;
   }
 
-  Future<TourGuideAssigned> getAssignedTourGuide(
-      String tourGuideId, String token) async {
-    final response = await NetworkUtility.fetchUrl(
-      Uri.parse('$baseApiUrl/tour-guides/${tourGuideId}/assigned-tours'),
-      headers: mapHeader,
-    );
-    return TourGuideAssigned.fromJson(jsonDecode(response!));
-  }
-
   // TODO: Waiting BE update data response
   Future<dynamic> getAttendances(String travelerId) async {
     final response = await NetworkUtility.fetchUrl(
@@ -139,28 +130,23 @@ class AppRepository {
     return response;
   }
 
-  Future<CurrentGroupResponse> getCurrentGroup(
-      String travelerId, String token) async {
+  Future<dynamic> getProfileUser(String uID) async {
     final response = await NetworkUtility.fetchUrl(
-        Uri.parse('$baseApiUrl/travelers/${travelerId}/current-group'),
-        headers: {
-          'Authorization': '${token.toString()}',
-          'Accept': 'application/json',
-        });
-    return CurrentGroupResponse.fromJson(jsonDecode(response!));
+      Uri.parse('$baseApiUrl/users/$uID'),
+      headers: mapHeader,
+    );
+    return response;
   }
 
-  Future<List<TourFlowResponse>> getTourFlow(String tourId) async {
-    final response = await NetworkUtility.fetchUrl(
-        Uri.parse('$baseApiUrl/tours/${tourId}/tour-flow'),
-        headers: mapHeader);
-    List<TourFlowResponse> parsedTourFlow(String body) {
-      final parsed = json.decode(body).cast<Map<String, dynamic>>();
-      return parsed
-          .map<TourFlowResponse>((json) => TourFlowResponse.fromJson(json))
-          .toList();
-    }
+  Future<AttachmentFile> attachmentsFile(File file) async {
+    mapHeader.addAll({'Content-Type': 'multipart/form-data'});
 
-    return parsedTourFlow(response.toString());
+    final response = await NetworkUtility.uploadFile(
+        Uri.parse('$baseApiUrl/attachments'),
+        headers: mapHeader,
+        path: file.path);
+    return response == null
+        ? AttachmentFile()
+        : AttachmentFile.fromJson(jsonDecode(response));
   }
 }

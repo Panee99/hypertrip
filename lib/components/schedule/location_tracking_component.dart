@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'dart:ui';
 import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,16 +14,12 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
-import 'package:room_finder_flutter/models/tour/tour_flow_response.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
-import 'package:room_finder_flutter/utils/RFImages.dart';
-
-import '../../utils/RFDataGenerator.dart';
 
 class LocationTrackingComponent extends StatefulWidget {
-  final String tourId;
-  const LocationTrackingComponent({super.key, required this.tourId});
+  final TourDetailResponse tour;
+  const LocationTrackingComponent({super.key, required this.tour});
 
   @override
   State<LocationTrackingComponent> createState() =>
@@ -30,7 +29,7 @@ class LocationTrackingComponent extends StatefulWidget {
 class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   late GoogleMapController mapController;
   late Future<Position> latLngPosition;
-  late Future<List<TourFlowResponse>> tourFlow;
+  late List<TourFlows>? tourFlow;
   late AuthProvider authProvider;
   late StreamSubscription<Position>? _positionStreamSubscription;
   late Timer _timer;
@@ -41,13 +40,13 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   // Set<Polyline> polylines = {};
   MapsRoutes route = new MapsRoutes();
   DistanceCalculator distanceCalculator = new DistanceCalculator();
-  String googleApiKey = 'AIzaSyAPZiYIlR-ztOa6maus6urUhs1Z-6spyj4';
+  String googleApiKey = 'AIzaSyAvMnrp-xOiyWA0rMaxLFNgqLQiP7ZtKiQ';
 
   @override
   void initState() {
     authProvider = context.read<AuthProvider>();
     latLngPosition = _getCurrentLocation();
-    tourFlow = getTourFlow(widget.tourId);
+    tourFlow = widget.tour.tourFlows;
     setCustomMarkerIcon();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (_position != null) {
@@ -70,11 +69,6 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
     _stopLocationUpdates();
     _timer.cancel();
     super.dispose();
-  }
-
-  Future<List<TourFlowResponse>> getTourFlow(String tourId) async {
-    final tourFlow = await AppRepository().getTourFlow(tourId);
-    return tourFlow;
   }
 
   Future<Position> _getCurrentLocation() async {
@@ -113,43 +107,29 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
 
   void getDirection() async {
     PolylinePoints polylinePoints = PolylinePoints();
-    List<PolylineWayPoint> wayPoints = [];
-    var _tourFlow = await tourFlow;
-    if (_tourFlow != null) {
-      List<TourFlowResponse> tourSubList =
-          _tourFlow.toList().sublist(1, _tourFlow.toList().length - 1);
-      tourSubList.toList().asMap().forEach((index, value) {
-        PolylineWayPoint wayPoint = PolylineWayPoint(
-          location: '${value.latitude},${value.longitude}',
-          stopOver: true, // Specify if this waypoint is a stopover or not
-        );
-
-        // Add the waypoint to the list
-        wayPoints.add(wayPoint);
+    if (tourFlow != null) {
+      tourFlow!.reversed.toList().asMap().forEach((index, place) async {
+        PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+            googleApiKey,
+            PointLatLng(tourFlow!.elementAt(index).latitude!,
+                tourFlow!.elementAt(index).longitude!),
+            PointLatLng(tourFlow!.elementAt(index + 1).latitude!,
+                tourFlow!.elementAt(index + 1).longitude!),
+            travelMode: TravelMode.bicycling);
+        if (result.points.isNotEmpty) {
+          setState(() {
+            result.points.forEach((PointLatLng point) => _polylineCoordinate
+                .add(LatLng(point.latitude, point.longitude)));
+          });
+        }
       });
-      PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-          googleApiKey,
-          PointLatLng(_tourFlow.first.latitude!, _tourFlow.first.longitude!),
-          PointLatLng(_tourFlow.last.latitude!, _tourFlow.last.longitude!),
-          travelMode: TravelMode.walking,
-          wayPoints: wayPoints);
-      print('Status: ' + result.status.toString());
-      print('Points: ' + result.points.toString());
-      if (result.points.isNotEmpty) {
-        setState(() {
-          result.points.forEach((PointLatLng point) =>
-              _polylineCoordinate.add(LatLng(point.latitude, point.longitude)));
-        });
-      }
-      ;
     }
   }
 
   void getPolypoints() async {
-    var _tourFlow = await tourFlow;
     if (tourFlow != null) {
-      _tourFlow.reversed.toList().asMap().forEach((index, position) async {
-        Uint8List canvas = await getBytesFromCanvas(_tourFlow.length - index);
+      tourFlow!.reversed.toList().asMap().forEach((index, position) async {
+        Uint8List canvas = await getBytesFromCanvas(tourFlow!.length - index);
         setState(() {
           LatLng latLng = LatLng(
               position.latitude!.toDouble(), position.longitude!.toDouble());
@@ -167,7 +147,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   }
 
   void setCustomMarkerIcon() async {
-    final String imagePath = location;
+    final String imagePath = 'assets/images/airplane_marker.png';
     final Color iconColor = secondaryColor; // Set your desired color here
 
     final ByteData imageData = await rootBundle.load(imagePath);
@@ -196,7 +176,8 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
     final Uint8List coloredBytes = coloredImageData!.buffer.asUint8List();
 
     currentLocationIcon = BitmapDescriptor.fromBytes(coloredBytes);
-    // BitmapDescriptor.fromAssetImage(ImageConfiguration.empty, location)
+    // BitmapDescriptor.fromAssetImage(
+    //         ImageConfiguration.empty, 'assets/images/airplane_marker.png')
     //     .then((icon) => currentLocationIcon = icon);
   }
 
@@ -287,10 +268,10 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
                   Polyline(
                       polylineId: PolylineId('route'),
                       points: _polylineCoordinate,
-                      color: secondaryColor,
-                      width: 5)
+                      color: rf_primaryColor,
+                      width: 6)
                 },
-                myLocationEnabled: true,
+                // myLocationEnabled: true,
                 myLocationButtonEnabled: true,
                 zoomControlsEnabled: true,
                 zoomGesturesEnabled: true,
