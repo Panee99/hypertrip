@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:room_finder_flutter/data/repositories/firestore_repository.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/data/repositories/tour_group_repository.dart';
+import 'package:room_finder_flutter/managers/firebase_messaging_manager.dart';
 import 'package:room_finder_flutter/models/chat/firestore_message.dart';
 import 'package:room_finder_flutter/models/chat/firestore_user.dart';
 import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_event.dart';
@@ -21,12 +22,14 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
   final AppRepository _appRepository;
   final TourGroupRepository _tourGroupRepository;
   final FoursquareRepository _foursquareRepository;
+  final FirebaseMessagingManager _firebaseMessagingManager;
 
   ChatDetailBloc(
     this._firestoreRepository,
     this._appRepository,
     this._tourGroupRepository,
     this._foursquareRepository,
+    this._firebaseMessagingManager,
   ) : super(ChatDetailState(
           messages: const [],
           error: '',
@@ -34,6 +37,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
           firestoreUser: FirestoreUser(),
           status: PageState.loading,
           members: const [],
+          deviceTokens: const [],
         )) {
     on<FetchMessageGroupChat>(_fetchMessageGroupChat);
     on<SendMessageGroupChat>(_sendMessageGroupChat);
@@ -41,6 +45,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     on<StatusMapEvent>(_statusMapEvent);
     on<RequestPermissionLocationEvent>(_requestPermissionLocationEvent);
     on<DragPanelEvent>(_dragPanelEvent);
+    on<GetAllTokenFCMDeviceGroup>(_getAllTokenFCMDeviceGroup);
   }
 
   FutureOr<void> _fetchMessageGroupChat(
@@ -90,6 +95,23 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     final result = await _firestoreRepository.saveMessage(
         event.userId, event.type, message, DateTime.now(), event.groupId);
 
+    String content = state.currentUser?.name ?? '';
+    switch (event.type) {
+      case MessageType.image:
+        content += ' đã gửi một hình ảnh mới';
+        break;
+      case MessageType.text:
+        content += ' đã gửi một tin nhắn mới';
+        break;
+      case MessageType.voice:
+        // TODO: Handle this case.
+        break;
+      case MessageType.custom:
+        content += ' đã chia sẻ vị trí hiện tại';
+        break;
+    }
+    _firebaseMessagingManager.sendFCMNotifications(state.deviceTokens, event.groupName, content);
+
     if (result == null) toast(rf_lang_currentNotSendFile);
   }
 
@@ -97,8 +119,11 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
       GetMembersTourGroup event, Emitter<ChatDetailState> emit) async {
     final profiles = await _tourGroupRepository.getMembersTourGroup(event.groupId);
     final currentUser = profiles.firstWhereOrNull((profile) => profile.id == event.userId);
+
     emit(state.copyWith(
         currentUser: currentUser?.toMember(), members: profiles.map((e) => e.toMember()).toList()));
+
+    add(const GetAllTokenFCMDeviceGroup());
   }
 
   FutureOr<void> _statusMapEvent(StatusMapEvent event, Emitter<ChatDetailState> emit) async {
@@ -123,5 +148,13 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
 
   FutureOr<void> _dragPanelEvent(DragPanelEvent event, Emitter<ChatDetailState> emit) {
     emit(state.copyWith(isCanDrag: event.isTap));
+  }
+
+  FutureOr<void> _getAllTokenFCMDeviceGroup(
+      GetAllTokenFCMDeviceGroup event, Emitter<ChatDetailState> emit) async {
+    final response = await _tourGroupRepository
+        .getAllTokenFCMDeviceGroup(state.members.map((e) => e.id).toList());
+
+    emit(state.copyWith(deviceTokens: response));
   }
 }

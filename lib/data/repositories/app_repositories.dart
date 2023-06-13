@@ -150,4 +150,16 @@ class AppRepository {
     final response = await NetworkUtility.post(Uri.parse('$baseApiUrl/fcm-tokens/${uID}'));
     return response;
   }
+
+  Future<dynamic> sendNotify(String token, Map message, Map data) async {
+    final response = await NetworkUtility.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization":
+              "key=AAAApexdJLE:APA91bFj-w9MNEliG1R4fPRVFcqvG3BPO6zc3y0l-yv-qiSz1Cw-oC6RevZmXN4pUwxWCNEShUgYReQeR3rRq4gF_R1BFZryueeOEWTKS349-HUh6oa9qCp9mXlU9b5xuPzWjsPaW8x3"
+        },
+        body: jsonEncode({"to": token, "notification": message, "data": data}));
+
+    return response;
+  }
 }

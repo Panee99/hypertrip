@@ -109,7 +109,12 @@ Future<void> init() async {
 
 Future<void> setupDependencies() async {
   _registerRepositoriesModule();
+  _registerManager();
   _registerBlocsModule();
+}
+
+void _registerManager() {
+  _registerFactory(() => FirebaseMessagingManager(sl<AppRepository>())..setupFirebaseFCM());
 }
 
 // Get It Library wrappers
@@ -130,17 +135,16 @@ _registerRepositoriesModule() {
   _registerFactory(() => WarningIncidentRepository());
 
   _registerFactory(() => FirestoreRepository());
-
-  _registerFactory(() => FirebaseMessagingManager(sl<AppRepository>())..setupFirebaseFCM());
 }
 
 _registerBlocsModule() {
   //Bloc
+
   _registerFactory(() => WarningIncidentBloc(sl<WarningIncidentRepository>()));
 
   _registerFactory(() =>
       ChatBloc(sl<TourGuideRepository>(), sl<TravelerRepository>(), sl<FirestoreRepository>()));
 
   _registerFactory(() => ChatDetailBloc(sl<FirestoreRepository>(), sl<AppRepository>(),
-      sl<TourGroupRepository>(), sl<FoursquareRepository>()));
+      sl<TourGroupRepository>(), sl<FoursquareRepository>(), sl<FirebaseMessagingManager>()));
 }

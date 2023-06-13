@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/models/TourFinderModel.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
-import 'package:room_finder_flutter/models/TourFinderModel.dart';
 
 class RFAppliedHotelListComponent extends StatelessWidget {
   final TourFinderModel appliedHotelList;
 
-  RFAppliedHotelListComponent({required this.appliedHotelList});
+  const RFAppliedHotelListComponent({super.key, required this.appliedHotelList});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          boxDecorationRoundedWithShadow(8, backgroundColor: context.cardColor),
-      margin: EdgeInsets.only(bottom: 16),
-      padding: EdgeInsets.all(16),
+      decoration: boxDecorationRoundedWithShadow(8, backgroundColor: context.cardColor),
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -30,42 +29,37 @@ class RFAppliedHotelListComponent extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                    decoration: boxDecorationWithRoundedCorners(
-                        backgroundColor: rf_primaryColor),
+                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                    decoration: boxDecorationWithRoundedCorners(backgroundColor: rf_primaryColor),
                     child: Text(appliedHotelList.price.validate(),
                         style: boldTextStyle(color: white, size: 14)),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                    decoration: boxDecorationWithRoundedCorners(
-                        backgroundColor: rf_rattingBgColor),
+                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                    decoration: boxDecorationWithRoundedCorners(backgroundColor: rf_rattingBgColor),
                     child: Row(
                       children: [
                         Text(appliedHotelList.views.validate(),
                             style: boldTextStyle(color: white, size: 14)),
                         4.width,
-                        Icon(Icons.star, color: white, size: 14),
+                        const Icon(Icons.star, color: white, size: 14),
                       ],
                     ),
                   )
                 ],
               ),
               16.height,
-              Text(appliedHotelList.roomCategoryName.validate(),
-                  style: boldTextStyle(size: 18)),
+              Text(appliedHotelList.roomCategoryName.validate(), style: boldTextStyle(size: 18)),
               4.height,
-              Text(appliedHotelList.location.validate(),
-                  style: primaryTextStyle()),
+              Text(appliedHotelList.location.validate(), style: primaryTextStyle()),
               16.height,
               Row(
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.location_on, color: rf_primaryColor, size: 16),
+                      const Icon(Icons.location_on, color: rf_primaryColor, size: 16),
                       6.width,
-                      Text(appliedHotelList.rentDuration.validate(),
-                              style: secondaryTextStyle())
+                      Text(appliedHotelList.rentDuration.validate(), style: secondaryTextStyle())
                           .flexible(),
                     ],
                   ).expand(),
@@ -76,12 +70,10 @@ class RFAppliedHotelListComponent extends StatelessWidget {
                         width: 6,
                         height: 6,
                         decoration: boxDecorationWithRoundedCorners(
-                            boxShape: BoxShape.circle,
-                            backgroundColor: redColor),
+                            boxShape: BoxShape.circle, backgroundColor: redColor),
                       ),
                       4.width,
-                      Text(appliedHotelList.address.validate(),
-                          style: secondaryTextStyle()),
+                      Text(appliedHotelList.address.validate(), style: secondaryTextStyle()),
                     ],
                   ),
                 ],

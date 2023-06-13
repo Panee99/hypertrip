@@ -23,13 +23,13 @@ class TextFieldContainer extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           color: color747480.withOpacity(.2),
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+          borderRadius: const BorderRadius.all(Radius.circular(10))),
       child: TextField(
         obscureText: isObscureText == true ? true : false,
-        keyboardType: keyboardType == null ? TextInputType.text : keyboardType,
+        keyboardType: keyboardType ?? TextInputType.text,
         controller: controller,
         decoration: InputDecoration(
-          prefixIcon: Icon(prefixIcon == null ? Icons.circle : prefixIcon),
+          prefixIcon: Icon(prefixIcon ?? Icons.circle),
           hintText: hintText,
           border: InputBorder.none,
         ),

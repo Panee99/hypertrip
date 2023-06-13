@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/models/TourFinderModel.dart';
-import 'package:room_finder_flutter/screens/tour/RFHotelDescriptionScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
@@ -13,8 +12,7 @@ class RFRecentUpdateComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          boxDecorationRoundedWithShadow(8, backgroundColor: context.cardColor),
+      decoration: boxDecorationRoundedWithShadow(8, backgroundColor: context.cardColor),
       margin: EdgeInsets.only(bottom: 16),
       padding: EdgeInsets.all(8),
       child: Column(
@@ -26,15 +24,13 @@ class RFRecentUpdateComponent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Text(recentUpdateData.roomCategoryName.validate(),
-                      style: boldTextStyle())
+              Text(recentUpdateData.roomCategoryName.validate(), style: boldTextStyle())
                   .paddingOnly(left: 4),
               Row(
                 children: [
                   Text(recentUpdateData.price.validate(),
                       style: boldTextStyle(color: rf_primaryColor)),
-                  Text("${recentUpdateData.rentDuration.validate()}",
-                      style: secondaryTextStyle()),
+                  Text("${recentUpdateData.rentDuration.validate()}", style: secondaryTextStyle()),
                 ],
               ),
             ],
@@ -48,16 +44,13 @@ class RFRecentUpdateComponent extends StatelessWidget {
                 children: [
                   Icon(Icons.location_on, color: rf_primaryColor, size: 16),
                   8.width,
-                  Text(recentUpdateData.location.validate(),
-                      style: secondaryTextStyle()),
+                  Text(recentUpdateData.location.validate(), style: secondaryTextStyle()),
                 ],
               ),
               Row(
                 children: [
-                  Text(recentUpdateData.description.validate(),
-                      style: secondaryTextStyle()),
-                  Text(recentUpdateData.views.validate(),
-                      style: secondaryTextStyle()),
+                  Text(recentUpdateData.description.validate(), style: secondaryTextStyle()),
+                  Text(recentUpdateData.views.validate(), style: secondaryTextStyle()),
                 ],
               ),
             ],
@@ -74,8 +67,7 @@ class RFRecentUpdateComponent extends StatelessWidget {
                 padding: EdgeInsets.all(4),
               ),
               11.width,
-              Text(recentUpdateData.address.validate(),
-                  style: secondaryTextStyle()),
+              Text(recentUpdateData.address.validate(), style: secondaryTextStyle()),
             ],
           ).paddingOnly(left: 2),
         ],
@@ -86,6 +78,5 @@ class RFRecentUpdateComponent extends StatelessWidget {
         splashColor: Colors.transparent,
         hoverColor: Colors.transparent,
         highlightColor: Colors.transparent);
-    ;
   }
 }

@@ -13,11 +13,11 @@ class RFTourItem extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.of(context).pushNamed(Routers.TOUR_DETAIL),
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Row(
           children: [
             ClipRRect(
@@ -34,7 +34,7 @@ class RFTourItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "The Pink Beach",
                     style: TextStyle(
                       fontSize: 16,
@@ -50,18 +50,18 @@ class RFTourItem extends StatelessWidget {
                         color: rf_primaryColor,
                       ),
                       5.width,
-                      Text(
+                      const Text(
                         "Komodo Island, Indonesia",
                         style: TextStyle(color: rf_primaryColor),
                       ),
                     ],
                   ),
-                  Text(
+                  const Text(
                     "This exceptional beach gets its striking color from microscopic animals called...",
                     // style: context.appTextTheme.bodyMedium,
                   ),
                   RichText(
-                      text: TextSpan(children: [
+                      text: const TextSpan(children: [
                     TextSpan(
                         text: '\$48',
                         style: TextStyle(

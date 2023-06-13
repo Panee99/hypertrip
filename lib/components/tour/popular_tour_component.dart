@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
@@ -33,21 +32,18 @@ class _PopularTourState extends State<PopularTourComponent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: 117,
                 width: 117,
-                child: rfCommonCachedNetworkImage(
-                    widget.tour.thumbnailUrl.validate(),
-                    fit: BoxFit.cover,
-                    radius: 20),
+                child: rfCommonCachedNetworkImage(widget.tour.thumbnailUrl.validate(),
+                    fit: BoxFit.cover, radius: 20),
               ),
               8.height,
               Row(
                 children: [
                   Expanded(
                     child: Text(
-                      Utilities.capitalizeWords(
-                          widget.tour.title.validate().split('[')[0].trim()),
+                      Utilities.capitalizeWords(widget.tour.title.validate().split('[')[0].trim()),
                       style: boldTextStyle(size: 12),
                       overflow: TextOverflow.ellipsis,
                     ),

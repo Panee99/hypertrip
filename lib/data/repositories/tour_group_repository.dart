@@ -16,4 +16,17 @@ class TourGroupRepository {
             .toList()
         : [];
   }
+
+  Future<List<String>> getAllTokenFCMDeviceGroup(List<String> userIds) async {
+    final body = json.encode(userIds);
+    final response = await NetworkUtility.post(Uri.parse('$baseApiUrl/fcm-tokens/find-by-users'),
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json-patch+json',
+        },
+        body: body);
+    return response != null
+        ? (jsonDecode(response) as List<dynamic>).map((res) => res['token'] as String).toList()
+        : [];
+  }
 }

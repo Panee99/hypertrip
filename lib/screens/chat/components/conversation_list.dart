@@ -24,7 +24,6 @@ class ConversationList extends StatelessWidget {
       child: BlocBuilder<ChatBloc, ChatState>(
         bloc: GetIt.I.get<ChatBloc>()..add(FetchLastedMessage(data.id)),
         builder: (context, state) {
-          print('state.message ${state.message}');
           return Opacity(
             opacity: isAccepting ? 1 : 0.5,
             child: Container(

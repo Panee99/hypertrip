@@ -14,12 +14,9 @@ import 'package:room_finder_flutter/utils/app_languages.dart';
 import 'package:room_finder_flutter/utils/base_page.dart';
 import 'package:room_finder_flutter/widget/text_form_field_title.dart';
 
-class ChatPageScreen extends StatefulWidget {
-  @override
-  _ChatPageScreenState createState() => _ChatPageScreenState();
-}
+class ChatPageScreen extends StatelessWidget {
+  const ChatPageScreen({super.key});
 
-class _ChatPageScreenState extends State<ChatPageScreen> {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
@@ -30,7 +27,7 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
         unFocusWhenTouchOutsideInput: true,
         child: Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(40),
+            preferredSize: const Size.fromHeight(40),
             child: AppBar(
               leading: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -44,7 +41,7 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
               leadingWidth: 150,
               elevation: 0,
               backgroundColor: whiteSmoke,
-              systemOverlayStyle: SystemUiOverlayStyle(
+              systemOverlayStyle: const SystemUiOverlayStyle(
                   statusBarColor: whiteSmoke, statusBarIconBrightness: Brightness.dark),
             ),
           ),
@@ -74,7 +71,7 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
                     ListView.separated(
                       itemCount: state.groupChat.length,
                       shrinkWrap: true,
-                      padding: EdgeInsets.only(top: 0),
+                      padding: const EdgeInsets.only(top: 0),
                       itemBuilder: (context, index) {
                         return ConversationList(
                           data: state.groupChat[index],
@@ -82,7 +79,7 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {
-                        return Divider(height: 1, color: rf_faqBgColor);
+                        return const Divider(height: 1, color: rf_faqBgColor);
                       },
                     ),
                   ],

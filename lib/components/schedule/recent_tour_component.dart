@@ -111,6 +111,5 @@ class _RecentTourComponentState extends State<RecentTourComponent> {
         splashColor: Colors.transparent,
         hoverColor: Colors.transparent,
         highlightColor: Colors.transparent);
-    ;
   }
 }

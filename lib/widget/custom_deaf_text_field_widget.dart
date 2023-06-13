@@ -1,10 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 
 class CustomDeafTextFieldWidget extends StatefulWidget {
   final TextEditingController? textEditingController;
-  const CustomDeafTextFieldWidget({Key? key,this.textEditingController}) : super(key: key);
+  const CustomDeafTextFieldWidget({Key? key, this.textEditingController}) : super(key: key);
 
   @override
   _CustomDeafTextFieldWidgetState createState() => _CustomDeafTextFieldWidgetState();
@@ -13,35 +11,36 @@ class CustomDeafTextFieldWidget extends StatefulWidget {
 class _CustomDeafTextFieldWidgetState extends State<CustomDeafTextFieldWidget> {
   @override
   Widget build(BuildContext context) {
-    return   Expanded(
+    return Expanded(
       child: Container(
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(80)),
+            borderRadius: const BorderRadius.all(Radius.circular(80)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(.2),
-                offset: Offset(0.0, 0.50),
+                offset: const Offset(0.0, 0.50),
                 spreadRadius: 1,
                 blurRadius: 1,
               )
             ]),
         child: Row(
           children: [
-            SizedBox(width: 10,),
+            const SizedBox(
+              width: 10,
+            ),
             Expanded(
               child: Container(
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(maxHeight: 60),
+                  constraints: const BoxConstraints(maxHeight: 60),
                   child: Scrollbar(
                     child: TextField(
                       autofocus: true,
-                      style: TextStyle(fontSize: 14),
+                      style: const TextStyle(fontSize: 14),
                       controller: widget.textEditingController,
                       maxLines: null,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Type a message"),
+                      decoration: const InputDecoration(
+                          border: InputBorder.none, hintText: "Type a message"),
                     ),
                   ),
                 ),
@@ -53,18 +52,18 @@ class _CustomDeafTextFieldWidgetState extends State<CustomDeafTextFieldWidget> {
                   Icons.link,
                   color: Colors.grey[500],
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 widget.textEditingController!.text.isEmpty
                     ? Icon(
-                  Icons.camera_alt,
-                  color: Colors.grey[500],
-                )
-                    : Text(""),
+                        Icons.camera_alt,
+                        color: Colors.grey[500],
+                      )
+                    : const Text(""),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
           ],
@@ -72,7 +71,4 @@ class _CustomDeafTextFieldWidgetState extends State<CustomDeafTextFieldWidget> {
       ),
     );
   }
-
-
-
 }
