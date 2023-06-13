@@ -17,7 +17,6 @@ import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
-
 import '../../models/tour/tour_flow_response.dart';
 import '../../utils/RFDataGenerator.dart';
 
@@ -50,7 +49,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   void initState() {
     authProvider = context.read<AuthProvider>();
     latLngPosition = _getCurrentLocation();
-    tourFlow = getTourFlow(widget.tourId);
+    tourFlow = AppRepository().getTourFlow(widget.tourId);
     setCustomMarkerIcon();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (_position != null) {

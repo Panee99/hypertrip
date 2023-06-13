@@ -50,7 +50,7 @@ class AppRepository {
     return parseTicket(response.toString());
   }
 
-  Future<TourDetailResponse> getTourDetail(String tourId, String token) async {
+  Future<TourDetailResponse> getTourDetail(String tourId) async {
     final response = await NetworkUtility.fetchUrl(
       Uri.parse('$baseApiUrl/tours/${tourId}/details'),
       headers: mapHeader,
@@ -138,7 +138,7 @@ class AppRepository {
     return response;
   }
 
-  Future<List<TourFlowResponse>?> getTourFlow(String tourId) async {
+  Future<List<TourFlowResponse>> getTourFlow(String tourId) async {
     final response = await NetworkUtility.fetchUrl(
         Uri.parse('$baseApiUrl/tours/${tourId}/schedules'),
         headers: mapHeader);
@@ -148,6 +148,20 @@ class AppRepository {
           .map<TourFlowResponse>((json) => TourFlowResponse.fromJson(json))
           .toList();
     }
+
+    return parsedTourFlow(response.toString());
+  }
+
+  Future<CurrentGroupResponse> getCurrentGroup(
+      String travelerId, String token) async {
+    final response = await NetworkUtility.fetchUrl(
+        Uri.parse('$baseApiUrl/travelers/${travelerId}/current-group'),
+        headers: {
+          'Authorization': '${token.toString()}',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        });
+    return CurrentGroupResponse.fromJson(jsonDecode(response!));
   }
 
   Future<AttachmentFile> attachmentsFile(File file) async {
