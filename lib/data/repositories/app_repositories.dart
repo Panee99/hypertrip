@@ -152,7 +152,7 @@ class AppRepository {
 
   Future<List<TourFlowResponse>> getTourFlow(String tourId) async {
     final response = await NetworkUtility.fetchUrl(
-        Uri.parse('$baseApiUrl/tours/${tourId}/tour-flow'),
+        Uri.parse('$baseApiUrl/tours/${tourId}/schedules'),
         headers: mapHeader);
     List<TourFlowResponse> parsedTourFlow(String body) {
       final parsed = json.decode(body).cast<Map<String, dynamic>>();

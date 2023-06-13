@@ -1,13 +1,13 @@
 class TourDetailResponse {
   List<Schedules>? schedules;
-  List<TourFlows>? tourFlows;
   List<Carousel>? carousel;
   String? id;
   String? title;
   String? departure;
   String? destination;
+  String? duration;
   String? description;
-  Null policy;
+  Null? policy;
   String? thumbnailUrl;
   int? maxOccupancy;
   String? type;
@@ -15,12 +15,12 @@ class TourDetailResponse {
 
   TourDetailResponse(
       {this.schedules,
-      this.tourFlows,
       this.carousel,
       this.id,
       this.title,
       this.departure,
       this.destination,
+      this.duration,
       this.description,
       this.policy,
       this.thumbnailUrl,
@@ -35,12 +35,6 @@ class TourDetailResponse {
         schedules!.add(new Schedules.fromJson(v));
       });
     }
-    if (json['tourFlows'] != null) {
-      tourFlows = <TourFlows>[];
-      json['tourFlows'].forEach((v) {
-        tourFlows!.add(new TourFlows.fromJson(v));
-      });
-    }
     if (json['carousel'] != null) {
       carousel = <Carousel>[];
       json['carousel'].forEach((v) {
@@ -51,6 +45,7 @@ class TourDetailResponse {
     title = json['title'];
     departure = json['departure'];
     destination = json['destination'];
+    duration = json['duration'];
     description = json['description'];
     policy = json['policy'];
     thumbnailUrl = json['thumbnailUrl'];
@@ -64,9 +59,6 @@ class TourDetailResponse {
     if (this.schedules != null) {
       data['schedules'] = this.schedules!.map((v) => v.toJson()).toList();
     }
-    if (this.tourFlows != null) {
-      data['tourFlows'] = this.tourFlows!.map((v) => v.toJson()).toList();
-    }
     if (this.carousel != null) {
       data['carousel'] = this.carousel!.map((v) => v.toJson()).toList();
     }
@@ -74,6 +66,7 @@ class TourDetailResponse {
     data['title'] = this.title;
     data['departure'] = this.departure;
     data['destination'] = this.destination;
+    data['duration'] = this.duration;
     data['description'] = this.description;
     data['policy'] = this.policy;
     data['thumbnailUrl'] = this.thumbnailUrl;
@@ -86,55 +79,37 @@ class TourDetailResponse {
 
 class Schedules {
   String? id;
-  String? description;
   int? sequence;
+  String? description;
+  double? longitude;
+  double? latitude;
+  String? vehicle;
 
-  Schedules({this.id, this.description, this.sequence});
+  Schedules(
+      {this.id,
+      this.sequence,
+      this.description,
+      this.longitude,
+      this.latitude,
+      this.vehicle});
 
   Schedules.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    description = json['description'];
     sequence = json['sequence'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['description'] = this.description;
-    data['sequence'] = this.sequence;
-    return data;
-  }
-}
-
-class TourFlows {
-  String? id;
-  double? longitude;
-  double? latitude;
-  String? arrivalTime;
-  Null? description;
-
-  TourFlows(
-      {this.id,
-      this.longitude,
-      this.latitude,
-      this.arrivalTime,
-      this.description});
-
-  TourFlows.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    description = json['description'];
     longitude = json['longitude'];
     latitude = json['latitude'];
-    arrivalTime = json['arrivalTime'];
-    description = json['description'];
+    vehicle = json['vehicle'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['sequence'] = this.sequence;
+    data['description'] = this.description;
     data['longitude'] = this.longitude;
     data['latitude'] = this.latitude;
-    data['arrivalTime'] = this.arrivalTime;
-    data['description'] = this.description;
+    data['vehicle'] = this.vehicle;
     return data;
   }
 }

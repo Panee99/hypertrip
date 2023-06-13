@@ -46,3 +46,5 @@ const add_square = 'assets/icons/add-square.svg';
 const info = 'assets/icons/circle-info.svg';
 const location = 'assets/images/location.png';
 const ticket = 'assets/images/ticket.png';
+const search = 'assets/icons/search.svg';
+const not_found = 'assets/images/not_found.png';

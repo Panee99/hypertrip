@@ -90,6 +90,7 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
             );
           } else {
             final group = snapshot.data!;
+            print('Current group: ' + group.tourVariant!.tourId.validate());
             return Scaffold(
               body: Stack(
                 children: [

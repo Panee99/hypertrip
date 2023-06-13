@@ -116,6 +116,9 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
     List<PolylineWayPoint> wayPoints = [];
     var _tourFlow = await tourFlow;
     if (_tourFlow != null) {
+      _tourFlow = _tourFlow
+          .where((tour) => tour.latitude != null && tour.longitude != null)
+          .toList();
       List<TourFlowResponse> tourSubList =
           _tourFlow.toList().sublist(1, _tourFlow.toList().length - 1);
       tourSubList.toList().asMap().forEach((index, value) {
@@ -148,6 +151,9 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   void getPolypoints() async {
     var _tourFlow = await tourFlow;
     if (tourFlow != null) {
+      _tourFlow = _tourFlow
+          .where((tour) => tour.latitude != null && tour.longitude != null)
+          .toList();
       _tourFlow.reversed.toList().asMap().forEach((index, position) async {
         Uint8List canvas = await getBytesFromCanvas(_tourFlow.length - index);
         setState(() {
