@@ -49,8 +49,6 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-<<<<<<< HEAD
-=======
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -64,6 +62,5 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
     <string>Allow access to your location for better user experience.</string>
 
->>>>>>> 2d8a13f8e2e8fe1fa0fc0ba50a6c2585b5b0d0af
 </dict>
 </plist>

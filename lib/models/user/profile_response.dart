@@ -36,13 +36,15 @@ class ProfileResponse implements Serializable {
       this.status,
       this.avatarUrl});
 
-  factory ProfileResponse.fromJson(Map<String, dynamic> json) => _$ProfileResponseFromJson(json);
+  factory ProfileResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProfileResponseFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$ProfileResponseToJson(this);
 
   static RoleStatus _enumFromJson(String value) {
-    return RoleStatus.values.firstWhere((e) => e.toString().split('.').last == value);
+    return RoleStatus.values
+        .firstWhere((e) => e.toString().split('.').last == value);
   }
 
   static String _enumToJson(RoleStatus value) {
