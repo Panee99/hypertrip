@@ -15,7 +15,7 @@ dependencies:
   google_fonts: ^2.1.0
   cached_network_image: ^3.1.0
   url_launcher: ^6.1.10
-  intl: ^0.17.0
+  intl: 0.18.0
 
 
   # STATE MANAGEMENT
@@ -53,7 +53,11 @@ dependencies:
   http: ^0.13.5
   flutter_svg: ^2.0.5
   carousel_slider: ^4.2.1
-
+  chatview:
+    git:
+      url: https://github.com/DokhaiTrinh/flutter_chatview.git
+  sliding_up_panel2: ^3.2.0+2
+  get_it: ^7.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

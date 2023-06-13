@@ -1,4 +1,3 @@
-// import 'package:firebase_core/firebase_core.dart';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:room_finder_flutter/injection_container.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/provider/chatProvider.dart';
 import 'package:room_finder_flutter/provider/home_provider.dart';
@@ -21,7 +21,6 @@ import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 
 import 'data/repositories/repositories.dart';
-import 'firebase_options.dart';
 
 AppStore appStore = AppStore();
 
@@ -30,10 +29,31 @@ void main() async {
 
   await initialize();
 
+  await setupDependencies();
+
   appStore.toggleDarkMode(value: getBoolAsync(isDarkModeOnPref));
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+      // options: DefaultFirebaseOptions.currentPlatform,
+      );
+
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  // Setup firebase listener for permission changes
+  firebaseAuth.authStateChanges().listen((user) async {
+    if (user == null) {
+      try {
+        debugPrint('User is currently signed out!');
+        final UserCredential user = await firebaseAuth.signInAnonymously();
+        final User? currentUser = firebaseAuth.currentUser;
+
+        assert(user.user?.uid == currentUser?.uid);
+      } catch (error, stacktrace) {
+        debugPrint('ex ${error}');
+      }
+    } else {
+      debugPrint('User is signed in!');
+    }
+  });
+
   SharedPreferences prefs = await SharedPreferences.getInstance();
   HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp(prefs: prefs));

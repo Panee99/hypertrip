@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'dart:ui';
 import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,11 +14,11 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
-import 'package:room_finder_flutter/models/tour/tour_flow_response.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 
+import '../../models/tour/tour_flow_response.dart';
 import '../../utils/RFDataGenerator.dart';
 
 class LocationTrackingComponent extends StatefulWidget {
@@ -41,7 +44,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   // Set<Polyline> polylines = {};
   MapsRoutes route = new MapsRoutes();
   DistanceCalculator distanceCalculator = new DistanceCalculator();
-  String googleApiKey = 'AIzaSyAPZiYIlR-ztOa6maus6urUhs1Z-6spyj4';
+  String googleApiKey = 'AIzaSyAvMnrp-xOiyWA0rMaxLFNgqLQiP7ZtKiQ';
 
   @override
   void initState() {
@@ -70,11 +73,6 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
     _stopLocationUpdates();
     _timer.cancel();
     super.dispose();
-  }
-
-  Future<List<TourFlowResponse>> getTourFlow(String tourId) async {
-    final tourFlow = await AppRepository().getTourFlow(tourId);
-    return tourFlow;
   }
 
   Future<Position> _getCurrentLocation() async {
@@ -173,7 +171,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   }
 
   void setCustomMarkerIcon() async {
-    final String imagePath = location;
+    final String imagePath = 'assets/images/airplane_marker.png';
     final Color iconColor = secondaryColor; // Set your desired color here
 
     final ByteData imageData = await rootBundle.load(imagePath);
@@ -202,7 +200,8 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
     final Uint8List coloredBytes = coloredImageData!.buffer.asUint8List();
 
     currentLocationIcon = BitmapDescriptor.fromBytes(coloredBytes);
-    // BitmapDescriptor.fromAssetImage(ImageConfiguration.empty, location)
+    // BitmapDescriptor.fromAssetImage(
+    //         ImageConfiguration.empty, 'assets/images/airplane_marker.png')
     //     .then((icon) => currentLocationIcon = icon);
   }
 
@@ -293,10 +292,10 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
                   Polyline(
                       polylineId: PolylineId('route'),
                       points: _polylineCoordinate,
-                      color: secondaryColor,
-                      width: 5)
+                      color: rf_primaryColor,
+                      width: 6)
                 },
-                myLocationEnabled: true,
+                // myLocationEnabled: true,
                 myLocationButtonEnabled: true,
                 zoomControlsEnabled: true,
                 zoomGesturesEnabled: true,

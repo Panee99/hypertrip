@@ -7,9 +7,8 @@ import 'package:room_finder_flutter/constants/firestore_constants.dart.dart';
 import 'package:room_finder_flutter/constants/user_constants.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/models/user/avatar_response.dart';
-import 'package:room_finder_flutter/models/user_chat.dart';
 
-import '../models/user/sign_in_model.dart';
+import '../models/user/profile_response.dart';
 
 enum Status {
   uninitialized,
@@ -54,8 +53,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<bool> isLoggedIn() async {
     bool isLoggedIn = await googleSignIn.isSignedIn();
-    if (isLoggedIn &&
-        prefs.getString(FirestoreConstants.id)?.isNotEmpty == true) {
+    if (isLoggedIn && prefs.getString(FirestoreConstants.id)?.isNotEmpty == true) {
       return true;
     } else {
       return false;
@@ -68,6 +66,7 @@ class AuthProvider extends ChangeNotifier {
     _token = await AppRepository().getToken(username, password);
     notifyListeners();
     _user = (await AppRepository().getUserProfile(_token))!;
+
     if (await AppRepository().getUserAvatar(_token) != null) {
       _avt = (await AppRepository().getUserAvatar(_token))!;
       notifyListeners();

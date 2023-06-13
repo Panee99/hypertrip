@@ -66,7 +66,7 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
     JoinedTourResponse? recentTour =
         await getRecentTour(authProvider.user.id.toString(), token);
     TourDetailResponse tourDetail =
-        await AppRepository().getTourDetail(recentTour!.id.toString());
+        await AppRepository().getTourDetail(recentTour!.id.toString(), token);
     return tourDetail;
   }
 

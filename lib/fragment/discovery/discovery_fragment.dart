@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Material;
 import 'package:flutter/services.dart';
@@ -92,8 +91,7 @@ class _MapFragmentState extends State<DiscoveryFragment> {
     });
 
     // Move camera to the current location
-    mapController
-        .animateCamera(CameraUpdate.newLatLngZoom(latLngPosition, 2.0));
+    // mapController.animateCamera(CameraUpdate.newLatLngZoom(latLngPosition, 2.0));
   }
 
   @override

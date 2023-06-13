@@ -1,15 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:room_finder_flutter/fragment/tourguide/notification/rf_notification_page.dart';
+import 'package:room_finder_flutter/fragment/tourguide/profile/rf_account_fragment.dart';
+import 'package:room_finder_flutter/fragment/tourguide/tour_detail/rf_tour_detail.dart';
+import 'package:room_finder_flutter/fragment/tourguide/tour_list/rf_tour_list.dart';
+import 'package:room_finder_flutter/models/tourguide/assign_group_response.dart';
+import 'package:room_finder_flutter/screens/chat_detail/chat_detail_page.dart';
+import 'package:room_finder_flutter/screens/home/nearby_you.dart';
 
 class Routers {
   static const String ROOT = "/";
-  static const String SPLASH = "/splash";
+  static const String SETTING = "/setting";
+  static const String TOUR_DETAIL = "/tour-detail";
+  static const String TOUR_LIST = "/tour-list";
+  static const String NOTIFICATION = "/notify-list";
+  static const String NEAR_BY_YOU = "/near-by-you";
+  static const String CHAT_DETAIL = "/chat-detail";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var arguments = settings.arguments;
     print("SCREEN: " + (settings.name ?? ''));
     switch (settings.name) {
-      case SPLASH:
-      // return _animRoute(SplashPage());
+      case SETTING:
+        return _animRoute(RFAccountFragment(), beginOffset: right);
+      case TOUR_DETAIL:
+        return _animRoute(RFTourDetail(), beginOffset: right);
+      case TOUR_LIST:
+        return _animRoute(RFTourList(), beginOffset: right);
+      case NOTIFICATION:
+        return _animRoute(RFNotificationPage(), beginOffset: right);
+      case NEAR_BY_YOU:
+        return _animRoute(NearbyYou(category: arguments.toString()), beginOffset: bottom);
+      case CHAT_DETAIL:
+        return _animRoute(ChatDetailPage(assignGroupResponse: arguments as AssignGroupResponse),
+            beginOffset: right);
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/components/RFConformationDialog.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
-import 'package:room_finder_flutter/screens/HomeScreen.dart';
+import 'package:room_finder_flutter/screens/main_page/main_page.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
-import '../models/user/sign_in_model.dart';
+import '../models/user/profile_response.dart';
 
 // ignore: must_be_immutable
 class RFEmailSignInScreen extends StatefulWidget {
@@ -39,8 +39,7 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
   }
 
   void init() async {
-    setStatusBarColor(rf_primaryColor,
-        statusBarIconBrightness: Brightness.light);
+    setStatusBarColor(rf_primaryColor, statusBarIconBrightness: Brightness.light);
 
     widget.showDialog
         ? Timer.run(() {
@@ -51,9 +50,7 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
                 Future.delayed(Duration(seconds: 1), () {
                   Navigator.of(context).pop(true);
                 });
-                return Material(
-                    type: MaterialType.transparency,
-                    child: RFConformationDialog());
+                return Material(type: MaterialType.transparency, child: RFConformationDialog());
               },
             );
           })
@@ -103,8 +100,7 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
                 suffixIcon: Container(
                   padding: EdgeInsets.all(2),
                   decoration: boxDecorationWithRoundedCorners(
-                      boxShape: BoxShape.circle,
-                      backgroundColor: rf_rattingBgColor),
+                      boxShape: BoxShape.circle, backgroundColor: rf_rattingBgColor),
                   child: Icon(Icons.done, color: Colors.white, size: 14),
                 ),
               ),

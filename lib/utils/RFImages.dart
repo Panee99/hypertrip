@@ -48,3 +48,19 @@ const location = 'assets/images/location.png';
 const ticket = 'assets/images/ticket.png';
 const search = 'assets/icons/search.svg';
 const not_found = 'assets/images/not_found.png';
+
+// Icon Common
+const rf_icon_arrow_back = 'assets/images/icon_arrow_back.png';
+const rf_icon_camera = 'assets/icons/ic_camera.svg';
+const rf_icon_picture = 'assets/icons/ic_picture.svg';
+const rf_icon_map = 'assets/icons/ic_map.svg';
+
+// TourGuide
+const rf_food = 'assets/icons/pizza.svg';
+const rf_coffee = 'assets/icons/coffee.svg';
+const rf_nightlife = 'assets/icons/nightlife.svg';
+const rf_fun = 'assets/icons/fun.svg';
+const rf_shopping = 'assets/icons/shopping.svg';
+
+// Tour
+const rf_location_marker = 'assets/images/ic_location_marker.png';

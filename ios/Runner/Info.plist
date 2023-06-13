@@ -49,5 +49,21 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+<<<<<<< HEAD
+=======
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+    <string>Used to demonstrate image picker plugin</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Used to capture audio for image picker plugin</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Used to demonstrate image picker plugin</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>Allow access to your location for better user experience.</string>
+
+>>>>>>> 2d8a13f8e2e8fe1fa0fc0ba50a6c2585b5b0d0af
 </dict>
 </plist>

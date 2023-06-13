@@ -13,6 +13,9 @@ const starRateColor = Color(0xFFF99D00);
 const starUnrateColor = Color(0xFFCDCDCD);
 const disableButtonColor = Color(0xFFBDC1C6);
 const secondaryColor = Color(0xFFFF9900);
+const rf_IconColor = Color(0xFF8E8E93);
+const repliedMessageColor = Color(0xff9f85ff);
+const rf_background_chat = Color(0xFFF1FBFF);
 
 // Dark Theme Colors
 const appBackgroundColorDark = Color(0xFF121212);
@@ -30,3 +33,12 @@ const appColorPrimaryLight = Color(0xFFF9FAFF);
 const appTextColorPrimary = Color(0xFF212121);
 const appTextColorSecondary = Color(0xFF5A5C5E);
 const appShadowColor = Color(0x95E9EBF0);
+
+const Color white18 = Color(0x2EFFFFFF);
+const Color black18 = Color(0x2E000000);
+
+const Color white8 = Color(0x14FFFFFF);
+const Color black8 = Color(0x14000000);
+
+const Color white72 = Color(0xB8FFFFFF);
+const Color black72 = Color(0xB8000000);
