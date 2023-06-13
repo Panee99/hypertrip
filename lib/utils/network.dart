@@ -7,6 +7,8 @@ class NetworkUtility {
       final response = await http.get(uri, headers: headers);
       if (response.statusCode == 200) {
         return response.body;
+      } else {
+        print('Xóa dữ liệu thất bại. Mã phản hồi: ${response.statusCode}');
       }
     } catch (e) {
       print("fetchUrl ${e.toString()}");
@@ -42,6 +44,21 @@ class NetworkUtility {
       }
     } catch (e) {
       debugPrint(e.toString());
+      return null;
+    }
+    return null;
+  }
+
+  Future<String?> deleteData(Uri uri) async {
+    try {
+      final response = await http.delete(uri);
+
+      if (response.statusCode == 200) {
+        return response.body;
+      } else {
+        print('Xóa dữ liệu thất bại. Mã phản hồi: ${response.statusCode}');
+      }
+    } catch (error) {
       return null;
     }
     return null;

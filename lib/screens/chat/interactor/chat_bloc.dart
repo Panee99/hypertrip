@@ -6,7 +6,6 @@ import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/data/repositories/traveler_respository.dart';
 import 'package:room_finder_flutter/models/chat/firestore_message.dart';
 import 'package:room_finder_flutter/models/tourguide/assign_group_response.dart';
-import 'package:room_finder_flutter/models/tourguide/tour_variant.dart';
 import 'package:room_finder_flutter/models/user/profile_response.dart';
 import 'package:room_finder_flutter/screens/chat/interactor/chat_event.dart';
 import 'package:room_finder_flutter/screens/chat/interactor/chat_state.dart';
@@ -31,12 +30,23 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       if (event.userid != null && event.userid!.isNotEmpty) {
         List<AssignGroupResponse> result = [];
         if (event.role == RoleStatus.TourGuide) {
-          result = (await _tourGuideRepository.getAllAssignedGroups(event.userid!))
-              .where((element) => element.tourVariant?.status == TourVariantStatus.Accepting)
-              .toList();
+          result = (await _tourGuideRepository.getAllAssignedGroups(event.userid!));
         } else {
           result.add(await _travelerRepository.getAllCurrentGroups(event.userid!));
+          result.addAll(await _travelerRepository.getAllJoinedGroups(event.userid!));
         }
+        result.sort((a, b) {
+          if (a.createdAt != null && b.createdAt != null) {
+            return a.createdAt!.compareTo(b.createdAt!);
+          } else if (a.createdAt == null && b.createdAt == null) {
+            return 0;
+          } else if (a.createdAt != null) {
+            return -1;
+          } else {
+            return 1;
+          }
+        });
+
         _originList = result;
         emit(state.copyWith(groupChat: result));
       }

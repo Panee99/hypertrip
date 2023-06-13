@@ -149,4 +149,21 @@ class AppRepository {
         ? AttachmentFile()
         : AttachmentFile.fromJson(jsonDecode(response));
   }
+
+  /// Add token FCM
+  Future<dynamic> addTokenFCMApi(String tokenFCM, String uID) async {
+    final response = await NetworkUtility.post(Uri.parse('$baseApiUrl/fcm-tokens'),
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json-patch+json',
+        },
+        body: jsonEncode({'token': tokenFCM, 'userId': uID}));
+    return response;
+  }
+
+  /// Delete token FCM
+  Future<dynamic> deleteTokenFCMApi(String uID) async {
+    final response = await NetworkUtility.post(Uri.parse('$baseApiUrl/fcm-tokens/${uID}'));
+    return response;
+  }
 }

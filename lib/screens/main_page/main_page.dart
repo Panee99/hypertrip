@@ -18,8 +18,8 @@ import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'dart:math' as math;
 
-import '../fragment/discovery/discovery_fragment.dart';
-import '../provider/AuthProvider.dart';
+import '../../fragment/discovery/discovery_fragment.dart';
+import '../../provider/AuthProvider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
