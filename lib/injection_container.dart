@@ -32,6 +32,7 @@ import 'package:room_finder_flutter/domain/use_cases/sign_out_usecase.dart';
 import 'package:room_finder_flutter/domain/use_cases/sign_up_usecase.dart';
 import 'package:room_finder_flutter/domain/use_cases/update_group_usecase.dart';
 import 'package:room_finder_flutter/fragment/tourguide/warning_incident/interactor/warning_incident_bloc.dart';
+import 'package:room_finder_flutter/managers/firebase_messaging_manager.dart';
 import 'package:room_finder_flutter/screens/chat/interactor/chat_bloc.dart';
 import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_bloc.dart';
 
@@ -129,6 +130,8 @@ _registerRepositoriesModule() {
   _registerFactory(() => WarningIncidentRepository());
 
   _registerFactory(() => FirestoreRepository());
+
+  _registerFactory(() => FirebaseMessagingManager(sl<AppRepository>())..setupFirebaseFCM());
 }
 
 _registerBlocsModule() {

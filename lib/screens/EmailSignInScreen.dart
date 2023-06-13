@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/components/RFConformationDialog.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
-import 'package:room_finder_flutter/screens/HomeScreen.dart';
+import 'package:room_finder_flutter/screens/main_page/main_page.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';

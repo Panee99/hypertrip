@@ -15,8 +15,8 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
-import '../fragment/discovery/discovery_fragment.dart';
-import '../provider/AuthProvider.dart';
+import '../../fragment/discovery/discovery_fragment.dart';
+import '../../provider/AuthProvider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
