@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +11,7 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:room_finder_flutter/utils/codePicker/country_code_picker.dart';
 
 import '../provider/AuthProvider.dart';
-import 'HomeScreen.dart';
+import 'main_page/main_page.dart';
 
 class RFMobileSignIn extends StatefulWidget {
   @override
@@ -37,8 +35,7 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
   }
 
   void init() async {
-    setStatusBarColor(rf_primaryColor,
-        statusBarIconBrightness: Brightness.light);
+    setStatusBarColor(rf_primaryColor, statusBarIconBrightness: Brightness.light);
   }
 
   @override
@@ -189,8 +186,8 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
                       controller: phoneController,
                       focusNode: phoneFocusNode,
                       keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          border: InputBorder.none, hintText: "Phone Number"),
+                      decoration:
+                          InputDecoration(border: InputBorder.none, hintText: "Phone Number"),
                       onChanged: (value) {
                         setState(() {
                           phoneNumber = value;
@@ -245,8 +242,7 @@ class _RFMobileSignInState extends State<RFMobileSignIn> {
                   // await FirebaseAuth.instance.signInWithCredential(credential);
                   // RFHomeScreen().launch(context);
                   authProvider
-                      .handleSignIn(
-                          (dialCodeDigits + phoneController.text).substring(1),
+                      .handleSignIn((dialCodeDigits + phoneController.text).substring(1),
                           passwordController.text)
                       .then((isSuccess) {
                     if (isSuccess) {

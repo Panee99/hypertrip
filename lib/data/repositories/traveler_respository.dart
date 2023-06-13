@@ -14,4 +14,16 @@ class TravelerRepository {
         ? AssignGroupResponse.fromJson(jsonDecode(response))
         : AssignGroupResponse();
   }
+
+  Future<List<AssignGroupResponse>> getAllJoinedGroups(String id) async {
+    final response = await NetworkUtility.fetchUrl(
+      Uri.parse('$baseApiUrl/travelers/${id}/joined-group'),
+      headers: mapHeader,
+    );
+    return response != null
+        ? (jsonDecode(response) as List<dynamic>)
+            .map((assignGroupResponse) => AssignGroupResponse.fromJson(assignGroupResponse))
+            .toList()
+        : [];
+  }
 }
