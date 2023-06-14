@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               CupertinoTabBar(
                 currentIndex: _selectedIndex,
-                onTap: _onItemTapped,
+                onTap: (index) => _onItemTapped(index, authProvider.user.role),
                 backgroundColor: Colors.white, // Set your desired background color
                 activeColor: rf_primaryColor, // Set your desired active color
                 inactiveColor: Colors.grey, // Set your desired inactive color
@@ -116,8 +116,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     bool isUnRead = snapshot.data!;
-                    print("isUnRead $isUnRead");
-                    if (isUnRead && _selectedIndex != 4) {
+                    bool isShow = authProvider.user.role == RoleStatus.Traveler
+                        ? isUnRead && _selectedIndex != 2
+                        : isUnRead && _selectedIndex != 4;
+                    if (isShow) {
                       return Positioned(
                         right: 25,
                         top: 10,
@@ -146,11 +148,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final _userConstants = GetIt.I.get<UserConstants>();
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index, RoleStatus role) {
     setState(() {
       _selectedIndex = index;
     });
-    if (index == 4) _userConstants.setNotifyMess(false);
+    if ((role == RoleStatus.TourGuide && index == 4) ||
+        (role == RoleStatus.Traveler && index == 2)) {
+      _userConstants.setNotifyMess(false);
+    }
   }
 
   @override
