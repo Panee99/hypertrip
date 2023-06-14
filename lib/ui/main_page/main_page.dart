@@ -199,7 +199,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           onPressed: () {
             setState(() {
-              _selectedIndex = 2;
+              if (authProvider.user.role == RoleStatus.TourGuide) {
+                _selectedIndex = 2;
+              } else {
+                _selectedIndex = 1;
+              }
             });
           }),
       body: IndexedStack(
