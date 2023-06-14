@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/models/tourguide/assign_group_response.dart';
+import 'package:room_finder_flutter/models/tourguide/tour_variant.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/ui/chat_detail/components/chat_list.dart';
 import 'package:room_finder_flutter/ui/chat_detail/components/member_list.dart';
@@ -37,6 +38,9 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    bool isAccepting =
+        widget.assignGroupResponse.tourVariant?.status == TourVariantStatus.Accepting;
 
     return BlocProvider(
       create: (BuildContext context) => GetIt.I.get<ChatDetailBloc>()
@@ -123,6 +127,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     );
                   },
                   body: ChatList(
+                    isAccepting: isAccepting,
                     tourGroupId: widget.assignGroupResponse.id,
                     onPressedMap: () {
                       context.read<ChatDetailBloc>().add(StatusMapEvent(state.isOpenMap));

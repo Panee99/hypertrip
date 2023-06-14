@@ -98,15 +98,31 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           notchMargin: 8.0,
           elevation: 0,
-          child: CupertinoTabBar(
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-            backgroundColor: Colors.white, // Set your desired background color
-            activeColor: rf_primaryColor, // Set your desired active color
-            inactiveColor: Colors.grey, // Set your desired inactive color
-            border: null,
-            items: items,
-          ).paddingAll(8),
+          child: Stack(
+            children: [
+              CupertinoTabBar(
+                currentIndex: _selectedIndex,
+                onTap: _onItemTapped,
+                backgroundColor: Colors.white, // Set your desired background color
+                activeColor: rf_primaryColor, // Set your desired active color
+                inactiveColor: Colors.grey, // Set your desired inactive color
+                border: null,
+                items: items,
+              ).paddingAll(8),
+              Positioned(
+                right: 25,
+                top: 10,
+                child: Container(
+                  width: 8, // Đặt chiều rộng của Container bằng đường kính của hình tròn
+                  height: 8, // Đặt chiều cao của Container bằng đường kính của hình tròn
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.red,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ).paddingOnly(left: 16, right: 16),
     );
