@@ -21,6 +21,7 @@ import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 
 import 'data/repositories/repositories.dart';
+import 'firebase_options.dart';
 
 AppStore appStore = AppStore();
 
@@ -33,8 +34,8 @@ void main() async {
 
   appStore.toggleDarkMode(value: getBoolAsync(isDarkModeOnPref));
   await Firebase.initializeApp(
-      // options: DefaultFirebaseOptions.currentPlatform,
-      );
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   // Setup firebase listener for permission changes
@@ -63,7 +64,8 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
 

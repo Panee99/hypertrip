@@ -168,8 +168,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    List<Widget> pages =
-        authProvider.user.role == 'Traveler' ? travelerPages : tourGuidePages;
+    List<Widget> pages = authProvider.user.role == RoleStatus.Traveler
+        ? travelerPages
+        : tourGuidePages;
     return Scaffold(
       extendBody: false,
       bottomNavigationBar: _bottomTab(context),
