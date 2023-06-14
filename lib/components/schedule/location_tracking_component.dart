@@ -44,6 +44,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   MapsRoutes route = new MapsRoutes();
   DistanceCalculator distanceCalculator = new DistanceCalculator();
   String googleApiKey = 'AIzaSyAvMnrp-xOiyWA0rMaxLFNgqLQiP7ZtKiQ';
+  // String googleApiKey = '';
 
   @override
   void initState() {
@@ -134,7 +135,6 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
           travelMode: TravelMode.walking,
           wayPoints: wayPoints);
       print('Status: ' + result.status.toString());
-      print('Points: ' + result.points.toString());
       if (result.points.isNotEmpty) {
         setState(() {
           result.points.forEach((PointLatLng point) =>

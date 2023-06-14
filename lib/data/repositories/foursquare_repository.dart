@@ -12,14 +12,16 @@ class FoursquareRepository {
     }
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    var url = Uri.parse('${queryString['nearbyPlace']!['uri']}' +
+    var url = Uri.parse('https://api.foursquare.com/v3/places/search?ll=' +
         position.latitude.toString() +
-        '${queryString['nearbyPlace']![',']}' +
+        '%2C' +
         position.longitude.toString() +
-        '${queryString['nearbyPlace']!['radius']}${queryString['nearbyPlace']!['sort']}${queryString['nearbyPlace']!['limit']}');
-    Map<String, String> header = Map<String, String>.from(
-        queryString['nearbyPlace']!['header'] as Map<dynamic, dynamic>);
-    var response = await http.get(url, headers: header);
+        '&radius=5000&sort=DISTANCE&limit=50');
+    var response = await http.get(url, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'fsq37qFTKrGLWiBZDd6Eexr+8xiKOhen6VB/vTmq42RlKSs=',
+      'Host': 'api.foursquare.com'
+    });
     if (response.body.isNotEmpty) {
       return NearbyPlacesResponse.fromJson(jsonDecode(response.body));
     }
@@ -127,11 +129,13 @@ class FoursquareRepository {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission != LocationPermission.whileInUse && permission != LocationPermission.always) {
+      if (permission != LocationPermission.whileInUse &&
+          permission != LocationPermission.always) {
         isPermission = false;
       }
       isPermission = true;
-    } else if (permission == LocationPermission.deniedForever) isPermission = false;
+    } else if (permission == LocationPermission.deniedForever)
+      isPermission = false;
 
     return isPermission;
   }

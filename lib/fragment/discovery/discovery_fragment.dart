@@ -33,6 +33,8 @@ class DiscoveryFragment extends StatefulWidget {
 
 class _MapFragmentState extends State<DiscoveryFragment> {
   late GoogleMapController mapController;
+  final searchController = TextEditingController();
+  String searchString = '';
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -178,97 +180,39 @@ class _MapFragmentState extends State<DiscoveryFragment> {
                     ).paddingRight(16),
                   ]),
             ),
-            body:
-                // RFCommonAppComponent(
-                //   scroll: true,
-                //   // title: RFAppName,
-                //   mainWidgetHeight: screenHeight * 0.2,
-                //   subWidgetHeight: screenHeight * 0.1,
-                //   cardWidget: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.start,
-                //     mainAxisSize: MainAxisSize.min,
-                //     children: [
-                //       // Text('Tìm Kiếm', style: boldTextStyle(size: 18)),
-                //       // 16.height,
-                //       AppTextField(
-                //         controller: place,
-                //         focus: placeFocusNode,
-                //         textFieldType: TextFieldType.NAME,
-                //         decoration: rfInputDecoration(
-                //           lableText: "What do you need...",
-                //           showLableText: true,
-                //           showPreFixIcon: true,
-                //           prefixIcon: Material.Icon(Icons.search,
-                //               color: rf_primaryColor, size: 16),
-                //         ),
-                //         onChanged: (value) {
-                //           setState(() {
-                //             searchQuery = value;
-                //           });
-                //         },
-                //       ),
-                //       16.height,
-                //       Row(
-                //         children: [
-                //           Expanded(
-                //             child: AppButton(
-                //               color: rf_primaryColor,
-                //               child:
-                //                   Text('Find', style: boldTextStyle(color: white)),
-                //               elevation: 0,
-                //               onTap: searchQuery != ''
-                //                   ? () {
-                //                       setState(() {
-                //                         isSearch = true;
-                //                       });
-                //                     }
-                //                   : () {},
-                //             ),
-                //           ),
-                //           16.width,
-                //           AppButton(
-                //             color: rf_primaryColor,
-                //             child: Material.Icon(
-                //               Icons.near_me,
-                //               color: white,
-                //             ),
-                //             elevation: 0,
-                //             width: 30,
-                //             onTap: () {
-                //               setState(() {
-                //                 isSearch = false;
-                //               });
-                //             },
-                //           ),
-                //         ],
-                //       ),
-                //     ],
-                //   ),
-                //   subWidget:
-                SafeArea(
+            body: SafeArea(
               child: Column(
                 children: [
                   Container(
-                    decoration: BoxDecoration(
-                        color: whiteColor,
-                        borderRadius: BorderRadius.circular(16)),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          search,
-                          width: 16,
-                          color: secondaryColor,
+                      decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(16)),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          // labelText: 'Search for a place',
+                          hintText: 'Search for a place',
+                          prefixIcon: Container(
+                            width: 16,
+                            height: 16,
+                            child: Transform.scale(
+                              scale: 0.5,
+                              child: SvgPicture.asset(
+                                search,
+                                // width: 16,
+                                color: secondaryColor,
+                              ),
+                            ),
+                          ),
+                          border: InputBorder.none,
                         ),
-                        16.width,
-                        Text(
-                          'Search for a place',
-                          style:
-                              primaryTextStyle(color: textBlurColor, size: 16),
-                        )
-                      ],
-                    ).paddingAll(16),
-                  ),
+                        onChanged: (value) {
+                          // Handle text changes here
+                          setState(() {
+                            searchQuery = value;
+                          });
+                          print('Text changed: $value');
+                        },
+                      )),
                   16.height,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
