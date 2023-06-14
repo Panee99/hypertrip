@@ -21,7 +21,6 @@ import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 
 import 'data/repositories/repositories.dart';
-import 'firebase_options.dart';
 
 AppStore appStore = AppStore();
 
@@ -34,8 +33,8 @@ void main() async {
 
   appStore.toggleDarkMode(value: getBoolAsync(isDarkModeOnPref));
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+      // options: DefaultFirebaseOptions.currentPlatform,
+      );
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   // Setup firebase listener for permission changes
