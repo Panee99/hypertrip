@@ -32,7 +32,9 @@ void main() async {
   await setupDependencies();
 
   appStore.toggleDarkMode(value: getBoolAsync(isDarkModeOnPref));
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      // options: DefaultFirebaseOptions.currentPlatform,
+      );
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   // Setup firebase listener for permission changes
@@ -61,7 +63,8 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
 
