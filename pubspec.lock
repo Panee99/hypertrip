@@ -190,7 +190,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "6268dc9b00062d8b7b102fff7f36273f0c30e25c"
+      resolved-ref: "0c4e5c8c7775e7a3aabd5c6d8153fc646dbc9348"
       url: "https://github.com/DokhaiTrinh/flutter_chatview.git"
     source: git
     version: "1.2.1"
