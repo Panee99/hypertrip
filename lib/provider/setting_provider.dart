@@ -29,7 +29,8 @@ class SettingProvider {
     return uploadTask;
   }
 
-  Future<void> updateDataFirestore(String collectionPath, String path, Map<String, String> dataNeedUpdate) {
+  Future<void> updateDataFirestore(
+      String collectionPath, String path, Map<String, String> dataNeedUpdate) {
     return firebaseFirestore.collection(collectionPath).doc(path).update(dataNeedUpdate);
   }
 }

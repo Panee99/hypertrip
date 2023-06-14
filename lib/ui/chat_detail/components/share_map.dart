@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_bloc.dart';
-import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_event.dart';
-import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_state.dart';
+import 'package:room_finder_flutter/ui/chat_detail/interactor/chat_detail_bloc.dart';
+import 'package:room_finder_flutter/ui/chat_detail/interactor/chat_detail_event.dart';
+import 'package:room_finder_flutter/ui/chat_detail/interactor/chat_detail_state.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/app_languages.dart';
 
@@ -34,7 +34,7 @@ class _ShareMapState extends State<ShareMap> {
           init(context, state.position!);
         }
         return !_initMarker
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : state.isPermissionGeolocation
@@ -55,15 +55,15 @@ class _ShareMapState extends State<ShareMap> {
                         initialCameraPosition: CameraPosition(
                           target: state.position != null
                               ? LatLng(state.position!.latitude, state.position!.longitude)
-                              : LatLng(10.762622, 106.660172), // Tọa độ ban đầu của bản đồ
+                              : const LatLng(10.762622, 106.660172), // Tọa độ ban đầu của bản đồ
                           zoom: 18, // Độ phóng ban đầu
                         ),
                       ),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 10),
-                          decoration: BoxDecoration(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          decoration: const BoxDecoration(
                               color: Colors.black,
                               borderRadius: BorderRadius.all(Radius.circular(16))),
                           child: TextButton(
@@ -81,15 +81,15 @@ class _ShareMapState extends State<ShareMap> {
                           alignment: Alignment.topCenter,
                           child: GestureDetector(
                             onLongPress: () {
-                              context.read<ChatDetailBloc>()..add(DragPanelEvent(true));
+                              context.read<ChatDetailBloc>().add(const DragPanelEvent(true));
                             },
                             onLongPressEnd: (details) {
-                              context.read<ChatDetailBloc>()..add(DragPanelEvent(false));
+                              context.read<ChatDetailBloc>().add(const DragPanelEvent(false));
                             },
                             child: Container(
                               width: 80,
                               height: 10,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   color: Colors.black,
                                   borderRadius: BorderRadius.all(Radius.circular(8))),
                             ),
@@ -100,10 +100,10 @@ class _ShareMapState extends State<ShareMap> {
                         alignment: Alignment.topCenter,
                         child: GestureDetector(
                           onLongPress: () {
-                            context.read<ChatDetailBloc>()..add(DragPanelEvent(true));
+                            context.read<ChatDetailBloc>().add(const DragPanelEvent(true));
                           },
                           onLongPressEnd: (details) {
-                            context.read<ChatDetailBloc>()..add(DragPanelEvent(false));
+                            context.read<ChatDetailBloc>().add(const DragPanelEvent(false));
                           },
                           child: Container(
                             width: 80,
@@ -117,7 +117,7 @@ class _ShareMapState extends State<ShareMap> {
                 : Center(
                     child: TextButton(
                       onPressed: () {
-                        context.read<ChatDetailBloc>()..add(RequestPermissionLocationEvent());
+                        context.read<ChatDetailBloc>().add(const RequestPermissionLocationEvent());
                       },
                       child: Text(rf_lang_requestPermissionGeo, style: boldTextStyle(size: 16)),
                     ),

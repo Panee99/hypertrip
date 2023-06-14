@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:room_finder_flutter/constants/user_constants.dart';
 import 'package:room_finder_flutter/cubit/auth/auth_cubit.dart';
 import 'package:room_finder_flutter/cubit/credential/credential_cubit.dart';
 import 'package:room_finder_flutter/cubit/group/group_cubit.dart';
@@ -31,10 +32,10 @@ import 'package:room_finder_flutter/domain/use_cases/sign_in_usecase.dart';
 import 'package:room_finder_flutter/domain/use_cases/sign_out_usecase.dart';
 import 'package:room_finder_flutter/domain/use_cases/sign_up_usecase.dart';
 import 'package:room_finder_flutter/domain/use_cases/update_group_usecase.dart';
-import 'package:room_finder_flutter/fragment/tourguide/warning_incident/interactor/warning_incident_bloc.dart';
 import 'package:room_finder_flutter/managers/firebase_messaging_manager.dart';
-import 'package:room_finder_flutter/screens/chat/interactor/chat_bloc.dart';
-import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_bloc.dart';
+import 'package:room_finder_flutter/ui/chat/interactor/chat_bloc.dart';
+import 'package:room_finder_flutter/ui/chat_detail/interactor/chat_detail_bloc.dart';
+import 'package:room_finder_flutter/ui/guide/warning_incident/interactor/warning_incident_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -108,13 +109,16 @@ Future<void> init() async {
 }
 
 Future<void> setupDependencies() async {
+  _registerFactory(() => UserConstants());
+
   _registerRepositoriesModule();
   _registerManager();
   _registerBlocsModule();
 }
 
 void _registerManager() {
-  _registerFactory(() => FirebaseMessagingManager(sl<AppRepository>())..setupFirebaseFCM());
+  _registerFactory(
+      () => FirebaseMessagingManager(sl<AppRepository>(), sl<UserConstants>())..setupFirebaseFCM());
 }
 
 // Get It Library wrappers
