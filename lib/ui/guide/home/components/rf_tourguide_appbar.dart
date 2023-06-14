@@ -8,9 +8,9 @@ import 'package:room_finder_flutter/bloc/location/location_bloc.dart';
 import 'package:room_finder_flutter/bloc/location/location_event.dart';
 import 'package:room_finder_flutter/bloc/location/location_state.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
-import 'package:room_finder_flutter/fragment/tourguide/home/components/rf_avatar.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/routers.dart';
+import 'package:room_finder_flutter/ui/guide/home/components/rf_avatar.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/app_languages.dart';
@@ -27,10 +27,7 @@ class RFTourGuideAppbar extends StatelessWidget with PreferredSizeWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                rf_lang_hi +
-                    authProvider.user.firstName.validate() +
-                    ' ' +
-                    authProvider.user.lastName.validate(),
+                '$rf_lang_hi${authProvider.user.firstName.validate()} ${authProvider.user.lastName.validate()}',
                 style: boldTextStyle(color: textBlurColor, size: 12),
               ),
               RepositoryProvider(
@@ -38,10 +35,10 @@ class RFTourGuideAppbar extends StatelessWidget with PreferredSizeWidget {
                 child: BlocProvider(
                   create: (context) =>
                       LocationBloc(RepositoryProvider.of<GoogleRepository>(context))
-                        ..add(LoadLocationEvent()),
+                        ..add(const LoadLocationEvent()),
                   child: BlocBuilder<LocationBloc, LocationState>(builder: (context, state) {
                     if (state is LocationLoadingState) {
-                      return SizedBox.shrink();
+                      return const SizedBox.shrink();
                     } else if (state is LocationLoadedState) {
                       var city = state.location;
                       return Row(
@@ -61,7 +58,7 @@ class RFTourGuideAppbar extends StatelessWidget with PreferredSizeWidget {
                         ],
                       );
                     } else {
-                      return SizedBox.shrink();
+                      return const SizedBox.shrink();
                     }
                   }),
                 ),
@@ -70,7 +67,7 @@ class RFTourGuideAppbar extends StatelessWidget with PreferredSizeWidget {
         leadingWidth: 150,
         elevation: 0,
         backgroundColor: whiteSmoke,
-        systemOverlayStyle: SystemUiOverlayStyle(
+        systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: whiteSmoke,
           statusBarIconBrightness: Brightness.dark,
         ),
@@ -81,7 +78,7 @@ class RFTourGuideAppbar extends StatelessWidget with PreferredSizeWidget {
                   onTap: () => Navigator.of(context).pushNamed(Routers.NOTIFICATION),
                   child: SvgPicture.asset(notification, height: 20)),
               16.width,
-              RFAvatar(),
+              const RFAvatar(),
             ],
           ).paddingRight(16),
         ]);
@@ -89,5 +86,5 @@ class RFTourGuideAppbar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(40);
+  Size get preferredSize => const Size.fromHeight(40);
 }

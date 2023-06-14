@@ -5,16 +5,16 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/models/tourguide/assign_group_response.dart';
 import 'package:room_finder_flutter/models/tourguide/tour_variant.dart';
 import 'package:room_finder_flutter/routers.dart';
-import 'package:room_finder_flutter/screens/chat/interactor/chat_bloc.dart';
-import 'package:room_finder_flutter/screens/chat/interactor/chat_event.dart';
-import 'package:room_finder_flutter/screens/chat/interactor/chat_state.dart';
+import 'package:room_finder_flutter/ui/chat/interactor/chat_bloc.dart';
+import 'package:room_finder_flutter/ui/chat/interactor/chat_event.dart';
+import 'package:room_finder_flutter/ui/chat/interactor/chat_state.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 class ConversationList extends StatelessWidget {
   final AssignGroupResponse data;
   final String userID;
 
-  const ConversationList({required this.data, required this.userID});
+  const ConversationList({super.key, required this.data, required this.userID});
   @override
   Widget build(BuildContext context) {
     bool isAccepting = data.tourVariant?.status == TourVariantStatus.Accepting;

@@ -5,9 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/models/chat/firestore_message.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
-import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_bloc.dart';
-import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_event.dart';
-import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_state.dart';
+import 'package:room_finder_flutter/ui/chat_detail/interactor/chat_detail_bloc.dart';
+import 'package:room_finder_flutter/ui/chat_detail/interactor/chat_detail_event.dart';
+import 'package:room_finder_flutter/ui/chat_detail/interactor/chat_detail_state.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/page_states.dart';
@@ -17,7 +17,7 @@ class ChatList extends StatefulWidget {
   final String groupName;
   final VoidCallBack? onPressedMap;
 
-  ChatList({Key? key, required this.tourGroupId, required this.groupName, this.onPressedMap})
+  const ChatList({Key? key, required this.tourGroupId, required this.groupName, this.onPressedMap})
       : super(key: key);
 
   @override
@@ -137,7 +137,7 @@ class _ChatListState extends State<ChatList> {
                   ),
                   onPressedMap: widget.onPressedMap,
                   onSendTap: (message, replyMessage, messageType) {
-                    print("onSendTap ${message} - messageType ${messageType}");
+                    print("onSendTap $message - messageType $messageType");
                     context.read<ChatDetailBloc>().add(SendMessageGroupChat(
                           userId: authProvider.user.id ?? '',
                           message: message,

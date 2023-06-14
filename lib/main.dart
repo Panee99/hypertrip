@@ -21,7 +21,6 @@ import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 
 import 'data/repositories/repositories.dart';
-import 'firebase_options.dart';
 
 AppStore appStore = AppStore();
 
@@ -33,9 +32,7 @@ void main() async {
   await setupDependencies();
 
   appStore.toggleDarkMode(value: getBoolAsync(isDarkModeOnPref));
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp();
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   // Setup firebase listener for permission changes
@@ -48,7 +45,7 @@ void main() async {
 
         assert(user.user?.uid == currentUser?.uid);
       } catch (error, stacktrace) {
-        debugPrint('ex ${error}');
+        debugPrint('ex $error');
       }
     } else {
       debugPrint('User is signed in!');
@@ -56,7 +53,7 @@ void main() async {
   });
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  HttpOverrides.global = new MyHttpOverrides();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp(prefs: prefs));
 }
 
@@ -64,8 +61,7 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -83,27 +79,26 @@ class MyApp extends StatelessWidget {
           create: (_) => AuthProvider(
             firebaseAuth: FirebaseAuth.instance,
             googleSignIn: GoogleSignIn(),
-            prefs: this.prefs,
-            firebaseFirestore: this.firebaseFirestore,
+            firebaseFirestore: firebaseFirestore,
           ),
         ),
         Provider<SettingProvider>(
           create: (_) => SettingProvider(
-            prefs: this.prefs,
-            firebaseFirestore: this.firebaseFirestore,
-            firebaseStorage: this.firebaseStorage,
+            prefs: prefs,
+            firebaseFirestore: firebaseFirestore,
+            firebaseStorage: firebaseStorage,
           ),
         ),
         Provider<HomeProvider>(
           create: (_) => HomeProvider(
-            firebaseFirestore: this.firebaseFirestore,
+            firebaseFirestore: firebaseFirestore,
           ),
         ),
         Provider<ChatProvider>(
           create: (_) => ChatProvider(
-            prefs: this.prefs,
-            firebaseFirestore: this.firebaseFirestore,
-            firebaseStorage: this.firebaseStorage,
+            prefs: prefs,
+            firebaseFirestore: firebaseFirestore,
+            firebaseStorage: firebaseStorage,
           ),
         ),
         RepositoryProvider(

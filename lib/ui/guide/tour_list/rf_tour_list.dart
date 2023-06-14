@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/fragment/tourguide/tour_list/components/rf_current_tour.dart';
-import 'package:room_finder_flutter/fragment/tourguide/tour_list/components/rf_upcoming_list_tour.dart';
+import 'package:room_finder_flutter/ui/guide/tour_list/components/rf_current_tour.dart';
+import 'package:room_finder_flutter/ui/guide/tour_list/components/rf_upcoming_list_tour.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 
 class RFTourList extends StatelessWidget {
@@ -12,11 +12,11 @@ class RFTourList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true, backgroundColor: rf_primaryColor),
       body: ListView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         children: [
-          RFCurrentTour(),
+          const RFCurrentTour(),
           16.height,
-          RFUpcomingListTour(),
+          const RFUpcomingListTour(),
         ],
       ),
     );
