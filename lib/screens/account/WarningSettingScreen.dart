@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 

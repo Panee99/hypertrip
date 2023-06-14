@@ -67,7 +67,8 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
 
   FutureOr<void> _sendMessageGroupChat(
       SendMessageGroupChat event, Emitter<ChatDetailState> emit) async {
-    if (event.userId.isEmpty || event.groupId.isEmpty) toast(rf_lang_errorSystem);
+    if (event.userId.isEmpty || event.groupId.isEmpty)
+      toast(rf_lang_errorSystem);
 
     if (event.message.isEmpty) return;
 
@@ -110,43 +111,52 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
         content += ' đã chia sẻ vị trí hiện tại';
         break;
     }
-    _firebaseMessagingManager.sendFCMNotifications(state.deviceTokens, event.groupName, content);
+    _firebaseMessagingManager.sendFCMNotifications(
+        state.deviceTokens, event.groupName, content);
 
     if (result == null) toast(rf_lang_currentNotSendFile);
   }
 
   FutureOr<void> _getMembersTourGroup(
       GetMembersTourGroup event, Emitter<ChatDetailState> emit) async {
-    final profiles = await _tourGroupRepository.getMembersTourGroup(event.groupId);
-    final currentUser = profiles.firstWhereOrNull((profile) => profile.id == event.userId);
+    final profiles =
+        await _tourGroupRepository.getMembersTourGroup(event.groupId);
+    final currentUser =
+        profiles.firstWhereOrNull((profile) => profile.id == event.userId);
 
     emit(state.copyWith(
-        currentUser: currentUser?.toMember(), members: profiles.map((e) => e.toMember()).toList()));
+        currentUser: currentUser?.toMember(),
+        members: profiles.map((e) => e.toMember()).toList()));
 
     add(const GetAllTokenFCMDeviceGroup());
   }
 
-  FutureOr<void> _statusMapEvent(StatusMapEvent event, Emitter<ChatDetailState> emit) async {
+  FutureOr<void> _statusMapEvent(
+      StatusMapEvent event, Emitter<ChatDetailState> emit) async {
     bool permissionGeo = false;
     if (!state.isPermissionGeolocation) {
       permissionGeo = await _foursquareRepository.isPermissionGeolocation();
 
       final position = await _foursquareRepository.getCurrentLocation();
       emit(state.copyWith(
-          isOpenMap: !event.isOpenMap, isPermissionGeolocation: permissionGeo, position: position));
+          isOpenMap: !event.isOpenMap,
+          isPermissionGeolocation: permissionGeo,
+          position: position));
     } else {
       emit(state.copyWith(isOpenMap: !event.isOpenMap));
     }
   }
 
   FutureOr<void> _requestPermissionLocationEvent(
-      RequestPermissionLocationEvent event, Emitter<ChatDetailState> emit) async {
+      RequestPermissionLocationEvent event,
+      Emitter<ChatDetailState> emit) async {
     bool permissionGeo = await _foursquareRepository.requestPermission();
 
     emit(state.copyWith(isPermissionGeolocation: permissionGeo));
   }
 
-  FutureOr<void> _dragPanelEvent(DragPanelEvent event, Emitter<ChatDetailState> emit) {
+  FutureOr<void> _dragPanelEvent(
+      DragPanelEvent event, Emitter<ChatDetailState> emit) {
     emit(state.copyWith(isCanDrag: event.isTap));
   }
 

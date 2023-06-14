@@ -16,10 +16,13 @@ import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
+import 'package:room_finder_flutter/utils/RFImages.dart';
+import '../../models/tour/tour_flow_response.dart';
+import '../../utils/RFDataGenerator.dart';
 
 class LocationTrackingComponent extends StatefulWidget {
-  final TourDetailResponse tour;
-  const LocationTrackingComponent({super.key, required this.tour});
+  final String tourId;
+  const LocationTrackingComponent({super.key, required this.tourId});
 
   @override
   State<LocationTrackingComponent> createState() =>
@@ -29,7 +32,7 @@ class LocationTrackingComponent extends StatefulWidget {
 class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   late GoogleMapController mapController;
   late Future<Position> latLngPosition;
-  late List<TourFlows>? tourFlow;
+  late Future<List<TourFlowResponse>> tourFlow;
   late AuthProvider authProvider;
   late StreamSubscription<Position>? _positionStreamSubscription;
   late Timer _timer;
@@ -46,7 +49,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   void initState() {
     authProvider = context.read<AuthProvider>();
     latLngPosition = _getCurrentLocation();
-    tourFlow = widget.tour.tourFlows;
+    tourFlow = AppRepository().getTourFlow(widget.tourId);
     setCustomMarkerIcon();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (_position != null) {
@@ -107,29 +110,49 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
 
   void getDirection() async {
     PolylinePoints polylinePoints = PolylinePoints();
-    if (tourFlow != null) {
-      tourFlow!.reversed.toList().asMap().forEach((index, place) async {
-        PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-            googleApiKey,
-            PointLatLng(tourFlow!.elementAt(index).latitude!,
-                tourFlow!.elementAt(index).longitude!),
-            PointLatLng(tourFlow!.elementAt(index + 1).latitude!,
-                tourFlow!.elementAt(index + 1).longitude!),
-            travelMode: TravelMode.bicycling);
-        if (result.points.isNotEmpty) {
-          setState(() {
-            result.points.forEach((PointLatLng point) => _polylineCoordinate
-                .add(LatLng(point.latitude, point.longitude)));
-          });
-        }
+    List<PolylineWayPoint> wayPoints = [];
+    var _tourFlow = await tourFlow;
+    if (_tourFlow != null) {
+      _tourFlow = _tourFlow
+          .where((tour) => tour.latitude != null && tour.longitude != null)
+          .toList();
+      List<TourFlowResponse> tourSubList =
+          _tourFlow.toList().sublist(1, _tourFlow.toList().length - 1);
+      tourSubList.toList().asMap().forEach((index, value) {
+        PolylineWayPoint wayPoint = PolylineWayPoint(
+          location: '${value.latitude},${value.longitude}',
+          stopOver: true, // Specify if this waypoint is a stopover or not
+        );
+
+        // Add the waypoint to the list
+        wayPoints.add(wayPoint);
       });
+      PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+          googleApiKey,
+          PointLatLng(_tourFlow.first.latitude!, _tourFlow.first.longitude!),
+          PointLatLng(_tourFlow.last.latitude!, _tourFlow.last.longitude!),
+          travelMode: TravelMode.walking,
+          wayPoints: wayPoints);
+      print('Status: ' + result.status.toString());
+      print('Points: ' + result.points.toString());
+      if (result.points.isNotEmpty) {
+        setState(() {
+          result.points.forEach((PointLatLng point) =>
+              _polylineCoordinate.add(LatLng(point.latitude, point.longitude)));
+        });
+      }
+      ;
     }
   }
 
   void getPolypoints() async {
+    var _tourFlow = await tourFlow;
     if (tourFlow != null) {
-      tourFlow!.reversed.toList().asMap().forEach((index, position) async {
-        Uint8List canvas = await getBytesFromCanvas(tourFlow!.length - index);
+      _tourFlow = _tourFlow
+          .where((tour) => tour.latitude != null && tour.longitude != null)
+          .toList();
+      _tourFlow.reversed.toList().asMap().forEach((index, position) async {
+        Uint8List canvas = await getBytesFromCanvas(_tourFlow.length - index);
         setState(() {
           LatLng latLng = LatLng(
               position.latitude!.toDouble(), position.longitude!.toDouble());

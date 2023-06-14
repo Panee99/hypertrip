@@ -90,7 +90,8 @@ class RFHomeFragment extends StatelessWidget {
                 itemCount: catNames.length,
                 itemBuilder: (context, index) {
                   return Container(
-                    width: (MediaQuery.of(context).size.width - 32) / catNames.length,
+                    width: (MediaQuery.of(context).size.width - 32) /
+                        catNames.length,
                     child: Column(
                       children: [
                         Container(
@@ -131,7 +132,8 @@ class RFHomeFragment extends StatelessWidget {
         create: (context) => AppRepository(),
         child: BlocProvider(
           create: (context) =>
-              TourListBloc(RepositoryProvider.of<AppRepository>(context))..add(LoadTourListEvent()),
+              TourListBloc(RepositoryProvider.of<AppRepository>(context))
+                ..add(LoadTourListEvent()),
           child: BlocBuilder<TourListBloc, TourListState>(
             builder: (context, state) {
               if (state is TourListLoadingState) {
@@ -161,7 +163,9 @@ class RFHomeFragment extends StatelessWidget {
       // CategoriesWidget(),
     ];
     List<Widget> tourGuideBody = [];
-    List<Widget> body = authProvider.user.role == RoleStatus.Traveler ? travelBody : tourGuideBody;
+    List<Widget> body = authProvider.user.role == RoleStatus.Traveler
+        ? travelBody
+        : tourGuideBody;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(40),
@@ -180,10 +184,11 @@ class RFHomeFragment extends StatelessWidget {
                   RepositoryProvider(
                     create: (context) => GoogleRepository(),
                     child: BlocProvider(
-                      create: (context) =>
-                          LocationBloc(RepositoryProvider.of<GoogleRepository>(context))
-                            ..add(LoadLocationEvent()),
-                      child: BlocBuilder<LocationBloc, LocationState>(builder: (context, state) {
+                      create: (context) => LocationBloc(
+                          RepositoryProvider.of<GoogleRepository>(context))
+                        ..add(LoadLocationEvent()),
+                      child: BlocBuilder<LocationBloc, LocationState>(
+                          builder: (context, state) {
                         if (state is LocationLoadingState) {
                           return SizedBox.shrink();
                         } else if (state is LocationLoadedState) {
@@ -215,7 +220,8 @@ class RFHomeFragment extends StatelessWidget {
             elevation: 0,
             backgroundColor: whiteSmoke,
             systemOverlayStyle: SystemUiOverlayStyle(
-                statusBarColor: whiteSmoke, statusBarIconBrightness: Brightness.dark),
+                statusBarColor: whiteSmoke,
+                statusBarIconBrightness: Brightness.dark),
             actions: [
               Row(
                 children: [
@@ -223,7 +229,8 @@ class RFHomeFragment extends StatelessWidget {
                   16.width,
                   CircleAvatar(
                     radius: 16,
-                    backgroundImage: authProvider.user.avatarUrl.validate() != ''
+                    backgroundImage: authProvider.user.avatarUrl.validate() !=
+                            ''
                         ? NetworkImage(authProvider.user.avatarUrl.validate())
                             as ImageProvider<Object>?
                         : AssetImage(avatar_placeholoder),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
@@ -11,16 +12,17 @@ import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/provider/AuthProvider.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 
+import '../../models/tour/current_group_response.dart';
+import '../../screens/tour/TourDetailScreen.dart';
+import '../../utils/RFImages.dart';
+
 class ScheduleFragment extends StatefulWidget {
   @override
   _ScheduleFragmentState createState() => _ScheduleFragmentState();
 }
 
 class _ScheduleFragmentState extends State<ScheduleFragment> {
-  // List<RoomFinderModel> categoryData = categoryList();
-  // List<RoomFinderModel> hotelListData = hotelList();
-  // List<RoomFinderModel> locationListData = locationList();
-  //List<RoomFinderModel> recentUpdateData = recentUpdateList();
+  late Future<CurrentGroupResponse> currentGroup;
   late Future<TourDetailResponse> tourDetail;
   late AuthProvider authProvider;
   int selectCategoryIndex = 0;
@@ -32,7 +34,6 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
     authProvider = context.read<AuthProvider>();
     super.initState();
     tourDetail = getTourDetail(authProvider.token);
-    print('Schedule Fragment');
     init();
   }
 
@@ -46,135 +47,83 @@ class _ScheduleFragmentState extends State<ScheduleFragment> {
     if (mounted) super.setState(fn);
   }
 
-  Future<JoinedTourResponse?> getRecentTour(
+  Future<CurrentGroupResponse> getRecentTour(
       String travelerId, String token) async {
-    List<JoinedTourResponse>? tourList =
-        await AppRepository().getJoinedTour(travelerId, token);
-    DateTime now = DateTime.now();
-    if (tourList!.isNotEmpty) {
-      tourList.sort((a, b) => (DateTime.parse(a.endTime!))
-          .difference(now)
-          .abs()
-          .compareTo(DateTime.parse(b.endTime!).difference(now).abs()));
-      return tourList.first;
-    } else {
-      return null;
-    }
+    currentGroup = AppRepository().getCurrentGroup(travelerId, token);
+    return currentGroup;
   }
 
   Future<TourDetailResponse> getTourDetail(String token) async {
-    JoinedTourResponse? recentTour =
-        await getRecentTour(authProvider.user.id.toString(), token);
-    TourDetailResponse tourDetail =
-        await AppRepository().getTourDetail(recentTour!.id.toString(), token);
+    currentGroup = getRecentTour(authProvider.user.id.toString(), token);
+    TourDetailResponse tourDetail = await AppRepository().getTourDetail(
+        currentGroup.then((group) => group.tourVariant!.tourId).toString());
     return tourDetail;
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<TourDetailResponse>(
-        future: tourDetail,
-        builder:
-            (BuildContext context, AsyncSnapshot<TourDetailResponse> snapshot) {
+    return FutureBuilder<CurrentGroupResponse>(
+        future: currentGroup,
+        builder: (BuildContext context,
+            AsyncSnapshot<CurrentGroupResponse> snapshot) {
           if (!snapshot.hasData) {
-            return SizedBox(
-              height: context.height() * 0.5,
-              child: Center(child: CircularProgressIndicator()),
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      ticket,
+                      width: 300,
+                      height: 300,
+                    ),
+                    Text(
+                      'No tours have been booked yet...',
+                      style: primaryTextStyle(),
+                    ),
+                  ],
+                ),
+              ),
             );
           } else {
-            final tour = snapshot.data!;
+            final group = snapshot.data!;
             return Scaffold(
-              body: RFCommonAppComponent(
-                mainWidgetHeight: 200,
-                subWidgetHeight: 50,
-                cardWidget: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Text('Find a property anywhere', style: boldTextStyle(size: 18)),
-                    // 16.height,
-                    // AppTextField(
-                    //   textFieldType: TextFieldType.EMAIL,
-                    //   decoration: rfInputDecoration(
-                    //     hintText: "Search address or near you",
-                    //     showPreFixIcon: true,
-                    //     showLableText: false,
-                    //     prefixIcon:
-                    //         Icon(Icons.location_on, color: rf_primaryColor, size: 18),
-                    //   ),
-                    // ),
-                    // 16.height,
-                    // AppButton(
-                    //   color: rf_primaryColor,
-                    //   elevation: 0.0,
-                    //   child: Text('Search Now', style: boldTextStyle(color: white)),
-                    //   width: context.width(),
-                    //   onTap: () {
-                    //     RFSearchDetailScreen().launch(context);
-                    //   },
-                    // ),
-                    // TextButton(
-                    //   onPressed: () {
-                    //     //
-                    //   },
-                    //   child: Align(
-                    //     alignment: Alignment.topRight,
-                    //     child: Text('Advance Search',
-                    //         style: primaryTextStyle(), textAlign: TextAlign.end),
-                    //   ),
-                    // )
-                    SizedBox(
-                      child: LocationTrackingComponent(
-                        tour: tour,
-                      ),
-                      width: context.width() * 0.8,
-                      height: 300,
-                    )
-                  ],
-                ),
-                subWidget: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Recent Tour', style: boldTextStyle()),
-                      ],
-                    ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: RecentTourComponent(recentTour: tour),
+              body: Stack(
+                children: [
+                  LocationTrackingComponent(
+                    tourId: group.tourVariant!.tourId.validate(),
+                  ),
+                  Positioned(
+                    bottom: 32, // Adjust the position of the button as needed
+                    right: context.width() / 2 -
+                        50, // Adjust the position of the button as needed
+                    child: AppButton(
+                      width: 100,
+                      color: secondaryColor,
+                      elevation: 0,
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      text: "Detail",
+                      onTap: () {
+                        TourDetailScreen(
+                                tourId: group.tourVariant!.tourId.validate())
+                            .launch(context);
+                      },
+                      textStyle: boldTextStyle(color: Colors.white),
+                      child: Row(children: [
+                        SvgPicture.asset(
+                          info,
+                          width: 20,
+                          color: whiteColor,
+                        ),
+                        8.width,
+                        Text(
+                          'Detail',
+                          style: primaryTextStyle(color: whiteColor),
+                        )
+                      ]),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Schedule', style: boldTextStyle()),
-                      ],
-                    ).paddingOnly(left: 16, right: 16, bottom: 8),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text('Locations', style: boldTextStyle()),
-                    //     TextButton(
-                    //       onPressed: () {
-                    //         RFLocationViewAllScreen(locationWidth: true)
-                    //             .launch(context);
-                    //       },
-                    //       child: Text('View All',
-                    //           style: secondaryTextStyle(
-                    //               decoration: TextDecoration.underline)),
-                    //     )
-                    //   ],
-                    // ).paddingOnly(left: 16, right: 16, bottom: 8),
-                    // Wrap(
-                    //   spacing: 16,
-                    //   runSpacing: 16,
-                    //   children: List.generate(tour.tourFlows!.length, (index) {
-                    //     return LocationComponent(
-                    //         tourFlow: tour.tourFlows![index]);
-                    //   }),
-                    // ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           }

@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/discovery/place_list_component.dart';
 import 'package:room_finder_flutter/models/discovery/nearby_response.dart';
 import 'package:room_finder_flutter/models/discovery/place_photo_response.dart';
+import 'package:room_finder_flutter/utils/RFImages.dart';
 
 import '../../bloc/nearby/nearby_bloc.dart';
 import '../../bloc/nearby/nearby_state.dart';
@@ -29,11 +33,63 @@ class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PlaceBloc, PlaceState>(builder: (context, state) {
+      // if (state is PlaceLoadingState) {
+      //   return Center(
+      //     child: CircularProgressIndicator(),
+      //     child: Column(
+      //       children: [
+      //         32.height,
+      //         Image.asset(
+      //           not_found,
+      //           width: 200,
+      //         ),
+      //         Text(
+      //           "Couldn't find any places around here",
+      //           style: boldTextStyle(size: 16),
+      //         )
+      //       ],
+      //     ),
+      //   );
+      // }
       if (state is PlaceLoadingState) {
-        return const Center(
-          child: CircularProgressIndicator(),
+        Completer<void> completer = Completer<void>();
+
+        // Delay for 5 seconds before completing the completer
+        Future.delayed(Duration(seconds: 3), () {
+          if (!completer.isCompleted) {
+            completer.complete();
+          }
+        });
+
+        // Show the loading indicator while waiting for completion
+        return FutureBuilder<void>(
+          future: completer.future,
+          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return Center(
+                child: Column(
+                  children: [
+                    32.height,
+                    Image.asset(
+                      not_found,
+                      width: 200,
+                    ),
+                    Text(
+                      "Couldn't find any places around here",
+                      style: boldTextStyle(size: 16),
+                    ),
+                  ],
+                ),
+              );
+            }
+          },
         );
       }
+
       if (state is PlaceLoadedState) {
         NearbyPlacesResponse places = state.places;
         return Center(
@@ -45,7 +101,7 @@ class _NearbyPlacesComponentState extends State<NearbyPlacesComponent> {
             itemCount: places.results!.length,
             itemBuilder: (BuildContext context, int index) {
               try {
-                if (widget.category == 'All') {
+                if (widget.category == '') {
                   if (places.results![index].categories != null &&
                       !places.results![index].categories!.isEmpty) {
                     NearbyResults results = places.results![index];

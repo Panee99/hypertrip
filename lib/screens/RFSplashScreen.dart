@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/screens/EmailSignInScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 
 import 'MobileSignInScreen.dart';

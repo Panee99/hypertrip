@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/commons/colors.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
@@ -158,32 +157,32 @@ class _BookingScreenState extends State<BookingScreen> {
               style: primaryTextStyle(size: 12, color: grey),
             ),
             8.height,
-            Text(
-              NumberFormat('#,###')
-                      .format(widget.tour.adultPrice!.toInt())
-                      .toString()
-                      .validate() +
-                  ' VND',
-              style: boldTextStyle(size: 16),
-            )
+            // Text(
+            //   NumberFormat('#,###')
+            //           .format(widget.tour.adultPrice!.toInt())
+            //           .toString()
+            //           .validate() +
+            //       ' VND',
+            //   style: boldTextStyle(size: 16),
+            // )
           ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    if (_adultQuantity == 0) {
-                      _adultQuantity = 0;
-                    } else {
-                      _adultQuantity--;
-                      _totalPrice = _adultQuantity *
-                              widget.tour.adultPrice!.toDouble() +
-                          _childrenQuantity *
-                              widget.tour.childrenPrice!.toDouble() +
-                          _babyQuantity * widget.tour.infantPrice!.toDouble();
-                    }
-                  });
+                  // setState(() {
+                  //   if (_adultQuantity == 0) {
+                  //     _adultQuantity = 0;
+                  //   } else {
+                  //     _adultQuantity--;
+                  //     _totalPrice = _adultQuantity *
+                  //             widget.tour.adultPrice!.toDouble() +
+                  //         _childrenQuantity *
+                  //             widget.tour.childrenPrice!.toDouble() +
+                  //         _babyQuantity * widget.tour.infantPrice!.toDouble();
+                  //   }
+                  // });
                 },
                 child: Container(
                   width: 50,
@@ -224,14 +223,14 @@ class _BookingScreenState extends State<BookingScreen> {
               8.width,
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _adultQuantity++;
-                    _totalPrice =
-                        _adultQuantity * widget.tour.adultPrice!.toDouble() +
-                            _childrenQuantity *
-                                widget.tour.childrenPrice!.toDouble() +
-                            _babyQuantity * widget.tour.infantPrice!.toDouble();
-                  });
+                  // setState(() {
+                  //   _adultQuantity++;
+                  //   _totalPrice =
+                  //       _adultQuantity * widget.tour.adultPrice!.toDouble() +
+                  //           _childrenQuantity *
+                  //               widget.tour.childrenPrice!.toDouble() +
+                  //           _babyQuantity * widget.tour.infantPrice!.toDouble();
+                  // });
                 },
                 child: Container(
                   height: 50,
@@ -270,32 +269,32 @@ class _BookingScreenState extends State<BookingScreen> {
               style: primaryTextStyle(size: 12, color: grey),
             ),
             8.height,
-            Text(
-              NumberFormat('#,###')
-                      .format(widget.tour.childrenPrice!.toInt())
-                      .toString()
-                      .validate() +
-                  ' VND',
-              style: boldTextStyle(size: 16),
-            )
+            // Text(
+            //   NumberFormat('#,###')
+            //           .format(widget.tour.childrenPrice!.toInt())
+            //           .toString()
+            //           .validate() +
+            //       ' VND',
+            //   style: boldTextStyle(size: 16),
+            // )
           ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    if (_childrenQuantity == 0) {
-                      _childrenQuantity = 0;
-                    } else {
-                      _childrenQuantity--;
-                      _totalPrice = _adultQuantity *
-                              widget.tour.adultPrice!.toDouble() +
-                          _childrenQuantity *
-                              widget.tour.childrenPrice!.toDouble() +
-                          _babyQuantity * widget.tour.infantPrice!.toDouble();
-                    }
-                  });
+                  // setState(() {
+                  //   if (_childrenQuantity == 0) {
+                  //     _childrenQuantity = 0;
+                  //   } else {
+                  //     _childrenQuantity--;
+                  //     _totalPrice = _adultQuantity *
+                  //             widget.tour.adultPrice!.toDouble() +
+                  //         _childrenQuantity *
+                  //             widget.tour.childrenPrice!.toDouble() +
+                  //         _babyQuantity * widget.tour.infantPrice!.toDouble();
+                  //   }
+                  // });
                 },
                 child: Container(
                   width: 50,
@@ -336,14 +335,14 @@ class _BookingScreenState extends State<BookingScreen> {
               8.width,
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _childrenQuantity++;
-                    _totalPrice =
-                        _adultQuantity * widget.tour.adultPrice!.toDouble() +
-                            _childrenQuantity *
-                                widget.tour.childrenPrice!.toDouble() +
-                            _babyQuantity * widget.tour.infantPrice!.toDouble();
-                  });
+                  // setState(() {
+                  //   _childrenQuantity++;
+                  //   _totalPrice =
+                  //       _adultQuantity * widget.tour.adultPrice!.toDouble() +
+                  //           _childrenQuantity *
+                  //               widget.tour.childrenPrice!.toDouble() +
+                  //           _babyQuantity * widget.tour.infantPrice!.toDouble();
+                  // });
                 },
                 child: Container(
                   height: 50,
@@ -382,32 +381,32 @@ class _BookingScreenState extends State<BookingScreen> {
               style: primaryTextStyle(size: 12, color: grey),
             ),
             8.height,
-            Text(
-              NumberFormat('#,###')
-                      .format(widget.tour.infantPrice!.toInt())
-                      .toString()
-                      .validate() +
-                  ' VND',
-              style: boldTextStyle(size: 16),
-            )
+            // Text(
+            //   NumberFormat('#,###')
+            //           .format(widget.tour.infantPrice!.toInt())
+            //           .toString()
+            //           .validate() +
+            //       ' VND',
+            //   style: boldTextStyle(size: 16),
+            // )
           ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    if (_babyQuantity == 0) {
-                      _babyQuantity = 0;
-                    } else {
-                      _babyQuantity--;
-                      _totalPrice = _adultQuantity *
-                              widget.tour.adultPrice!.toDouble() +
-                          _childrenQuantity *
-                              widget.tour.childrenPrice!.toDouble() +
-                          _babyQuantity * widget.tour.infantPrice!.toDouble();
-                    }
-                  });
+                  // setState(() {
+                  //   if (_babyQuantity == 0) {
+                  //     _babyQuantity = 0;
+                  //   } else {
+                  //     _babyQuantity--;
+                  //     _totalPrice = _adultQuantity *
+                  //             widget.tour.adultPrice!.toDouble() +
+                  //         _childrenQuantity *
+                  //             widget.tour.childrenPrice!.toDouble() +
+                  //         _babyQuantity * widget.tour.infantPrice!.toDouble();
+                  //   }
+                  // });
                 },
                 child: Container(
                   width: 50,
@@ -448,14 +447,14 @@ class _BookingScreenState extends State<BookingScreen> {
               8.width,
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _babyQuantity++;
-                    _totalPrice =
-                        _adultQuantity * widget.tour.adultPrice!.toDouble() +
-                            _childrenQuantity *
-                                widget.tour.childrenPrice!.toDouble() +
-                            _babyQuantity * widget.tour.infantPrice!.toDouble();
-                  });
+                  // setState(() {
+                  //   _babyQuantity++;
+                  //   _totalPrice =
+                  //       _adultQuantity * widget.tour.adultPrice!.toDouble() +
+                  //           _childrenQuantity *
+                  //               widget.tour.childrenPrice!.toDouble() +
+                  //           _babyQuantity * widget.tour.infantPrice!.toDouble();
+                  // });
                 },
                 child: Container(
                   height: 50,

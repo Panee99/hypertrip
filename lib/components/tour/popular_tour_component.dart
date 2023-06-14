@@ -7,7 +7,7 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:room_finder_flutter/utils/utilities.dart';
 
 import '../../models/tour/tour_list_response.dart';
-import '../../screens/tour/RFHotelDescriptionScreen.dart';
+import '../../screens/tour/TourDetailScreen.dart';
 
 class PopularTourComponent extends StatefulWidget {
   final TourListModels tour;
@@ -128,7 +128,7 @@ class _PopularTourState extends State<PopularTourComponent> {
             ],
           ).paddingAll(8),
         ).onTap(() {
-          RFHotelDescriptionScreen(
+          TourDetailScreen(
             tourId: widget.tour.id.validate(),
           ).launch(context);
         }),

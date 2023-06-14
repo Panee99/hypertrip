@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 // import 'package:room_finder_flutter/models/RoomFinderModel.dart';
-import 'package:room_finder_flutter/models/tour/joined_tour_response.dart';
 import 'package:room_finder_flutter/models/tour/tour_detail_response.dart';
-import 'package:room_finder_flutter/screens/tour/RFHotelDescriptionScreen.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
@@ -49,13 +47,13 @@ class _RecentTourComponentState extends State<RecentTourComponent> {
                   .paddingOnly(left: 4),
               Row(
                 children: [
-                  Text(
-                      NumberFormat('#,###')
-                              .format(widget.recentTour.adultPrice!.toInt())
-                              .toString()
-                              .validate() +
-                          ' VND',
-                      style: boldTextStyle(color: rf_primaryColor)),
+                  // Text(
+                  //     NumberFormat('#,###')
+                  //             .format(widget.recentTour.adultPrice!.toInt())
+                  //             .toString()
+                  //             .validate() +
+                  //         ' VND',
+                  //     style: boldTextStyle(color: rf_primaryColor)),
                   // Text("${widget.recentTour.rentDuration.validate()}",
                   //     style: secondaryTextStyle()),
                 ],

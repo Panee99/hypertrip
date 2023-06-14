@@ -44,7 +44,7 @@ class _TicketState extends State<Ticket> {
   void getTourDetail(tourId) {
     authProvider = context.read<AuthProvider>();
     tour = AppRepository().getTourDetail(tourId, authProvider.token);
-    print('Ticket component: ' + tour.then((value) => value.code).toString());
+    //print('Ticket component: ' + tour.then((value) => value.code).toString());
   }
 
   @override
@@ -143,9 +143,9 @@ class _TicketState extends State<Ticket> {
                                       ),
                                       Text('Schedule',
                                           style: secondaryTextStyle()),
-                                      Text(
-                                        '${DateFormat('dd/MM/yyyy').format(DateTime.parse(t.startTime!))} - ${DateFormat('dd/MM/yyyy').format(DateTime.parse(t.endTime!))}',
-                                      ),
+                                      // Text(
+                                      //   '${DateFormat('dd/MM/yyyy').format(DateTime.parse(t.startTime!))} - ${DateFormat('dd/MM/yyyy').format(DateTime.parse(t.endTime!))}',
+                                      // ),
                                     ],
                                   ),
                                   Column(

@@ -76,7 +76,10 @@ Widget rfCommonRichText(
     text: TextSpan(
       text: title.validate(),
       style: titleTextStyle ??
-          primaryTextStyle(size: textSize ?? 14, height: textHeight ?? 0, letterSpacing: 1.5),
+          primaryTextStyle(
+              size: textSize ?? 14,
+              height: textHeight ?? 0,
+              letterSpacing: 1.5),
       children: [
         TextSpan(
           text: subTitle.validate(),
@@ -118,7 +121,8 @@ Widget text(
       color: textColor ?? appStore.textSecondaryColor,
       height: 1.5,
       letterSpacing: latterSpacing,
-      decoration: lineThrough ? TextDecoration.lineThrough : TextDecoration.none,
+      decoration:
+          lineThrough ? TextDecoration.lineThrough : TextDecoration.none,
     ),
   );
 }
@@ -133,9 +137,9 @@ class CustomTheme extends StatelessWidget {
     return Theme(
       data: appStore.isDarkModeOn
           ? ThemeData.dark().copyWith(
-              // accentColor: appColorPrimary,
-              // backgroundColor: context.scaffoldBackgroundColor,
-              )
+              hintColor: appColorPrimary,
+              backgroundColor: context.scaffoldBackgroundColor,
+            )
           : ThemeData.light(),
       child: child!,
     );
@@ -166,7 +170,9 @@ Widget socialLoginWidget(BuildContext context,
           //   //
           // }),
           // 24.height,
-          rfCommonRichText(title: title1, subTitle: title2).paddingAll(8).onTap(() {
+          rfCommonRichText(title: title1, subTitle: title2)
+              .paddingAll(8)
+              .onTap(() {
             callBack!.call();
           })
         ],
@@ -176,7 +182,10 @@ Widget socialLoginWidget(BuildContext context,
 }
 
 BoxDecoration boxDecoration(
-    {double radius = 2, Color color = Colors.transparent, Color? bgColor, var showShadow = false}) {
+    {double radius = 2,
+    Color color = Colors.transparent,
+    Color? bgColor,
+    var showShadow = false}) {
   return BoxDecoration(
     color: bgColor ?? appStore.scaffoldBackground,
     boxShadow: showShadow
@@ -192,7 +201,10 @@ Decoration shadowWidget(BuildContext context) {
     backgroundColor: context.cardColor,
     boxShadow: [
       BoxShadow(
-          spreadRadius: 0.4, blurRadius: 3, color: gray.withOpacity(0.1), offset: Offset(1, 6)),
+          spreadRadius: 0.4,
+          blurRadius: 3,
+          color: gray.withOpacity(0.1),
+          offset: Offset(1, 6)),
     ],
   );
 }
@@ -208,7 +220,12 @@ Widget rfCommonCachedNetworkImage(String? url,
     String? type}) {
   if (url!.validate().isEmpty) {
     return placeHolderWidget(
-        height: height, width: width, fit: fit, alignment: alignment, radius: radius, type: type);
+        height: height,
+        width: width,
+        fit: fit,
+        alignment: alignment,
+        radius: radius,
+        type: type);
   } else if (url.validate().startsWith('http')) {
     return CachedNetworkImage(
       imageUrl: url,
@@ -339,7 +356,8 @@ Widget viewAllWidget({String? title, String? subTitle, Function? onTap}) {
       Text(title!, style: boldTextStyle()),
       TextButton(
         onPressed: onTap!(),
-        child: Text(subTitle!, style: secondaryTextStyle(decoration: TextDecoration.underline)),
+        child: Text(subTitle!,
+            style: secondaryTextStyle(decoration: TextDecoration.underline)),
       )
     ],
   );
@@ -372,7 +390,8 @@ PreferredSizeWidget commonAppBarWidget(
           : SizedBox(),
       elevation: 0,
       shape: roundCornerShape.validate()
-          ? RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)))
+          ? RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)))
           : RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.zero),
             ),
@@ -388,16 +407,19 @@ extension strExt on String {
       width: size,
       height: size,
       color: iconColor ?? gray,
-      errorBuilder: (_, __, ___) => placeHolderWidget(width: size, height: size),
+      errorBuilder: (_, __, ___) =>
+          placeHolderWidget(width: size, height: size),
     );
   }
 }
 
-Widget commonCacheImageWidget(String? url, double height, {double? width, BoxFit? fit}) {
+Widget commonCacheImageWidget(String? url, double height,
+    {double? width, BoxFit? fit}) {
   if (url.validate().startsWith('http')) {
     if (isMobile) {
       return CachedNetworkImage(
-        placeholder: placeholderWidgetFn() as Widget Function(BuildContext, String)?,
+        placeholder:
+            placeholderWidgetFn() as Widget Function(BuildContext, String)?,
         imageUrl: '$url',
         height: height,
         width: width,
@@ -407,16 +429,20 @@ Widget commonCacheImageWidget(String? url, double height, {double? width, BoxFit
         },
       );
     } else {
-      return Image.network(url!, height: height, width: width, fit: fit ?? BoxFit.cover);
+      return Image.network(url!,
+          height: height, width: width, fit: fit ?? BoxFit.cover);
     }
   } else {
-    return Image.asset(url!, height: height, width: width, fit: fit ?? BoxFit.cover);
+    return Image.asset(url!,
+        height: height, width: width, fit: fit ?? BoxFit.cover);
   }
 }
 
-Widget? Function(BuildContext, String) placeholderWidgetFn() => (_, s) => placeholderWidget();
+Widget? Function(BuildContext, String) placeholderWidgetFn() =>
+    (_, s) => placeholderWidget();
 
-Widget placeholderWidget() => Image.asset('images/app/placeholder.jpg', fit: BoxFit.cover);
+Widget placeholderWidget() =>
+    Image.asset('images/app/placeholder.jpg', fit: BoxFit.cover);
 
 Future<void> commonLaunchUrl(String address,
     {LaunchMode launchMode = LaunchMode.inAppWebView}) async {
@@ -428,14 +454,17 @@ Future<void> commonLaunchUrl(String address,
 void launchCall(String? url) {
   if (url.validate().isNotEmpty) {
     if (isIOS)
-      commonLaunchUrl('tel://' + url!, launchMode: LaunchMode.externalApplication);
+      commonLaunchUrl('tel://' + url!,
+          launchMode: LaunchMode.externalApplication);
     else
-      commonLaunchUrl('tel:' + url!, launchMode: LaunchMode.externalApplication);
+      commonLaunchUrl('tel:' + url!,
+          launchMode: LaunchMode.externalApplication);
   }
 }
 
 void launchMail(String? url) {
   if (url.validate().isNotEmpty) {
-    commonLaunchUrl('mailto:' + url!, launchMode: LaunchMode.externalApplication);
+    commonLaunchUrl('mailto:' + url!,
+        launchMode: LaunchMode.externalApplication);
   }
 }

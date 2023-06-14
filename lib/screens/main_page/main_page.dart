@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
+// import 'package:room_finder_flutter/fragment/RFHomeTourGuideFragment.dart';
+import 'package:room_finder_flutter/fragment/inbox_fragment.dart';
 import 'package:room_finder_flutter/fragment/schedule_fragment.dart';
 import 'package:room_finder_flutter/fragment/tourguide/home/rf_home_tourguide_fragment.dart';
 import 'package:room_finder_flutter/fragment/tourguide/map/rf_map_page.dart';
@@ -13,6 +15,7 @@ import 'package:room_finder_flutter/screens/main_page/components/custom_circular
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
+import 'dart:math' as math;
 
 import '../../fragment/discovery/discovery_fragment.dart';
 import '../../provider/AuthProvider.dart';
@@ -85,7 +88,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _bottomTab(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     List<BottomNavigationBarItem> items =
-        authProvider.user.role == RoleStatus.Traveler ? travelerItems : tourGuideItems;
+        authProvider.user.role == RoleStatus.Traveler
+            ? travelerItems
+            : tourGuideItems;
 
     if (Theme.of(context).platform == TargetPlatform.android) {
       return ClipRRect(
@@ -125,7 +130,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: CupertinoTabBar(
               currentIndex: _selectedIndex,
               onTap: _onItemTapped,
-              backgroundColor: Colors.white, // Set your desired background color
+              backgroundColor:
+                  Colors.white, // Set your desired background color
               activeColor: rf_primaryColor, // Set your desired active color
               inactiveColor: Colors.grey, // Set your desired inactive color
               border: null,
@@ -150,7 +156,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void init() async {
-    setStatusBarColor(rf_primaryColor, statusBarIconBrightness: Brightness.light);
+    setStatusBarColor(rf_primaryColor,
+        statusBarIconBrightness: Brightness.light);
   }
 
   @override
@@ -162,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     List<Widget> pages =
-        authProvider.user.role == RoleStatus.Traveler ? travelerPages : tourGuidePages;
+        authProvider.user.role == 'Traveler' ? travelerPages : tourGuidePages;
     return Scaffold(
       extendBody: false,
       bottomNavigationBar: _bottomTab(context),

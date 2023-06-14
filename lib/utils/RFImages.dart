@@ -34,7 +34,7 @@ const settings = 'assets/images/settings.png';
 const avatar_placeholoder = 'assets/images/avatar_placeholder.png';
 
 const notification = 'assets/icons/notification.svg';
-const location = 'assets/icons/location_dot.svg';
+// const location = 'assets/icons/location_dot.svg';
 const star = 'assets/icons/star.svg';
 const calendar = 'assets/icons/calendar.svg';
 const plus = 'assets/icons/plus.svg';
@@ -43,6 +43,11 @@ const shoe_prints = 'assets/icons/shoe-prints.svg';
 const angle_left = 'assets/icons/angle-left.svg';
 const angle_right = 'assets/icons/angle-right.svg';
 const add_square = 'assets/icons/add-square.svg';
+const info = 'assets/icons/circle-info.svg';
+const location = 'assets/images/location.png';
+const ticket = 'assets/images/ticket.png';
+const search = 'assets/icons/search.svg';
+const not_found = 'assets/images/not_found.png';
 
 // Icon Common
 const rf_icon_arrow_back = 'assets/images/icon_arrow_back.png';

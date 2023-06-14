@@ -10,7 +10,7 @@ class PlaceBloc extends Bloc<dynamic, PlaceState> {
       emit(PlaceLoadingState());
       try {
         final places = await _placeRepository.getNearbyPlaces();
-        emit(PlaceLoadedState(places));
+        emit(PlaceLoadedState(places!));
       } catch (e) {
         emit(PlaceErrorState(e.toString()));
       }

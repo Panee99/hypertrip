@@ -8,7 +8,6 @@ import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import '../../data/repositories/repositories.dart';
-import '../../utils/network.dart';
 
 class PlaceListComponent extends Material.StatefulWidget {
   final NearbyResults place;
