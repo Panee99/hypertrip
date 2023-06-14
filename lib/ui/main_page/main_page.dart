@@ -102,20 +102,50 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           notchMargin: 8.0,
           elevation: 0,
-          child: Container(
-            child: BottomNavigationBar(
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-              selectedLabelStyle:
-                  boldTextStyle(size: 14, color: rf_primaryColor),
-              selectedFontSize: 14,
-              unselectedFontSize: 14,
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              elevation: 0,
-              type: BottomNavigationBarType.fixed,
-              items: items,
-            ),
+          child: Stack(
+            children: [
+              CupertinoTabBar(
+                currentIndex: _selectedIndex,
+                onTap: (index) => _onItemTapped(index, authProvider.user.role),
+                backgroundColor:
+                    Colors.white, // Set your desired background color
+                activeColor: rf_primaryColor, // Set your desired active color
+                inactiveColor: Colors.grey, // Set your desired inactive color
+                border: null,
+                items: items,
+              ).paddingAll(8),
+              StreamBuilder<bool>(
+                stream: _userConstants.watchNotifyMess(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    bool isUnRead = snapshot.data!;
+                    bool isShow = authProvider.user.role == RoleStatus.Traveler
+                        ? isUnRead && _selectedIndex != 2
+                        : isUnRead && _selectedIndex != 4;
+                    if (isShow) {
+                      return Positioned(
+                        right: 25,
+                        top: 10,
+                        child: Container(
+                          width:
+                              8, // Đặt chiều rộng của Container bằng đường kính của hình tròn
+                          height:
+                              8, // Đặt chiều cao của Container bằng đường kính của hình tròn
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red,
+                          ),
+                        ),
+                      );
+                    } else {
+                      if (isUnRead) _userConstants.setNotifyMess(false);
+                      return const SizedBox();
+                    }
+                  }
+                  return const SizedBox();
+                },
+              )
+            ],
           ),
         ),
       ).paddingOnly(left: 16, right: 16),
@@ -123,11 +153,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final _userConstants = GetIt.I.get<UserConstants>();
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index, RoleStatus role) {
     setState(() {
       _selectedIndex = index;
     });
-    if (index == 4) _userConstants.setNotifyMess(false);
+    if ((role == RoleStatus.TourGuide && index == 4) ||
+        (role == RoleStatus.Traveler && index == 2)) {
+      _userConstants.setNotifyMess(false);
+    }
   }
 
   @override
