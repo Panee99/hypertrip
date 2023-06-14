@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/screens/chat_detail/components/member_item.dart';
-import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_bloc.dart';
-import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_state.dart';
+import 'package:room_finder_flutter/ui/chat_detail/components/member_item.dart';
+import 'package:room_finder_flutter/ui/chat_detail/interactor/chat_detail_bloc.dart';
+import 'package:room_finder_flutter/ui/chat_detail/interactor/chat_detail_state.dart';
 
 class MemberList extends StatelessWidget {
   final List<ChatUser> members;

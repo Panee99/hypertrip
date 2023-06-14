@@ -10,8 +10,8 @@ import 'package:room_finder_flutter/data/repositories/tour_group_repository.dart
 import 'package:room_finder_flutter/managers/firebase_messaging_manager.dart';
 import 'package:room_finder_flutter/models/chat/firestore_message.dart';
 import 'package:room_finder_flutter/models/chat/firestore_user.dart';
-import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_event.dart';
-import 'package:room_finder_flutter/screens/chat_detail/interactor/chat_detail_state.dart';
+import 'package:room_finder_flutter/ui/chat_detail/interactor/chat_detail_event.dart';
+import 'package:room_finder_flutter/ui/chat_detail/interactor/chat_detail_state.dart';
 import 'package:room_finder_flutter/utils/app_languages.dart';
 import 'package:room_finder_flutter/utils/app_utils.dart';
 import 'package:room_finder_flutter/utils/page_states.dart';

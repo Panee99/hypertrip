@@ -7,8 +7,8 @@ import 'package:room_finder_flutter/data/repositories/traveler_respository.dart'
 import 'package:room_finder_flutter/models/chat/firestore_message.dart';
 import 'package:room_finder_flutter/models/tourguide/assign_group_response.dart';
 import 'package:room_finder_flutter/models/user/profile_response.dart';
-import 'package:room_finder_flutter/screens/chat/interactor/chat_event.dart';
-import 'package:room_finder_flutter/screens/chat/interactor/chat_state.dart';
+import 'package:room_finder_flutter/ui/chat/interactor/chat_event.dart';
+import 'package:room_finder_flutter/ui/chat/interactor/chat_state.dart';
 import 'package:room_finder_flutter/utils/page_states.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {

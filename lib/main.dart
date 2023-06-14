@@ -47,7 +47,7 @@ void main() async {
 
         assert(user.user?.uid == currentUser?.uid);
       } catch (error, stacktrace) {
-        debugPrint('ex ${error}');
+        debugPrint('ex $error');
       }
     } else {
       debugPrint('User is signed in!');
@@ -55,7 +55,7 @@ void main() async {
   });
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  HttpOverrides.global = new MyHttpOverrides();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp(prefs: prefs));
 }
 
@@ -82,27 +82,26 @@ class MyApp extends StatelessWidget {
           create: (_) => AuthProvider(
             firebaseAuth: FirebaseAuth.instance,
             googleSignIn: GoogleSignIn(),
-            prefs: this.prefs,
-            firebaseFirestore: this.firebaseFirestore,
+            firebaseFirestore: firebaseFirestore,
           ),
         ),
         Provider<SettingProvider>(
           create: (_) => SettingProvider(
-            prefs: this.prefs,
-            firebaseFirestore: this.firebaseFirestore,
-            firebaseStorage: this.firebaseStorage,
+            prefs: prefs,
+            firebaseFirestore: firebaseFirestore,
+            firebaseStorage: firebaseStorage,
           ),
         ),
         Provider<HomeProvider>(
           create: (_) => HomeProvider(
-            firebaseFirestore: this.firebaseFirestore,
+            firebaseFirestore: firebaseFirestore,
           ),
         ),
         Provider<ChatProvider>(
           create: (_) => ChatProvider(
-            prefs: this.prefs,
-            firebaseFirestore: this.firebaseFirestore,
-            firebaseStorage: this.firebaseStorage,
+            prefs: prefs,
+            firebaseFirestore: firebaseFirestore,
+            firebaseStorage: firebaseStorage,
           ),
         ),
         RepositoryProvider(

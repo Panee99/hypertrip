@@ -5,13 +5,13 @@ import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/main.dart';
 // import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
 import 'package:room_finder_flutter/screens/RFResetPasswordScreen.dart';
+import 'package:room_finder_flutter/ui/main_page/main_page.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 import 'package:room_finder_flutter/utils/codePicker/country_code_picker.dart';
 
 import '../provider/AuthProvider.dart';
-import 'main_page/main_page.dart';
 
 class RFMobileSignIn extends StatefulWidget {
   @override
