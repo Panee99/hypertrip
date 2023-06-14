@@ -16,8 +16,14 @@ class ChatList extends StatefulWidget {
   final String tourGroupId;
   final String groupName;
   final VoidCallBack? onPressedMap;
+  final bool isAccepting;
 
-  const ChatList({Key? key, required this.tourGroupId, required this.groupName, this.onPressedMap})
+  const ChatList(
+      {Key? key,
+      required this.tourGroupId,
+      required this.groupName,
+      this.onPressedMap,
+      required this.isAccepting})
       : super(key: key);
 
   @override
@@ -44,13 +50,14 @@ class _ChatListState extends State<ChatList> {
               ? ChatView(
                   chatController: _chatController!,
                   currentUser: state.currentUser ?? ChatUser(id: '', name: ''),
-                  featureActiveConfig: const FeatureActiveConfig(
+                  featureActiveConfig: FeatureActiveConfig(
                     enableSwipeToReply: false,
                     enableSwipeToSeeTime: false,
                     enableDoubleTapToLike: false,
                     enableReplySnackBar: false,
                     lastSeenAgoBuilderVisibility: false,
                     enableReactionPopup: false,
+                    enableTextField: widget.isAccepting,
                   ),
                   chatViewState: state.members.isNotEmpty
                       ? ChatViewState.hasMessages

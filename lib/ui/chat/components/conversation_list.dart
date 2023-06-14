@@ -9,6 +9,7 @@ import 'package:room_finder_flutter/ui/chat/interactor/chat_bloc.dart';
 import 'package:room_finder_flutter/ui/chat/interactor/chat_event.dart';
 import 'package:room_finder_flutter/ui/chat/interactor/chat_state.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
+import 'package:room_finder_flutter/utils/app_languages.dart';
 
 class ConversationList extends StatelessWidget {
   final AssignGroupResponse data;
@@ -19,15 +20,14 @@ class ConversationList extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isAccepting = data.tourVariant?.status == TourVariantStatus.Accepting;
     return GestureDetector(
-      onTap: () =>
-          isAccepting ? Navigator.pushNamed(context, Routers.CHAT_DETAIL, arguments: data) : null,
+      onTap: () => Navigator.pushNamed(context, Routers.CHAT_DETAIL, arguments: data),
       child: BlocBuilder<ChatBloc, ChatState>(
         bloc: GetIt.I.get<ChatBloc>()..add(FetchLastedMessage(data.id)),
         builder: (context, state) {
           return Opacity(
             opacity: isAccepting ? 1 : 0.5,
             child: Container(
-              padding: EdgeInsets.only(left: 8, right: 32, top: 10, bottom: 10),
+              padding: const EdgeInsets.only(left: 8, right: 0, top: 10, bottom: 10),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -48,9 +48,9 @@ class ConversationList extends StatelessWidget {
                               children: <Widget>[
                                 Text(
                                   data.groupName,
-                                  style: TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 6,
                                 ),
                                 if (state.message != null)
@@ -71,6 +71,14 @@ class ConversationList extends StatelessWidget {
                       ],
                     ),
                   ),
+                  if (!isAccepting)
+                    ChoiceChip(
+                      label: const Text(rf_lang_close,
+                          style: TextStyle(color: Colors.white, fontSize: 10)),
+                      selected: !isAccepting,
+                      backgroundColor: Colors.red,
+                      selectedColor: Colors.red,
+                    )
                 ],
               ),
             ),
