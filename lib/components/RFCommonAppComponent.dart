@@ -15,8 +15,9 @@ class RFCommonAppComponent extends StatefulWidget {
   final double? subWidgetHeight;
   final bool scroll;
 
-  RFCommonAppComponent(
-      {this.title,
+  const RFCommonAppComponent(
+      {super.key,
+      this.title,
       this.subTitle,
       this.coverImage,
       this.cardWidget,
@@ -41,9 +42,9 @@ class _RFCommonAppComponentState extends State<RFCommonAppComponent> {
       onRefresh: _handleRefresh,
       child: SingleChildScrollView(
         physics: widget.scroll
-            ? AlwaysScrollableScrollPhysics()
-            : NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.only(bottom: 24),
+            ? const AlwaysScrollableScrollPhysics()
+            : const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.only(bottom: 24),
         child: Stack(
           clipBehavior: Clip.none,
           children: [
@@ -52,26 +53,21 @@ class _RFCommonAppComponentState extends State<RFCommonAppComponent> {
               height: widget.mainWidgetHeight ?? 300,
               decoration: widget.coverImage == null
                   ? boxDecorationWithRoundedCorners(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(16),
-                          bottomRight: Radius.circular(16)),
+                      borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)),
                       backgroundColor: rf_primaryColor,
                     )
                   : boxDecorationWithRoundedCorners(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(16),
-                          bottomRight: Radius.circular(16)),
+                      borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)),
                       decorationImage: DecorationImage(
-                          image: AssetImage(widget.coverImage!),
-                          fit: BoxFit.cover)),
+                          image: AssetImage(widget.coverImage!), fit: BoxFit.cover)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(widget.title.validate(),
-                      style: boldTextStyle(color: white, size: 22)),
+                  Text(widget.title.validate(), style: boldTextStyle(color: white, size: 22)),
                   4.height,
-                  Text(widget.subTitle.validate(),
-                      style: primaryTextStyle(color: white)),
+                  Text(widget.subTitle.validate(), style: primaryTextStyle(color: white)),
                 ],
               ),
             ),
@@ -80,14 +76,10 @@ class _RFCommonAppComponentState extends State<RFCommonAppComponent> {
                 widget.accountCircleWidget ??
                     Container(
                       margin: EdgeInsets.only(
-                          top: widget.subWidgetHeight ?? 200,
-                          left: 24,
-                          bottom: 24,
-                          right: 24),
-                      padding: EdgeInsets.all(24),
+                          top: widget.subWidgetHeight ?? 200, left: 24, bottom: 24, right: 24),
+                      padding: const EdgeInsets.all(24),
                       decoration: appStore.isDarkModeOn
-                          ? boxDecorationWithRoundedCorners(
-                              backgroundColor: context.cardColor)
+                          ? boxDecorationWithRoundedCorners(backgroundColor: context.cardColor)
                           : shadowWidget(context),
                       child: widget.cardWidget.validate(),
                     ),

@@ -7,7 +7,7 @@ abstract class LocationEvent extends Equatable {
 }
 
 class LoadLocationEvent extends LocationEvent {
-  LoadLocationEvent();
+  const LoadLocationEvent();
   @override
   List<Object?> get props => [];
 }

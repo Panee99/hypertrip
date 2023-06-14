@@ -8,7 +8,7 @@ class NetworkUtility {
       if (response.statusCode == 200) {
         return response.body;
       } else {
-        print('Xóa dữ liệu thất bại. Mã phản hồi: ${response.statusCode}');
+        print('Mã phản hồi: ${response.statusCode}');
       }
     } catch (e) {
       print("fetchUrl ${e.toString()}");

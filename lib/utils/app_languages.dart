@@ -16,3 +16,4 @@ const rf_lang_currentNotSendFile = 'Hiện tại không thể gửi message';
 const rf_lang_requestPermissionGeo = 'Bật truy cập vị trí';
 const rf_lang_sendCurrentPosition = 'Chia sẻ vị trí hiện tại';
 const rf_lang_code = 'Code: ';
+const rf_lang_close = 'Close';
