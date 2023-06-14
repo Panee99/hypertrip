@@ -11,7 +11,7 @@ class LoadAssignedTourGuide extends AssignedTourGuide {
   final String assignedTourId;
   final String token;
 
-  LoadAssignedTourGuide(this.assignedTourId, this.token);
+  const LoadAssignedTourGuide(this.assignedTourId, this.token);
   @override
   List<Object?> get props => [assignedTourId, token];
 }

@@ -6,7 +6,7 @@
 // import 'package:room_finder_flutter/domain/use_cases/get_messages_usecase.dart';
 // import 'package:room_finder_flutter/domain/use_cases/send_text_message_usecase.dart';
 //
-// part 'chat_detail_state.dart';
+// part 'main_state.dart';
 //
 // class ChatCubit extends Cubit<ChatState> {
 //   final SendTextMessageUseCase sendTextMessageUseCase;

@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/constants/firestore_constants.dart.dart';
 import 'package:room_finder_flutter/constants/user_constants.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
+import 'package:room_finder_flutter/managers/firebase_messaging_manager.dart';
 import 'package:room_finder_flutter/models/user/avatar_response.dart';
 
 import '../models/user/profile_response.dart';
@@ -66,6 +68,8 @@ class AuthProvider extends ChangeNotifier {
     _token = await AppRepository().getToken(username, password);
     notifyListeners();
     _user = (await AppRepository().getUserProfile(_token))!;
+
+    _initFirebaseFCM();
 
     if (await AppRepository().getUserAvatar(_token) != null) {
       _avt = (await AppRepository().getUserAvatar(_token))!;
@@ -162,5 +166,13 @@ class AuthProvider extends ChangeNotifier {
     await firebaseAuth.signOut();
     await googleSignIn.disconnect();
     await googleSignIn.signOut();
+  }
+
+  void _initFirebaseFCM() {
+    final fcmManager = GetIt.I.get<FirebaseMessagingManager>();
+    if (_user.id != null) {
+      fcmManager.registerTokenFCM(_user.id!);
+      fcmManager.processInitialMessage();
+    }
   }
 }

@@ -17,8 +17,9 @@ class ChatDetailState extends Equatable {
   final bool isPermissionGeolocation;
   final Position? position;
   final bool isCanDrag;
+  final List<String> deviceTokens;
 
-  ChatDetailState({
+  const ChatDetailState({
     required this.status,
     required this.error,
     required this.messages,
@@ -30,6 +31,7 @@ class ChatDetailState extends Equatable {
     this.isPermissionGeolocation = false,
     this.position,
     this.isCanDrag = false,
+    required this.deviceTokens,
   });
 
   ChatDetailState copyWith({
@@ -44,6 +46,7 @@ class ChatDetailState extends Equatable {
     bool? isPermissionGeolocation,
     Position? position,
     bool? isCanDrag,
+    List<String>? deviceTokens,
   }) {
     return ChatDetailState(
       status: status ?? this.status,
@@ -57,6 +60,7 @@ class ChatDetailState extends Equatable {
       isPermissionGeolocation: isPermissionGeolocation ?? this.isPermissionGeolocation,
       position: position ?? this.position,
       isCanDrag: isCanDrag ?? this.isCanDrag,
+      deviceTokens: deviceTokens ?? this.deviceTokens,
     );
   }
 
@@ -71,6 +75,7 @@ class ChatDetailState extends Equatable {
         isOpenMap,
         isPermissionGeolocation,
         position,
-        isCanDrag
+        isCanDrag,
+        deviceTokens
       ];
 }

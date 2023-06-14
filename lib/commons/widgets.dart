@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/commons/colors.dart';
@@ -16,10 +14,7 @@ Widget text({
     txt,
     textAlign: textAlign,
     style: TextStyle(
-        backgroundColor: backgroundColor,
-        color: color,
-        fontSize: size,
-        fontWeight: fontWeight),
+        backgroundColor: backgroundColor, color: color, fontSize: size, fontWeight: fontWeight),
   );
 }
 
@@ -42,10 +37,8 @@ Widget customButton({
         height: high,
         width: wid,
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-            border: border,
-            color: color,
-            borderRadius: BorderRadius.circular(45)),
+        decoration:
+            BoxDecoration(border: border, color: color, borderRadius: BorderRadius.circular(45)),
         child: Text(txt, style: TextStyle(color: txtcolor)),
       ),
     ),
@@ -67,11 +60,9 @@ Widget customButton_1({
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
         alignment: Alignment.center,
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            border: border,
-            color: color,
-            borderRadius: BorderRadius.circular(15)),
+        padding: const EdgeInsets.all(10),
+        decoration:
+            BoxDecoration(border: border, color: color, borderRadius: BorderRadius.circular(15)),
         child: Text(txt, style: TextStyle(color: txtcolor)),
       ),
     ),
@@ -88,7 +79,7 @@ PreferredSizeWidget careaAppBarWidget(BuildContext context,
         Navigator.pop(context);
       },
     ),
-    actions: [actionWidget ?? SizedBox(), actionWidget2 ?? SizedBox()],
+    actions: [actionWidget ?? const SizedBox(), actionWidget2 ?? const SizedBox()],
     title: Text(titleText ?? "", style: boldTextStyle(size: 18)),
     elevation: 0.0,
   );
@@ -111,7 +102,7 @@ class MyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    return Container(
+    return SizedBox(
       width: screenWidth * width,
       height: screenHeight * height,
     );

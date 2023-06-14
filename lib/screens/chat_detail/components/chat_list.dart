@@ -14,9 +14,10 @@ import 'package:room_finder_flutter/utils/page_states.dart';
 
 class ChatList extends StatefulWidget {
   final String tourGroupId;
+  final String groupName;
   final VoidCallBack? onPressedMap;
 
-  ChatList({Key? key, required this.tourGroupId, this.onPressedMap})
+  ChatList({Key? key, required this.tourGroupId, required this.groupName, this.onPressedMap})
       : super(key: key);
 
   @override
@@ -24,7 +25,7 @@ class ChatList extends StatefulWidget {
 }
 
 class _ChatListState extends State<ChatList> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   ChatController? _chatController;
 
@@ -34,7 +35,7 @@ class _ChatListState extends State<ChatList> {
     return BlocBuilder<ChatDetailBloc, ChatDetailState>(
       builder: (context, state) {
         if (state.status == PageState.loading) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else {
           if (state.members.isNotEmpty && state.currentUser != null) {
             _processData(state.messages, state.members);
@@ -43,7 +44,7 @@ class _ChatListState extends State<ChatList> {
               ? ChatView(
                   chatController: _chatController!,
                   currentUser: state.currentUser ?? ChatUser(id: '', name: ''),
-                  featureActiveConfig: FeatureActiveConfig(
+                  featureActiveConfig: const FeatureActiveConfig(
                     enableSwipeToReply: false,
                     enableSwipeToSeeTime: false,
                     enableDoubleTapToLike: false,
@@ -57,60 +58,64 @@ class _ChatListState extends State<ChatList> {
                           ? ChatViewState.noData
                           : ChatViewState.error,
                   chatViewStateConfig: ChatViewStateConfiguration(
-                    loadingWidgetConfig: ChatViewStateWidgetConfiguration(
+                    loadingWidgetConfig: const ChatViewStateWidgetConfiguration(
                       loadingIndicatorColor: repliedMessageColor,
                     ),
                     onReloadButtonTap: () {},
                   ),
-                  chatBackgroundConfig: ChatBackgroundConfiguration(
+                  chatBackgroundConfig: const ChatBackgroundConfiguration(
                     messageTimeIconColor: Colors.white,
                     messageTimeTextStyle: TextStyle(color: Colors.white),
-                    defaultGroupSeparatorConfig:
-                        DefaultGroupSeparatorConfiguration(
+                    defaultGroupSeparatorConfig: DefaultGroupSeparatorConfiguration(
                       textStyle: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: 17,
                       ),
                     ),
                     backgroundColor: rf_background_chat,
                   ),
-                  chatBubbleConfig: ChatBubbleConfiguration(
+                  chatBubbleConfig: const ChatBubbleConfiguration(
                     inComingChatBubbleConfig: ChatBubble(
+                      color: Colors.white,
+                      textStyle: TextStyle(color: Colors.black),
                       linkPreviewConfig: LinkPreviewConfiguration(
-                          titleStyle: TextStyle(color: Colors.transparent),
-                          bodyStyle: TextStyle(color: Colors.transparent)),
+                        titleStyle: TextStyle(color: Colors.transparent),
+                        bodyStyle: TextStyle(color: Colors.transparent),
+                        linkStyle: TextStyle(color: Colors.black),
+                      ),
                     ),
                     outgoingChatBubbleConfig: ChatBubble(
-                        linkPreviewConfig: LinkPreviewConfiguration(
-                          titleStyle: TextStyle(color: Colors.transparent),
-                          bodyStyle: TextStyle(color: Colors.transparent),
-                          linkStyle: TextStyle(color: Colors.black),
-                        ),
-                        textStyle: TextStyle(color: Colors.black)),
+                      color: Color(0XFF2695E4),
+                      linkPreviewConfig: LinkPreviewConfiguration(
+                        titleStyle: TextStyle(color: Colors.transparent),
+                        bodyStyle: TextStyle(color: Colors.transparent),
+                        linkStyle: TextStyle(color: Colors.white),
+                      ),
+                      textStyle: TextStyle(color: Colors.white),
+                    ),
                   ),
                   sendMessageConfig: SendMessageConfiguration(
                     imagePickerIconsConfig: ImagePickerIconsConfiguration(
                       cameraIconColor: rf_IconColor,
                       galleryIconColor: rf_IconColor,
                       mapIconColor: rf_IconColor,
-                      cameraImagePickerIcon:
-                          SvgPicture.asset(rf_icon_camera, color: rf_IconColor),
-                      galleryImagePickerIcon: SvgPicture.asset(rf_icon_picture,
-                          color: rf_IconColor),
-                      mapIcon: SvgPicture.asset(rf_icon_map,
-                          width: 24, height: 24, color: rf_IconColor),
+                      cameraImagePickerIcon: SvgPicture.asset(rf_icon_camera, color: rf_IconColor),
+                      galleryImagePickerIcon:
+                          SvgPicture.asset(rf_icon_picture, color: rf_IconColor),
+                      mapIcon:
+                          SvgPicture.asset(rf_icon_map, width: 24, height: 24, color: rf_IconColor),
                     ),
                     replyMessageColor: Colors.grey,
-                    replyDialogColor: Color(0xffFCD8DC),
-                    replyTitleColor: Color(0xffEE5366),
+                    replyDialogColor: const Color(0xffFCD8DC),
+                    replyTitleColor: const Color(0xffEE5366),
                     textFieldBackgroundColor: Colors.white,
                     closeIconColor: appTextColorPrimary,
-                    textFieldConfig: TextFieldConfiguration(
+                    textFieldConfig: const TextFieldConfiguration(
                       textStyle: TextStyle(color: appTextColorPrimary),
                     ),
                     allowRecordingVoice: false,
                     micIconColor: Colors.white,
-                    voiceRecordingConfiguration: VoiceRecordingConfiguration(
+                    voiceRecordingConfiguration: const VoiceRecordingConfiguration(
                       backgroundColor: Color(0xff383152),
                       recorderIconColor: Color(0xff757575),
                       waveStyle: WaveStyle(
@@ -120,7 +125,7 @@ class _ChatListState extends State<ChatList> {
                       ),
                     ),
                   ),
-                  swipeToReplyConfig: SwipeToReplyConfiguration(
+                  swipeToReplyConfig: const SwipeToReplyConfiguration(
                     replyIconColor: Colors.transparent,
                   ),
                   profileCircleConfig: ProfileCircleConfiguration(
@@ -128,8 +133,7 @@ class _ChatListState extends State<ChatList> {
                   ),
                   replyPopupConfig: ReplyPopupConfiguration(
                     onReplyTap: (message) {},
-                    replyPopupBuilder: (message, sendByCurrentUser) =>
-                        SizedBox(),
+                    replyPopupBuilder: (message, sendByCurrentUser) => const SizedBox(),
                   ),
                   onPressedMap: widget.onPressedMap,
                   onSendTap: (message, replyMessage, messageType) {
@@ -139,11 +143,12 @@ class _ChatListState extends State<ChatList> {
                           message: message,
                           type: messageType,
                           groupId: widget.tourGroupId,
+                          groupName: widget.groupName,
                         ));
                     FocusScope.of(context).unfocus();
                   },
                 )
-              : Center(child: CircularProgressIndicator());
+              : const Center(child: CircularProgressIndicator());
         }
       },
     );

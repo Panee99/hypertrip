@@ -1,5 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:room_finder_flutter/constants/user_constants.dart';
 import 'package:room_finder_flutter/data/repositories/repositories.dart';
 import 'package:room_finder_flutter/models/firebase_message.dart';
 
@@ -10,10 +12,13 @@ class FirebaseMessagingManager {
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
+  SharedPreferences? prefs;
   String? _latestProcessedInitialMessageId;
 
   setupFirebaseFCM() async {
     initNotificationsSettings();
+
+    prefs = await SharedPreferences.getInstance();
 
     // Push Notification arrives when the App is in Opened and in Foreground
     FirebaseMessaging.onMessage.listen((message) {
@@ -76,13 +81,14 @@ class FirebaseMessagingManager {
   Future<String?> getNotificationToken() => _firebaseMessaging.getToken();
 
   /// Register Firebase Token to Server
-  void registerTokenFCM() async {
+  void registerTokenFCM(String uID) async {
     await _firebaseMessaging.requestPermission(sound: true, badge: true, alert: true);
     getNotificationToken().then((firebaseToken) async {
-      String? firebaseTokenLocal = null;
+      String? firebaseTokenLocal = getTokenLocalFcm();
       if (firebaseToken != null) {
-        if (firebaseTokenLocal == null || firebaseTokenLocal != firebaseToken) {
-          _appRepository.addTokenFCMApi(firebaseToken, 'user').then((value) {});
+        if (firebaseTokenLocal.isEmpty || firebaseTokenLocal != firebaseToken) {
+          await setTokenLocalFcm(firebaseToken);
+          _appRepository.addTokenFCMApi(firebaseToken, uID).then((value) {});
           debugPrint("firebase Token: $firebaseToken");
         }
       }
@@ -94,8 +100,36 @@ class FirebaseMessagingManager {
     var fcmToken = await getNotificationToken();
     if (fcmToken != null) {
       deleteToken();
-      // await _appShared.setTokenFcm('');
+      await setTokenLocalFcm('');
       await _appRepository.deleteTokenFCMApi(fcmToken);
+    }
+  }
+
+  Future<void> setTokenLocalFcm(String firebaseToken) async {
+    await prefs?.setString(UserConstants.fcmToken, firebaseToken);
+  }
+
+  String getTokenLocalFcm() => prefs?.getString(UserConstants.fcmToken) ?? '';
+
+  Future<void> sendFCMNotifications(List<String> deviceTokens, String title, String body) async {
+    final String tokenLocal = getTokenLocalFcm();
+    deviceTokens.remove(tokenLocal);
+    try {
+      for (String token in deviceTokens) {
+        final message = {
+          "title": title,
+          "body": body,
+          "mutable_content": true,
+          "sound": "Tri-tone"
+        };
+        final data = {};
+
+        _appRepository.sendNotify(token, message, data);
+      }
+
+      print('Thông báo FCM đã được gửi thành công');
+    } catch (error) {
+      print('Lỗi khi gửi thông báo FCM: $error');
     }
   }
 }

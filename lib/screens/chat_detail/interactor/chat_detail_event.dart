@@ -28,8 +28,14 @@ class SendMessageGroupChat extends ChatDetailEvent {
   final MessageType type;
   final String groupId;
   final String userId;
-  const SendMessageGroupChat(
-      {required this.message, required this.groupId, required this.userId, required this.type});
+  final String groupName;
+  const SendMessageGroupChat({
+    required this.message,
+    required this.groupId,
+    required this.userId,
+    required this.type,
+    required this.groupName,
+  });
 
   @override
   List<Object> get props => [];
@@ -64,4 +70,11 @@ class DragPanelEvent extends ChatDetailEvent {
 
   @override
   List<Object> get props => [isTap];
+}
+
+class GetAllTokenFCMDeviceGroup extends ChatDetailEvent {
+  const GetAllTokenFCMDeviceGroup();
+
+  @override
+  List<Object> get props => [];
 }

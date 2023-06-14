@@ -42,5 +42,6 @@ class TourListLoadedState extends TourListState {
 class TourListErrorState extends TourListState {
   final String error;
   TourListErrorState(this.error);
+  @override
   List<Object?> get props => [error];
 }
