@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:room_finder_flutter/constants/user_constants.dart';
 import 'package:room_finder_flutter/fragment/schedule_fragment.dart';
 import 'package:room_finder_flutter/models/user/profile_response.dart';
 import 'package:room_finder_flutter/ui/chat/chat_page.dart';
@@ -120,10 +122,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  final _userConstants = GetIt.I.get<UserConstants>();
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+    if (index == 4) _userConstants.setNotifyMess(false);
   }
 
   @override
