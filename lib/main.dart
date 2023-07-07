@@ -1,124 +1,67 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hypertrip/domain/repositories/user_repo.dart';
+import 'package:hypertrip/features/login_by_email/view.dart';
+import 'package:hypertrip/features/root/view.dart';
+import 'package:hypertrip/route/route.dart';
+import 'package:hypertrip/theme/theme.dart';
+import 'package:hypertrip/utils/get_it.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:provider/provider.dart';
-import 'package:room_finder_flutter/injection_container.dart';
-import 'package:room_finder_flutter/provider/AuthProvider.dart';
-import 'package:room_finder_flutter/provider/chatProvider.dart';
-import 'package:room_finder_flutter/provider/home_provider.dart';
-import 'package:room_finder_flutter/provider/setting_provider.dart';
-import 'package:room_finder_flutter/routers.dart';
-import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
-import 'package:room_finder_flutter/store/AppStore.dart';
-import 'package:room_finder_flutter/utils/AppTheme.dart';
-import 'package:room_finder_flutter/utils/RFConstant.dart';
-
-import 'data/repositories/repositories.dart';
-
-AppStore appStore = AppStore();
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
-  await initialize();
+  /// Show native splash screen
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  await setupDependencies();
+  _initialApp();
 
-  appStore.toggleDarkMode(value: getBoolAsync(isDarkModeOnPref));
-  await Firebase.initializeApp(
-      // options: DefaultFirebaseOptions.currentPlatform,
-      );
-
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  // Setup firebase listener for permission changes
-  firebaseAuth.authStateChanges().listen((user) async {
-    if (user == null) {
-      try {
-        debugPrint('User is currently signed out!');
-        final UserCredential user = await firebaseAuth.signInAnonymously();
-        final User? currentUser = firebaseAuth.currentUser;
-
-        assert(user.user?.uid == currentUser?.uid);
-      } catch (error, stacktrace) {
-        debugPrint('ex $error');
-      }
-    } else {
-      debugPrint('User is signed in!');
-    }
-  });
-
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  HttpOverrides.global = MyHttpOverrides();
-  runApp(MyApp(prefs: prefs));
+  /// Remove native splash screen
+  FlutterNativeSplash.remove();
 }
 
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
-}
+class App extends StatelessWidget {
+  final String initialRoute;
+  final UserRepo userRepo = getIt.get<UserRepo>();
 
-class MyApp extends StatelessWidget {
-  final SharedPreferences prefs;
-  final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-  MyApp({Key? key, required this.prefs}) : super(key: key);
+  App({Key? key, required this.initialRoute}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AuthProvider>(
-          create: (_) => AuthProvider(
-            firebaseAuth: FirebaseAuth.instance,
-            googleSignIn: GoogleSignIn(),
-            firebaseFirestore: firebaseFirestore,
-          ),
-        ),
-        Provider<SettingProvider>(
-          create: (_) => SettingProvider(
-            prefs: prefs,
-            firebaseFirestore: firebaseFirestore,
-            firebaseStorage: firebaseStorage,
-          ),
-        ),
-        Provider<HomeProvider>(
-          create: (_) => HomeProvider(
-            firebaseFirestore: firebaseFirestore,
-          ),
-        ),
-        Provider<ChatProvider>(
-          create: (_) => ChatProvider(
-            prefs: prefs,
-            firebaseFirestore: firebaseFirestore,
-            firebaseStorage: firebaseStorage,
-          ),
-        ),
-        RepositoryProvider(
-          create: (context) => FoursquareRepository(),
-        )
-      ],
-      child: MaterialApp(
-        scrollBehavior: SBehavior(),
-        navigatorKey: navigatorKey,
-        title: 'Travel',
-        debugShowCheckedModeBanner: false,
-        theme: AppThemeData.lightTheme,
-        darkTheme: AppThemeData.darkTheme,
-        themeMode: appStore.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
-        home: RFSplashScreen(),
-        onGenerateRoute: Routers.generateRoute,
-      ),
+
+    return MaterialApp(
+      theme: themeData(context),
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: generateRoute,
+      title: "Hyper Trip",
+      initialRoute: initialRoute,
     );
   }
+}
+
+Future<void> _initialApp() async {
+  /// Initial nb_utils lib
+  await initialize();
+
+  /// Initial get_it lib
+  initialGetIt();
+
+  /// Fetch Profile
+  var initialRoute = await _fetchProfileAndReturnInitialRoute();
+
+  /// Run app
+  runApp(App(initialRoute: initialRoute));
+}
+
+Future<String> _fetchProfileAndReturnInitialRoute() async {
+  final UserRepo userRepo = getIt.get<UserRepo>();
+  var initialRoute = RootPage.routeName;
+
+  try {
+    await userRepo.getProfile();
+  } catch (e) {
+    initialRoute = LoginByEmailPage.routeName;
+  }
+
+  return initialRoute;
 }
